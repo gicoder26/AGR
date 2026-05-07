@@ -1,15 +1,107 @@
-{
-  "name": "Astara Growth Radar",
-  "short_name": "Astara Radar",
-  "description": "Radar ejecutivo móvil de señales públicas del mercado automotriz peruano.",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#f6f5f8",
-  "theme_color": "#181332",
-  "orientation": "portrait-primary",
-  "icons": [
-    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ]
-}
+#!/usr/bin/env python3
+"""
+Actualiza data.json para Astara Growth Radar usando fuentes públicas.
+- Noticias: Google News RSS filtrado a Perú/automotriz.
+- Tipo de cambio: API pública referencial USD/PEN.
+- Fecha real de actualización: hora de Lima.
+Los KPIs oficiales de ventas se mantienen hasta que AAP/SUNARP publique nuevo reporte estructurado.
+"""
+import json
+import re
+import sys
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
+from urllib.parse import quote
+from urllib.request import Request, urlopen
+import xml.etree.ElementTree as ET
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA_PATH = ROOT / "data.json"
+PERU_TZ = timezone(timedelta(hours=-5))
+
+SEARCHES = [
+    "mercado automotriz Perú AAP SUNARP vehículos livianos 2026",
+    "venta vehículos nuevos Perú AAP SUV 2026",
+    "electrificados Perú AAP SUNARP 2026",
+    "Kia Chery MG Mitsubishi GAC Perú autos 2026",
+    "Toyota Jetour Changan Geely Perú SUV 2026",
+    "BAIC Magna Perú automotriz 2026"
+]
+
+def fetch_url(url: str, timeout: int = 20) -> bytes:
+    req = Request(url, headers={"User-Agent": "Mozilla/5.0 AstaraGrowthRadar/2.0"})
+    with urlopen(req, timeout=timeout) as response:
+        return response.read()
+
+def strip_html(text: str) -> str:
+    text = re.sub(r"<[^>]+>", "", text or "")
+    text = text.replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", '"')
+    return re.sub(r"\s+", " ", text).strip()
+
+def google_news(query: str, limit: int = 3):
+    url = f"https://news.google.com/rss/search?q={quote(query)}&hl=es-419&gl=PE&ceid=PE:es-419"
+    try:
+        root = ET.fromstring(fetch_url(url))
+        items = []
+        for item in root.findall(".//item")[:limit]:
+            title = strip_html(item.findtext("title", ""))
+            link = item.findtext("link", "#")
+            pub_date = item.findtext("pubDate", "Reciente")
+            source = item.findtext("source", "Google News")
+            if title:
+                items.append({"title": title, "url": link, "source": source, "date": pub_date,
+                              "whyItMatters": "Señal pública para monitorear presión competitiva, demanda o conversación del sector."})
+        return items
+    except Exception as exc:
+        print(f"No se pudo leer Google News para {query}: {exc}", file=sys.stderr)
+        return []
+
+def dedupe(items, max_items=8):
+    seen, out = set(), []
+    for item in items:
+        key = re.sub(r"\W+", "", item.get("title", "").lower())[:90]
+        if key and key not in seen:
+            seen.add(key); out.append(item)
+        if len(out) >= max_items: break
+    return out
+
+def fetch_usd_pen():
+    # API pública referencial. Para producción, reemplazar por fuente oficial/contratada.
+    try:
+        raw = fetch_url("https://open.er-api.com/v6/latest/USD", timeout=15)
+        data = json.loads(raw.decode("utf-8"))
+        rate = float(data["rates"]["PEN"])
+        return f"S/ {rate:.2f}"
+    except Exception as exc:
+        print(f"No se pudo actualizar USD/PEN: {exc}", file=sys.stderr)
+        return None
+
+def main():
+    data = json.loads(DATA_PATH.read_text(encoding="utf-8")) if DATA_PATH.exists() else {}
+    now = datetime.now(PERU_TZ)
+    data["lastUpdatedISO"] = now.isoformat(timespec="minutes")
+    data["lastUpdated"] = now.strftime("%d/%m/%Y, %I:%M %p").replace("AM", "a.m.").replace("PM", "p.m.")
+
+    rate = fetch_usd_pen()
+    if rate:
+        for kpi in data.get("kpis", []):
+            if "cambio" in kpi.get("title", "").lower():
+                kpi["value"] = rate
+                kpi["subtitle"] = "referencial USD/PEN actualizado"
+        for metric in data.get("market", []):
+            if "cambio" in metric.get("label", "").lower():
+                metric["value"] = rate
+                metric["note"] = "USD/PEN referencial actualizado vía API pública"
+
+    all_news = []
+    for query in SEARCHES:
+        all_news.extend(google_news(query, limit=2))
+    live_news = dedupe(all_news, max_items=8)
+    if live_news:
+        data["marketNews"] = live_news
+
+    DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Actualizado {DATA_PATH} con {len(live_news)} señales y timestamp real.")
+
+if __name__ == "__main__":
+    main()
