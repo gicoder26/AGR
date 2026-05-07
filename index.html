@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#181332" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Astara Growth Radar</title>
+  <link rel="preconnect" href="https://cdn.uc.assets.prezly.com" />
+  <style>
+    :root{
+      --ink:#181332;
+      --ink-2:#292044;
+      --muted:#6f6a7f;
+      --soft:#f6f5f8;
+      --card:#ffffff;
+      --line:#e8e5ee;
+      --good:#36b665;
+      --warning:#ffb020;
+      --danger:#ef4e4e;
+      --purple:#30214f;
+      --violet:#5c4a86;
+      --shadow:0 14px 34px rgba(24,19,50,.10);
+      --shadow-soft:0 8px 20px rgba(24,19,50,.08);
+      --radius:24px;
+      --safe-bottom:env(safe-area-inset-bottom, 0px);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(92,74,134,.12), transparent 28%),
+        linear-gradient(180deg,#fff 0%,#f4f3f7 100%);
+      color:var(--ink);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .app{
+      width:min(100%, 480px);
+      margin:0 auto;
+      min-height:100vh;
+      padding:18px 16px calc(92px + var(--safe-bottom));
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 2px 12px;
+    }
+
+    .brand-icon{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background:var(--ink);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex:0 0 auto;
+      box-shadow:0 10px 24px rgba(24,19,50,.20);
+    }
+
+    .brand-icon img{width:100%;height:100%;object-fit:cover}
+
+    .brand-text{
+      min-width:0;
+      flex:1;
+    }
+
+    .wordmark{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      white-space:nowrap;
+      overflow:hidden;
+    }
+
+    .wordmark .astara{
+      font-size:28px;
+      line-height:1;
+      letter-spacing:.02em;
+      color:var(--ink);
+      font-weight:500;
+    }
+
+    .wordmark .divider{
+      height:26px;
+      width:1px;
+      background:#cfcad9;
+      display:inline-block;
+    }
+
+    .wordmark .title{
+      font-size:15px;
+      font-weight:800;
+      color:var(--ink);
+      letter-spacing:-.01em;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .status{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    .status strong{color:var(--ink-2);font-weight:700}
+    .dot{
+      width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--good);margin-right:6px;box-shadow:0 0 0 4px rgba(54,182,101,.12);
+    }
+
+    .screen{display:none;animation:fade .18s ease both}
+    .screen.active{display:block}
+    @keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      margin:14px 0 16px;
+      padding:26px 24px;
+      min-height:180px;
+      border-radius:30px;
+      background:
+        radial-gradient(circle at 82% 34%, rgba(255,255,255,.23), transparent 6%),
+        radial-gradient(circle at 77% 46%, rgba(255,255,255,.16), transparent 7%),
+        linear-gradient(135deg,#19102e 0%,#2f2352 56%,#141026 100%);
+      color:white;
+      box-shadow:var(--shadow);
+    }
+
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-30px -50px auto auto;
+      width:220px;height:220px;border-radius:50%;
+      background:
+        repeating-radial-gradient(circle, transparent 0 24px, rgba(255,255,255,.12) 25px 26px),
+        conic-gradient(from 290deg, rgba(255,255,255,.24), transparent 20%, transparent 100%);
+      opacity:.9;
+    }
+
+    .hero:after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:0;height:76px;
+      background:linear-gradient(135deg, transparent 0 42%, rgba(255,255,255,.06) 43% 44%, transparent 45%),
+                 linear-gradient(180deg, transparent, rgba(0,0,0,.16));
+      clip-path:polygon(0 100%,0 64%,14% 50%,30% 67%,44% 36%,56% 58%,70% 30%,84% 52%,100% 24%,100% 100%);
+      opacity:.8;
+    }
+
+    .hero-content{position:relative;z-index:1}
+    .hero h1{font-size:34px;letter-spacing:-.04em;line-height:1.02;margin:0 0 12px;font-weight:850}
+    .hero p{font-size:18px;line-height:1.35;margin:0;color:rgba(255,255,255,.86);max-width:260px}
+    .hero .mini-icon{
+      margin-top:24px;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;
+      background:rgba(255,255,255,.10);backdrop-filter:blur(10px);
+    }
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .card{
+      background:var(--card);
+      border:1px solid rgba(232,229,238,.82);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-soft);
+      padding:18px;
+    }
+    .kpi h3,.card h3{margin:0;color:var(--ink);font-size:18px;letter-spacing:-.02em}
+    .kpi-body{display:flex;align-items:center;gap:10px;margin-top:18px}
+    .circle-icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#f0eef5;color:var(--ink);flex:0 0 auto}
+    .kpi-value{font-size:32px;font-weight:850;letter-spacing:-.04em;color:var(--ink);line-height:1}
+    .trend{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(54,182,101,.16);color:var(--good);font-weight:900;font-size:14px}
+    .kpi small{display:block;color:var(--muted);font-size:13px;margin-top:14px;text-align:center}
+
+    .list-card{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;position:relative}
+    .list-card .chev{position:absolute;right:18px;top:20px;font-size:26px;color:var(--ink)}
+    .list-content{flex:1;padding-right:20px;min-width:0}
+    .list-content p{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.35}
+    .bullets{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:9px;color:var(--ink-2);font-size:14px;line-height:1.32}
+    .bullets li{display:grid;grid-template-columns:10px 1fr;gap:9px;align-items:start}
+    .bullets li:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet);margin-top:6px}
+
+    .section-title{display:flex;align-items:end;justify-content:space-between;margin:20px 2px 12px}
+    .section-title h2{margin:0;font-size:22px;letter-spacing:-.03em}
+    .section-title span{font-size:12px;color:var(--muted)}
+
+    .metric-stack{display:grid;gap:12px}
+    .metric-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .metric-row strong{font-size:15px}
+    .metric-row span{color:var(--muted);font-size:13px}
+    .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fbfbfd;font-size:12px;color:var(--muted);font-weight:700}
+    .pill.good{color:#137a3b;background:rgba(54,182,101,.10);border-color:rgba(54,182,101,.20)}
+    .pill.warn{color:#8a5a00;background:rgba(255,176,32,.13);border-color:rgba(255,176,32,.22)}
+
+    .brand-card{margin-bottom:12px}
+    .brand-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand-name{font-size:20px;font-weight:850;letter-spacing:-.03em}
+    .brand-tag{font-size:12px;color:var(--violet);background:#f1eef8;border:1px solid #e5def2;padding:6px 10px;border-radius:999px;font-weight:800}
+    .brand-card p{margin:12px 0 0;color:var(--muted);line-height:1.38;font-size:14px}
+
+    .news-item{display:grid;gap:8px;margin-bottom:12px}
+    .news-item a{color:var(--ink);font-weight:800;text-decoration:none;line-height:1.25}
+    .news-item .meta{font-size:12px;color:var(--muted)}
+    .source-list{display:grid;gap:10px;margin-top:8px}
+    .source-list a{color:var(--violet);font-size:13px;font-weight:750;text-decoration:none;line-height:1.25}
+
+    .action-card{margin-bottom:14px;border-left:5px solid var(--violet)}
+    .action-card .label{font-size:12px;text-transform:uppercase;letter-spacing:.10em;color:var(--violet);font-weight:900;margin-bottom:8px}
+    .action-card h3{font-size:20px;line-height:1.15}
+    .action-card p{color:var(--muted);line-height:1.4;margin:10px 0 0;font-size:15px}
+
+    .bottom-nav{
+      position:fixed;left:50%;bottom:0;transform:translateX(-50%);
+      width:min(100%,480px);
+      padding:9px 12px calc(9px + var(--safe-bottom));
+      background:rgba(255,255,255,.92);backdrop-filter:blur(18px);
+      border-top:1px solid rgba(232,229,238,.95);
+      display:grid;grid-template-columns:repeat(5,1fr);gap:4px;z-index:20;
+    }
+    .tab{
+      appearance:none;border:0;background:transparent;border-radius:16px;padding:8px 4px 7px;color:#85818f;
+      font:inherit;font-size:11px;font-weight:700;display:grid;gap:4px;place-items:center;cursor:pointer;
+    }
+    .tab svg{width:22px;height:22px;stroke-width:2}
+    .tab.active{color:var(--ink);background:#f3f0f8}
+
+    .refresh{
+      appearance:none;border:1px solid var(--line);background:white;color:var(--ink);font-weight:800;border-radius:999px;padding:10px 14px;box-shadow:var(--shadow-soft);cursor:pointer;
+    }
+
+    .toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:white;padding:12px 16px;border-radius:999px;font-size:13px;font-weight:800;transition:.2s ease;z-index:30;box-shadow:var(--shadow)}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    svg{display:block}
+    @media (max-width:380px){
+      .app{padding-left:12px;padding-right:12px}
+      .wordmark .astara{font-size:24px}.wordmark .title{font-size:13px}.grid{gap:10px}.card{padding:15px}.kpi-value{font-size:28px}.hero h1{font-size:30px}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand-icon" aria-label="Astara logo">
+        <img src="https://cdn.uc.assets.prezly.com/991a5144-7309-41cd-8927-67cf3803f16f/-/resize/1200/astara_rrss_icon_linkedin_light_rgb.png" alt="Astara icon" />
+      </div>
+      <div class="brand-text">
+        <div class="wordmark">
+          <span class="astara">astara</span><span class="divider"></span><span class="title">Astara Growth Radar</span>
+        </div>
+        <div class="status"><span class="dot"></span><strong>Actualizado automáticamente</strong><br><span id="lastUpdated">Cargando actualización...</span></div>
+      </div>
+    </header>
+
+    <section id="screen-hoy" class="screen active">
+      <article class="hero">
+        <div class="hero-content">
+          <h1>Resumen de hoy</h1>
+          <p>Señales clave del mercado peruano</p>
+          <div class="mini-icon" aria-hidden="true">📊</div>
+        </div>
+      </article>
+
+      <div class="grid" id="kpiGrid"></div>
+
+      <article class="card list-card">
+        <div class="circle-icon">👥</div>
+        <div class="list-content">
+          <h3>Competencia</h3>
+          <ul class="bullets" id="competitionBullets"></ul>
+        </div>
+        <span class="chev">›</span>
+      </article>
+
+      <article class="card list-card">
+        <div class="circle-icon">🚚</div>
+        <div class="list-content">
+          <h3>Flotas B2B</h3>
+          <p id="fleetSummary">Oportunidades en minería, agro y construcción.</p>
+        </div>
+        <span class="chev">›</span>
+      </article>
+
+      <article class="card list-card">
+        <div class="circle-icon">🎯</div>
+        <div class="list-content">
+          <h3>Acción recomendada</h3>
+          <p id="mainAction">Reforzar mensajes de respaldo, portafolio y oportunidad en electrificación.</p>
+        </div>
+        <span class="chev">›</span>
+      </article>
+    </section>
+
+    <section id="screen-mercado" class="screen">
+      <div class="section-title"><h2>Radar de mercado</h2><button class="refresh" id="refreshBtn">Refrescar</button></div>
+      <div class="metric-stack" id="marketMetrics"></div>
+      <div class="section-title"><h2>Noticias recientes</h2><span>Señales públicas</span></div>
+      <div id="newsList"></div>
+    </section>
+
+    <section id="screen-marcas" class="screen">
+      <div class="section-title"><h2>Marcas Astara</h2><span>Lectura comercial</span></div>
+      <div id="brandList"></div>
+    </section>
+
+    <section id="screen-competencia" class="screen">
+      <div class="section-title"><h2>Competitive Pulse</h2><span>Monitoreo diario</span></div>
+      <div id="competitorList"></div>
+    </section>
+
+    <section id="screen-acciones" class="screen">
+      <div class="section-title"><h2>Acciones</h2><span>Prioridades sugeridas</span></div>
+      <div id="actionList"></div>
+      <article class="card">
+        <h3>Fuentes públicas</h3>
+        <p style="color:var(--muted);font-size:14px;line-height:1.4">La demo usa datos públicos y deja lista la arquitectura para actualizar señales diarias y KPIs sectoriales cuando las fuentes publican nueva información.</p>
+        <div class="source-list" id="sources"></div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navegación principal">
+    <button class="tab active" data-tab="hoy" aria-label="Hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><path d="M9 20v-6h6v6"/></svg><span>Hoy</span></button>
+    <button class="tab" data-tab="mercado" aria-label="Mercado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18"/><path d="M21 12A9 9 0 1 1 12 3"/><path d="M12 12h9"/></svg><span>Mercado</span></button>
+    <button class="tab" data-tab="marcas" aria-label="Marcas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 16h14l-1.5-5h-11z"/><path d="M7 16v2"/><path d="M17 16v2"/><circle cx="8" cy="18" r="1.5"/><circle cx="16" cy="18" r="1.5"/><path d="M7 11l1.5-4h7L17 11"/></svg><span>Marcas</span></button>
+    <button class="tab" data-tab="competencia" aria-label="Competencia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 11a4 4 0 1 0-8 0"/><path d="M3 20c1-4 4-6 9-6s8 2 9 6"/><path d="M18 8a3 3 0 0 1 3 3"/><path d="M6 8a3 3 0 0 0-3 3"/></svg><span>Competencia</span></button>
+    <button class="tab" data-tab="acciones" aria-label="Acciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5h6"/><path d="M9 3h6v4H9z"/><path d="M6 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1"/><path d="m8 14 2 2 5-5"/></svg><span>Acciones</span></button>
+  </nav>
+
+  <div class="toast" id="toast">Radar actualizado</div>
+
+  <script>
+    const fallbackData = {
+      lastUpdated: "Hoy, 8:00 a.m.",
+      kpis: [
+        { title: "Mercado automotriz", value: "+37.3%", subtitle: "Vehículos livianos, Q1 2026", icon: "🚘", status: "good" },
+        { title: "Electrificados", value: "+77.3%", subtitle: "Crecimiento trimestral", icon: "⚡", status: "good" }
+      ],
+      market: [
+        { label: "Vehículos livianos", value: "+37.3%", note: "Crecimiento Q1 2026 vs. Q1 2025", cadence: "Mensual" },
+        { label: "Electrificados", value: "+77.3%", note: "Crecimiento trimestral reportado por AAP/SUNARP", cadence: "Mensual" },
+        { label: "Tipo de cambio", value: "Monitoreo", note: "Variable clave para pricing, importación y financiamiento", cadence: "Diario" }
+      ],
+      competitionBullets: [
+        "Toyota: liderazgo en híbridos y confianza de marca.",
+        "Jetour: crecimiento acelerado en SUVs y presencia regional.",
+        "BAIC: nuevo entrante con foco en SUV y off-road."
+      ],
+      fleets: "Oportunidades en minería, agro y construcción.",
+      brands: [
+        { name: "Kia", tag: "Confianza + volumen", insight: "Oportunidad para reforzar SUV, electrificación progresiva y renovación familiar/corporativa frente a presión de marcas chinas." },
+        { name: "Chery", tag: "SUV + tecnología", insight: "Puede sostener consideración si comunica respaldo, disponibilidad y postventa como diferenciales frente a competidores de precio." },
+        { name: "MG", tag: "Diseño + valor", insight: "Territorio urbano con oportunidad de capturar compradores que buscan modernidad sin ticket premium." },
+        { name: "Mitsubishi", tag: "Robustez B2B", insight: "Fit natural para operación, flotas, minería, agro, construcción y necesidades de disponibilidad." },
+        { name: "Peugeot", tag: "Aspiracional", insight: "Diferenciar por experiencia, diseño y valor percibido; no entrar en guerra directa de precio." },
+        { name: "GAC Motor", tag: "Proyección china", insight: "Construir confianza y consideración desde tecnología, seguridad, garantía y respaldo local." }
+      ],
+      competitors: [
+        { name: "Toyota", signal: "Referente de confianza e híbridos; presión en conversación de electrificación." },
+        { name: "Jetour", signal: "Fuerte narrativa SUV, aventura y familia; compite por aspiración accesible." },
+        { name: "BAIC / Magna", signal: "Nuevo movimiento en Perú; posible presión en SUV, off-road y marcas chinas." },
+        { name: "Hyundai / Nissan", signal: "Red, recordación y portafolio amplio; relevantes para volumen y flotas." },
+        { name: "GWM / Haval / Changan / Geely", signal: "Competencia china con precio, equipamiento y expansión de portafolio." }
+      ],
+      actions: [
+        { area: "Electrificación", title: "Educar antes de vender", detail: "Crear contenido ejecutivo sobre costo total de propiedad, mantenimiento, financiamiento y uso por perfil de cliente." },
+        { area: "Flotas B2B", title: "Priorizar sectores con operación distribuida", detail: "Minería, agro, construcción y logística pueden valorar disponibilidad, respaldo y soluciones por tipo de operación." },
+        { area: "Portafolio", title: "No competir solo por precio", detail: "Astara puede ordenar la conversación alrededor de respaldo, variedad de marcas, experiencia y capacidad regional." }
+      ],
+      news: [],
+      sources: [
+        { name: "Astara corporativo", url: "https://astara.com/es" },
+        { name: "Astara Retail Perú", url: "https://www.astararetail.pe/" },
+        { name: "AAP Perú", url: "https://aap.org.pe/" }
+      ]
+    };
+
+    let appData = fallbackData;
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function iconForStatus(status){ return status === "good" ? "↑" : status === "warn" ? "!" : "•"; }
+
+    function render(data){
+      $("#lastUpdated").textContent = `Última actualización: ${data.lastUpdated || fallbackData.lastUpdated}`;
+      $("#kpiGrid").innerHTML = data.kpis.map(kpi => `
+        <article class="card kpi">
+          <h3>${kpi.title}</h3>
+          <div class="kpi-body">
+            <div class="circle-icon">${kpi.icon || "•"}</div>
+            <div class="kpi-value">${kpi.value}</div>
+            <span class="trend">${iconForStatus(kpi.status)}</span>
+          </div>
+          <small>${kpi.subtitle}</small>
+        </article>
+      `).join("");
+
+      $("#competitionBullets").innerHTML = data.competitionBullets.map(item => `<li>${item}</li>`).join("");
+      $("#fleetSummary").textContent = data.fleets;
+      $("#mainAction").textContent = data.actions?.[0]?.detail || fallbackData.actions[0].detail;
+
+      $("#marketMetrics").innerHTML = data.market.map(item => `
+        <article class="card metric-row">
+          <div><strong>${item.label}</strong><br><span>${item.note}</span></div>
+          <div style="text-align:right"><strong>${item.value}</strong><br><span class="pill ${item.cadence === 'Diario' ? 'good' : 'warn'}">${item.cadence}</span></div>
+        </article>
+      `).join("");
+
+      const news = data.news && data.news.length ? data.news : [
+        { title: "La automatización diaria está lista para conectarse a fuentes públicas.", source: "Demo", url: "#", date: "Configurable" },
+        { title: "Los KPIs oficiales del sector se actualizan cuando AAP/SUNARP publican nuevos reportes.", source: "Demo", url: "#", date: "Mensual" }
+      ];
+      $("#newsList").innerHTML = news.map(item => `
+        <article class="card news-item">
+          <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+          <div class="meta">${item.source || "Fuente pública"} · ${item.date || "Reciente"}</div>
+        </article>
+      `).join("");
+
+      $("#brandList").innerHTML = data.brands.map(brand => `
+        <article class="card brand-card">
+          <div class="brand-head"><div class="brand-name">${brand.name}</div><div class="brand-tag">${brand.tag}</div></div>
+          <p>${brand.insight}</p>
+        </article>
+      `).join("");
+
+      $("#competitorList").innerHTML = data.competitors.map(comp => `
+        <article class="card brand-card">
+          <div class="brand-head"><div class="brand-name">${comp.name}</div><div class="brand-tag">Monitoreo</div></div>
+          <p>${comp.signal}</p>
+        </article>
+      `).join("");
+
+      $("#actionList").innerHTML = data.actions.map(action => `
+        <article class="card action-card">
+          <div class="label">${action.area}</div>
+          <h3>${action.title}</h3>
+          <p>${action.detail}</p>
+        </article>
+      `).join("");
+
+      $("#sources").innerHTML = data.sources.map(source => `<a href="${source.url}" target="_blank" rel="noopener">${source.name}</a>`).join("");
+    }
+
+    async function loadData(){
+      try{
+        const res = await fetch(`data.json?ts=${Date.now()}`, { cache:"no-store" });
+        if(!res.ok) throw new Error("No data.json");
+        appData = await res.json();
+      }catch(err){
+        appData = fallbackData;
+      }
+      render(appData);
+    }
+
+    function showTab(tab){
+      $$(".screen").forEach(screen => screen.classList.remove("active"));
+      $(`#screen-${tab}`).classList.add("active");
+      $$(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function toast(message){
+      const el = $("#toast");
+      el.textContent = message;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    $$(".tab").forEach(button => button.addEventListener("click", () => showTab(button.dataset.tab)));
+    $("#refreshBtn").addEventListener("click", async () => { await loadData(); toast("Radar actualizado"); });
+
+    loadData();
+  </script>
+</body>
+</html>

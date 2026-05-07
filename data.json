@@ -1,0 +1,44 @@
+{
+  "lastUpdated": "Hoy, 8:00 a.m.",
+  "kpis": [
+    { "title": "Mercado automotriz", "value": "+37.3%", "subtitle": "Vehículos livianos, Q1 2026", "icon": "🚘", "status": "good" },
+    { "title": "Electrificados", "value": "+77.3%", "subtitle": "Crecimiento trimestral", "icon": "⚡", "status": "good" }
+  ],
+  "market": [
+    { "label": "Vehículos livianos", "value": "+37.3%", "note": "Crecimiento Q1 2026 vs. Q1 2025", "cadence": "Mensual" },
+    { "label": "Electrificados", "value": "+77.3%", "note": "Crecimiento trimestral reportado por AAP/SUNARP", "cadence": "Mensual" },
+    { "label": "Tipo de cambio", "value": "Monitoreo", "note": "Variable clave para pricing, importación y financiamiento", "cadence": "Diario" }
+  ],
+  "competitionBullets": [
+    "Toyota: liderazgo en híbridos y confianza de marca.",
+    "Jetour: crecimiento acelerado en SUVs y presencia regional.",
+    "BAIC: nuevo entrante con foco en SUV y off-road."
+  ],
+  "fleets": "Oportunidades en minería, agro y construcción.",
+  "brands": [
+    { "name": "Kia", "tag": "Confianza + volumen", "insight": "Oportunidad para reforzar SUV, electrificación progresiva y renovación familiar/corporativa frente a presión de marcas chinas." },
+    { "name": "Chery", "tag": "SUV + tecnología", "insight": "Puede sostener consideración si comunica respaldo, disponibilidad y postventa como diferenciales frente a competidores de precio." },
+    { "name": "MG", "tag": "Diseño + valor", "insight": "Territorio urbano con oportunidad de capturar compradores que buscan modernidad sin ticket premium." },
+    { "name": "Mitsubishi", "tag": "Robustez B2B", "insight": "Fit natural para operación, flotas, minería, agro, construcción y necesidades de disponibilidad." },
+    { "name": "Peugeot", "tag": "Aspiracional", "insight": "Diferenciar por experiencia, diseño y valor percibido; no entrar en guerra directa de precio." },
+    { "name": "GAC Motor", "tag": "Proyección china", "insight": "Construir confianza y consideración desde tecnología, seguridad, garantía y respaldo local." }
+  ],
+  "competitors": [
+    { "name": "Toyota", "signal": "Referente de confianza e híbridos; presión en conversación de electrificación." },
+    { "name": "Jetour", "signal": "Fuerte narrativa SUV, aventura y familia; compite por aspiración accesible." },
+    { "name": "BAIC / Magna", "signal": "Nuevo movimiento en Perú; posible presión en SUV, off-road y marcas chinas." },
+    { "name": "Hyundai / Nissan", "signal": "Red, recordación y portafolio amplio; relevantes para volumen y flotas." },
+    { "name": "GWM / Haval / Changan / Geely", "signal": "Competencia china con precio, equipamiento y expansión de portafolio." }
+  ],
+  "actions": [
+    { "area": "Electrificación", "title": "Educar antes de vender", "detail": "Crear contenido ejecutivo sobre costo total de propiedad, mantenimiento, financiamiento y uso por perfil de cliente." },
+    { "area": "Flotas B2B", "title": "Priorizar sectores con operación distribuida", "detail": "Minería, agro, construcción y logística pueden valorar disponibilidad, respaldo y soluciones por tipo de operación." },
+    { "area": "Portafolio", "title": "No competir solo por precio", "detail": "Astara puede ordenar la conversación alrededor de respaldo, variedad de marcas, experiencia y capacidad regional." }
+  ],
+  "news": [],
+  "sources": [
+    { "name": "Astara corporativo", "url": "https://astara.com/es" },
+    { "name": "Astara Retail Perú", "url": "https://www.astararetail.pe/" },
+    { "name": "AAP Perú", "url": "https://aap.org.pe/" }
+  ]
+}
