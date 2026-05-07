@@ -1,107 +1,197 @@
-#!/usr/bin/env python3
-"""
-Actualiza data.json para Astara Growth Radar usando fuentes públicas.
-- Noticias: Google News RSS filtrado a Perú/automotriz.
-- Tipo de cambio: API pública referencial USD/PEN.
-- Fecha real de actualización: hora de Lima.
-Los KPIs oficiales de ventas se mantienen hasta que AAP/SUNARP publique nuevo reporte estructurado.
-"""
-import json
-import re
-import sys
-from datetime import datetime, timezone, timedelta
-from pathlib import Path
-from urllib.parse import quote
-from urllib.request import Request, urlopen
-import xml.etree.ElementTree as ET
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#170f2d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Astara Radar" />
+  <title>Astara Growth Radar</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
+  <style>
+    :root{--bg:#f6f5f8;--ink:#151127;--muted:#6f6a7d;--line:#e8e5ee;--card:#fff;--brand:#1c1332;--brand2:#2d174e;--accent:#6e4bc7;--green:#0b9f61;--amber:#b7791f;--red:#c2410c;--shadow:0 16px 34px rgba(22,16,44,.09);--radius:24px}
+    *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif} body{min-height:100vh;overflow-x:hidden}.app{width:min(460px,100%);margin:0 auto;min-height:100vh;padding:18px 16px 92px}.topbar{display:flex;align-items:center;gap:12px;padding:12px 0 10px}.appicon{width:42px;height:42px;border-radius:13px;box-shadow:0 10px 22px rgba(28,19,50,.18)}.wordmark{height:30px;max-width:118px;object-fit:contain;object-position:left center}.divider{height:28px;width:1px;background:#c9c3d3}.apptitle{font-weight:800;font-size:17px;letter-spacing:-.02em;color:var(--brand);line-height:1.05}.sync{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border:1px solid var(--line);background:rgba(255,255,255,.78);box-shadow:0 10px 24px rgba(22,16,44,.04);border-radius:18px;padding:12px 14px;margin-bottom:14px}.status{display:flex;gap:8px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:999px;background:var(--green);margin-top:5px;box-shadow:0 0 0 4px rgba(11,159,97,.12)}.sync b{font-size:13px}.sync small{display:block;color:var(--muted);font-size:12px;margin-top:2px;line-height:1.35}.refresh{border:0;background:var(--brand);color:white;border-radius:999px;padding:9px 12px;font-size:12px;font-weight:800}.screen{display:none}.screen.active{display:block}.hero{position:relative;overflow:hidden;border-radius:28px;padding:24px 20px;margin:8px 0 16px;color:white;min-height:168px;background:radial-gradient(circle at 82% 42%,rgba(143,111,230,.65),transparent 28%),linear-gradient(135deg,#1b1230 0%,#261541 55%,#100c20 100%);box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;inset:auto -70px -100px auto;width:250px;height:250px;border-radius:50%;border:1px solid rgba(255,255,255,.15);box-shadow:0 0 0 34px rgba(255,255,255,.035),0 0 0 68px rgba(255,255,255,.025),0 0 0 102px rgba(255,255,255,.018)}.hero:after{content:"";position:absolute;right:28px;top:54px;width:150px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.8),transparent);transform:rotate(-24deg);transform-origin:right center}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.11em;color:rgba(255,255,255,.68);font-weight:800}.hero h1{font-size:28px;line-height:1.03;margin:10px 0 10px;letter-spacing:-.04em;max-width:240px}.hero p{font-size:14px;line-height:1.35;color:rgba(255,255,255,.82);max-width:255px;margin:0}.section-title{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 2px 10px}.section-title h2{font-size:20px;letter-spacing:-.03em;margin:0}.section-title small{color:var(--muted);font-weight:700;font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;overflow:hidden}.kpi{min-width:0}.kpi .label{font-size:13px;color:var(--muted);font-weight:800}.kpi .value{font-size:28px;line-height:1;font-weight:900;letter-spacing:-.05em;margin:11px 0 7px;white-space:nowrap;color:var(--brand)}.kpi .sub{font-size:12px;color:var(--muted);line-height:1.25}.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:6px 9px;background:#f0edfb;color:var(--accent);font-size:11px;font-weight:900}.full{grid-column:1/-1}.readbox{padding:18px}.readbox h3{font-size:18px;letter-spacing:-.03em;margin:0 0 8px}.readbox p{font-size:14px;line-height:1.45;margin:0;color:#403a52}.stack{display:flex;flex-direction:column;gap:12px}.row{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.metric-row{padding:13px 0;border-bottom:1px solid var(--line)}.metric-row:last-child{border-bottom:0}.metric-row b{font-size:14px}.metric-row small{display:block;color:var(--muted);font-size:12px;margin-top:3px;line-height:1.3}.pill{border-radius:999px;padding:7px 9px;background:#f4f2f8;font-size:12px;font-weight:900;color:var(--brand);white-space:nowrap}.positive{color:var(--green)}.warning{color:var(--amber)}.tabs{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(460px,100%);height:74px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid var(--line)}.tab{border:0;background:transparent;color:#847f91;border-radius:16px;font-size:10.5px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.tab svg{width:21px;height:21px}.tab.active{color:var(--brand);background:#f2eefb}.news-card{display:flex;flex-direction:column;gap:8px}.news-top{display:flex;justify-content:space-between;gap:12px}.source{font-size:11px;color:var(--accent);font-weight:900;text-transform:uppercase;letter-spacing:.04em}.date{font-size:11px;color:var(--muted);font-weight:700}.news-card h3{font-size:16px;line-height:1.22;margin:0;letter-spacing:-.02em}.news-card p{font-size:13px;line-height:1.35;color:var(--muted);margin:0}.news-card a{color:var(--brand);font-size:13px;font-weight:900;text-decoration:none}.brand-card .head{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand-name{font-size:20px;font-weight:950;letter-spacing:-.05em}.score{font-size:22px;font-weight:950;color:var(--brand)}.bar{height:8px;border-radius:999px;background:#ece8f5;overflow:hidden;margin:13px 0}.bar span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--accent))}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.mini{border:1px solid var(--line);border-radius:16px;padding:10px;background:#fbfaff}.mini small{display:block;color:var(--muted);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.mini b{font-size:13px}.insight{border-left:4px solid var(--accent);padding:10px 12px;background:#f6f2ff;border-radius:14px;margin-top:12px;color:#413755;font-size:13px;line-height:1.35}.table{width:100%;border-collapse:separate;border-spacing:0 8px}.table th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:0 8px}.table td{background:white;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 8px;font-size:13px}.table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:900}.table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0;text-align:right;font-weight:900}.action-card h3{font-size:18px;margin:0 0 7px;letter-spacing:-.03em}.action-card p{font-size:14px;color:#403a52;line-height:1.42;margin:0 0 12px}.action-meta{display:flex;flex-wrap:wrap;gap:8px}.details{border:1px solid var(--line);background:white;border-radius:20px;padding:0;overflow:hidden}.details summary{cursor:pointer;list-style:none;padding:16px;font-weight:900}.details summary::-webkit-details-marker{display:none}.details .body{border-top:1px solid var(--line);padding:14px 16px;color:var(--muted);font-size:12px;line-height:1.45}.footer{font-size:11px;text-align:center;color:#8b8598;margin:18px 0 4px}.offline{display:none;background:#fff3cd;color:#7a4e00;border:1px solid #ffe08a;padding:10px 12px;border-radius:16px;font-size:12px;margin-bottom:12px}.loader{font-size:13px;color:var(--muted);padding:16px;text-align:center}.note{font-size:12px;color:var(--muted);line-height:1.4}.compare-controls{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-size:12px;font-weight:900;color:var(--brand);white-space:nowrap}.chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}@media(max-width:380px){.app{padding-left:12px;padding-right:12px}.apptitle{font-size:15px}.wordmark{max-width:100px}.grid{grid-template-columns:1fr}.kpi .value{font-size:26px}.hero h1{font-size:25px}.tabs{height:70px}.tab{font-size:9.5px}.tab svg{width:19px;height:19px}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <img src="assets/icon-192.png" class="appicon" alt="Astara icon" />
+      <img src="assets/astara-wordmark.png" class="wordmark" alt="Astara" />
+      <span class="divider"></span>
+      <div class="apptitle">Growth<br/>Radar</div>
+    </header>
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = ROOT / "data.json"
-PERU_TZ = timezone(timedelta(hours=-5))
+    <section class="sync">
+      <div class="status"><span class="dot"></span><div><b>Radar automatizado</b><small id="lastUpdate">Actualizando señales...</small></div></div>
+      <button class="refresh" onclick="refreshAll()">Actualizar</button>
+    </section>
+    <div class="offline" id="offlineNotice">No se pudo actualizar noticias en vivo. Mostrando respaldo local.</div>
 
-SEARCHES = [
-    "mercado automotriz Perú AAP SUNARP vehículos livianos 2026",
-    "venta vehículos nuevos Perú AAP SUV 2026",
-    "electrificados Perú AAP SUNARP 2026",
-    "Kia Chery MG Mitsubishi GAC Perú autos 2026",
-    "Toyota Jetour Changan Geely Perú SUV 2026",
-    "BAIC Magna Perú automotriz 2026"
-]
+    <section class="screen active" id="screen-hoy">
+      <div class="hero"><span class="eyebrow">Perú · CEO view</span><h1>Resumen de hoy</h1><p>Datos públicos consolidados para leer crecimiento, competencia, flotas y oportunidad comercial.</p></div>
+      <div class="grid">
+        <article class="card kpi"><div class="label">Livianos nuevos</div><div class="value">62,094</div><div class="sub">Ene-mar 2026 · +37.3% vs. 2025</div></article>
+        <article class="card kpi"><div class="label">SUV</div><div class="value">54.3%</div><div class="sub">Participación en livianos · 33,728 unidades</div></article>
+        <article class="card kpi"><div class="label">Electrificados</div><div class="value">3,627</div><div class="sub">Q1 2026 · +77.3% vs. 2025</div></article>
+        <article class="card kpi"><div class="label">Tipo de cambio</div><div class="value" id="fxValue">S/ --</div><div class="sub" id="fxSub">USD/PEN · actualizando</div></article>
+        <article class="card readbox full"><span class="badge">Lectura ejecutiva</span><h3>La oportunidad no está solo en vender más autos.</h3><p>El mercado crece fuerte en livianos, SUV y electrificados. Para Astara, la lectura clave es priorizar segmentos donde tiene portafolio, pero competir con una narrativa de respaldo, red, financiamiento y costo total de propiedad, no solo con precio.</p></article>
+      </div>
+      <div class="section-title"><h2>Noticias relevantes</h2><small>vivo</small></div>
+      <div class="stack" id="homeNews"><div class="loader">Cargando noticias del sector automotriz peruano...</div></div>
+    </section>
 
-def fetch_url(url: str, timeout: int = 20) -> bytes:
-    req = Request(url, headers={"User-Agent": "Mozilla/5.0 AstaraGrowthRadar/2.0"})
-    with urlopen(req, timeout=timeout) as response:
-        return response.read()
+    <section class="screen" id="screen-mercado">
+      <div class="section-title"><h2>Radar de mercado</h2><small>AAP / SUNARP / INEI</small></div>
+      <div class="stack">
+        <article class="card">
+          <div class="metric-row row"><div><b>Vehículos livianos nuevos</b><small>Acumulado enero-marzo 2026</small></div><span class="pill positive">+37.3%</span></div>
+          <div class="metric-row row"><div><b>SUV y todoterrenos</b><small>33,728 unidades · 54.3% del mercado de livianos</small></div><span class="pill positive">+49.7%</span></div>
+          <div class="metric-row row"><div><b>Pickups y furgonetas</b><small>8,849 unidades · señal para flotas y operación regional</small></div><span class="pill positive">+33.6%</span></div>
+          <div class="metric-row row"><div><b>Comercio automotor</b><small>Actividad destacada entre motores de la economía en febrero 2026</small></div><span class="pill positive">+19.67%</span></div>
+        </article>
+        <article class="card readbox"><span class="badge">Por qué importa</span><h3>El SUV es el campo de batalla principal.</h3><p>Más de la mitad de livianos nuevos se concentra en SUV. Ese dato cambia la conversación: no basta mirar crecimiento total, hay que leer qué marcas capturan SUV, con qué precio, qué financiamiento ofrecen y cómo sostienen confianza posventa/red.</p></article>
+        <article class="card">
+          <div class="row"><div><b>Tipo de cambio operativo</b><small id="fxMarketSub">Actualizando USD/PEN en vivo</small></div><span class="pill" id="fxMarket">S/ --</span></div>
+          <div class="insight">Variable útil para margen, pricing, campañas de financiamiento e intención de compra. Si el dólar se mueve, el mensaje comercial y las promociones deberían ajustarse rápido.</div>
+        </article>
+        <article class="card">
+          <div class="section-title" style="margin:0 0 8px"><h2 style="font-size:18px">Últimas noticias del mercado</h2><small id="newsStatus">en vivo</small></div>
+          <div class="stack" id="marketNews"><div class="loader">Buscando noticias serias...</div></div>
+        </article>
+      </div>
+    </section>
 
-def strip_html(text: str) -> str:
-    text = re.sub(r"<[^>]+>", "", text or "")
-    text = text.replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", '"')
-    return re.sub(r"\s+", " ", text).strip()
+    <section class="screen" id="screen-marcas">
+      <div class="section-title"><h2>Marcas Astara</h2><small>comparativo</small></div>
+      <p class="note">Como los rankings públicos por marca no siempre salen abiertos con unidades completas, esta vista combina data pública de segmentos con un índice de oportunidad. Si Astara comparte ventas internas, el mismo módulo puede cambiar a market share real.</p>
+      <div class="compare-controls" id="brandChips"></div>
+      <div class="stack" id="brandCards"></div>
+    </section>
 
-def google_news(query: str, limit: int = 3):
-    url = f"https://news.google.com/rss/search?q={quote(query)}&hl=es-419&gl=PE&ceid=PE:es-419"
-    try:
-        root = ET.fromstring(fetch_url(url))
-        items = []
-        for item in root.findall(".//item")[:limit]:
-            title = strip_html(item.findtext("title", ""))
-            link = item.findtext("link", "#")
-            pub_date = item.findtext("pubDate", "Reciente")
-            source = item.findtext("source", "Google News")
-            if title:
-                items.append({"title": title, "url": link, "source": source, "date": pub_date,
-                              "whyItMatters": "Señal pública para monitorear presión competitiva, demanda o conversación del sector."})
-        return items
-    except Exception as exc:
-        print(f"No se pudo leer Google News para {query}: {exc}", file=sys.stderr)
-        return []
+    <section class="screen" id="screen-competencia">
+      <div class="section-title"><h2>Competencia</h2><small>numérico + insight</small></div>
+      <article class="card readbox"><span class="badge">Competitive pressure</span><h3>Lo importante no es “quién suena más”, sino quién presiona cada segmento.</h3><p>El radar usa tres variables visibles desde data pública: fuerza en SUV, empuje de electrificación y movimiento reciente en prensa. La lectura final traduce esos movimientos en riesgo u oportunidad para Astara.</p></article>
+      <table class="table" aria-label="Competidores">
+        <thead><tr><th>Marca</th><th>Presión</th><th>Foco</th><th>Score</th></tr></thead>
+        <tbody id="competitorRows"></tbody>
+      </table>
+      <div class="stack" id="competitorInsights"></div>
+    </section>
 
-def dedupe(items, max_items=8):
-    seen, out = set(), []
-    for item in items:
-        key = re.sub(r"\W+", "", item.get("title", "").lower())[:90]
-        if key and key not in seen:
-            seen.add(key); out.append(item)
-        if len(out) >= max_items: break
-    return out
+    <section class="screen" id="screen-acciones">
+      <div class="section-title"><h2>Acciones</h2><small>recomendadas</small></div>
+      <div class="stack" id="actions"></div>
+      <details class="details" style="margin-top:14px">
+        <summary>Fuentes y metodología</summary>
+        <div class="body">
+          <b>Fuentes base:</b> AAP/SUNARP para ventas del mercado automotor, INEI para actividad económica, Google News/RSS para noticias recientes y API pública de tipo de cambio para USD/PEN.<br><br>
+          <b>Metodología:</b> los KPIs oficiales se actualizan cuando hay nuevo reporte público. Las noticias se actualizan cada vez que se abre la app o se toca “Actualizar”. Los scores de marca/competencia son índices de lectura ejecutiva y no reemplazan data interna de Astara.
+        </div>
+      </details>
+      <div class="footer">Desarrollado por Giulliana Mantilla · 2026</div>
+    </section>
+  </main>
 
-def fetch_usd_pen():
-    # API pública referencial. Para producción, reemplazar por fuente oficial/contratada.
-    try:
-        raw = fetch_url("https://open.er-api.com/v6/latest/USD", timeout=15)
-        data = json.loads(raw.decode("utf-8"))
-        rate = float(data["rates"]["PEN"])
-        return f"S/ {rate:.2f}"
-    except Exception as exc:
-        print(f"No se pudo actualizar USD/PEN: {exc}", file=sys.stderr)
-        return None
+  <nav class="tabs" aria-label="Navegación">
+    <button class="tab active" data-tab="hoy">⌂<span>Hoy</span></button>
+    <button class="tab" data-tab="mercado">◔<span>Mercado</span></button>
+    <button class="tab" data-tab="marcas">▣<span>Marcas</span></button>
+    <button class="tab" data-tab="competencia">◎<span>Competencia</span></button>
+    <button class="tab" data-tab="acciones">✓<span>Acciones</span></button>
+  </nav>
 
-def main():
-    data = json.loads(DATA_PATH.read_text(encoding="utf-8")) if DATA_PATH.exists() else {}
-    now = datetime.now(PERU_TZ)
-    data["lastUpdatedISO"] = now.isoformat(timespec="minutes")
-    data["lastUpdated"] = now.strftime("%d/%m/%Y, %I:%M %p").replace("AM", "a.m.").replace("PM", "p.m.")
+  <script>
+    const seriousSources = ['AAP','Gestión','El Comercio','Forbes','AmCham','Automundo','NeoAuto','PQS','Semana Económica','Perú21'];
+    const fallbackNews = [
+      {source:'AAP', title:'Venta de vehículos nuevos observó buenos resultados en el primer cuatrimestre de 2026', date:'07/05/2026', link:'https://aap.org.pe/prensa/venta-de-vehiculos-nuevos-observo-buenos-resultados-en-el-primer-cuatrimestre-de-2026', summary:'Vehículos livianos alcanzaron 19,799 unidades en abril, con crecimiento interanual de 37.4%.'},
+      {source:'Gestión', title:'Venta de vehículos electrificados en Perú crece 77%', date:'15/04/2026', link:'https://gestion.pe/economia/empresas/vehiculos-electrificados-en-peru-aceleran-en-2026-ventas-y-tecnologias-mas-pedidas-noticia/', summary:'El avance de híbridos y eléctricos confirma que la conversación de eficiencia ya entró al mercado masivo.'},
+      {source:'El Comercio', title:'Jetour, Ford y Geely escalan en Perú: cambios en el ranking de marcas', date:'06/03/2026', link:'https://elcomercio.pe/ruedas-tuercas/automotriz/jetour-ford-y-geely-escalan-en-peru-como-quedo-el-ranking-de-marcas-de-autos-a-inicios-del-2026-noticia/', summary:'Marcas chinas y nuevos jugadores presionan el posicionamiento en SUV y precio/equipamiento.'}
+    ];
+    const brands = [
+      {name:'Kia', score:86, foco:'Volumen + confianza', segmento:'SUV / livianos', lectura:'Mantenerse como marca de volumen exige defender confianza y financiamiento frente a marcas chinas con alto equipamiento.', metric:'Top 3 señalado por prensa'},
+      {name:'Chery', score:82, foco:'SUV + marca china madura', segmento:'SUV', lectura:'Tiene ventaja de trayectoria: 19 años en Perú. Puede competir no solo por precio, sino por permanencia y respaldo.', metric:'19 años en Perú'},
+      {name:'MG', score:74, foco:'Urbano + diseño', segmento:'SUV / hatch', lectura:'La oportunidad está en capturar compradores que quieren modernidad sin ticket premium. Necesita diferenciarse frente a otras marcas chinas.', metric:'Score oportunidad 74'},
+      {name:'Mitsubishi', score:79, foco:'Robustez + operación', segmento:'Pickups / flotas', lectura:'El crecimiento de pickups/furgonetas abre conversación B2B: disponibilidad, resistencia, servicio y costo operativo.', metric:'Pickups +33.6%'},
+      {name:'Peugeot', score:63, foco:'Diseño + experiencia', segmento:'Aspiracional', lectura:'Debe vender valor, diseño y experiencia. En mercado sensible a precio, el riesgo es quedar fuera de comparación racional.', metric:'Score oportunidad 63'},
+      {name:'GAC Motor', score:76, foco:'SUV + tecnología', segmento:'SUV', lectura:'Tiene espacio si construye confianza rápido: tecnología, garantía, red y respaldo regional son más importantes que solo lanzamiento.', metric:'SUV 54.3% mercado'}
+    ];
+    const competitors = [
+      {name:'Toyota', pressure:'Alta', focus:'Híbridos / confianza', score:92, insight:'Presiona electrificación desde credibilidad. Astara debe responder con educación de TCO y respaldo, no solo modelos.'},
+      {name:'Hyundai', pressure:'Alta', focus:'Volumen / red', score:84, insight:'Compite por consideración masiva. La defensa debe pasar por portafolio, financiamiento y experiencia.'},
+      {name:'Jetour', pressure:'Media-alta', focus:'SUV / aventura', score:80, insight:'Está ocupando imaginario SUV familiar/aventura. Riesgo directo para Chery, GAC y MG.'},
+      {name:'BAIC', pressure:'Media', focus:'SUV / off-road', score:72, insight:'Nuevo entrante con narrativa de relanzamiento. La oportunidad para Astara es contrastar trayectoria y red.'},
+      {name:'Geely', pressure:'Media-alta', focus:'SUV tecnológico', score:78, insight:'Presiona por diseño, equipamiento y precio. Requiere comparar valor total, no ficha técnica aislada.'},
+      {name:'GWM / Haval', pressure:'Media', focus:'SUV / pickup', score:74, insight:'Relevante para flotas y SUV. Presiona donde Mitsubishi y Chery pueden jugar con fuerza.'}
+    ];
+    const actions = [
+      {title:'1. Convertir SUV en narrativa de portafolio', desc:'Si SUV representa 54.3% de livianos, Astara debería ordenar mensajes por necesidad: familia, empresa, aventura, eficiencia y tecnología.', tags:['SUV','Portafolio','Marketing']},
+      {title:'2. Educar electrificación sin vender humo', desc:'El crecimiento de electrificados es fuerte, pero la adopción todavía requiere pedagogía: costo total de propiedad, mantenimiento, autonomía, financiamiento y tipo de uso.', tags:['Electrificados','TCO','Ventas']},
+      {title:'3. Armar radar B2B por sector', desc:'Para minería, agro y construcción, el mensaje debe moverse de “modelo” a “continuidad operativa”: disponibilidad, robustez, servicio y renovación de flota.', tags:['Flotas B2B','Mitsubishi','Kia']},
+      {title:'4. Monitorear marcas chinas por territorio', desc:'No mirar a todas igual: Jetour ocupa aventura/familia, Geely tecnología, BAIC off-road/relanzamiento, Chery trayectoria china. Cada una presiona diferente.', tags:['Competencia','China brands','Insight']}
+    ];
 
-    rate = fetch_usd_pen()
-    if rate:
-        for kpi in data.get("kpis", []):
-            if "cambio" in kpi.get("title", "").lower():
-                kpi["value"] = rate
-                kpi["subtitle"] = "referencial USD/PEN actualizado"
-        for metric in data.get("market", []):
-            if "cambio" in metric.get("label", "").lower():
-                metric["value"] = rate
-                metric["note"] = "USD/PEN referencial actualizado vía API pública"
-
-    all_news = []
-    for query in SEARCHES:
-        all_news.extend(google_news(query, limit=2))
-    live_news = dedupe(all_news, max_items=8)
-    if live_news:
-        data["marketNews"] = live_news
-
-    DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Actualizado {DATA_PATH} con {len(live_news)} señales y timestamp real.")
-
-if __name__ == "__main__":
-    main()
+    function peNow(){return new Intl.DateTimeFormat('es-PE',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Lima'}).format(new Date());}
+    function setUpdate(label='Actualizado'){document.getElementById('lastUpdate').textContent = `${label}: ${peNow()} · Hora Perú`;}
+    function renderNews(news){
+      const html = news.slice(0,5).map(n=>`<article class="card news-card"><div class="news-top"><span class="source">${escapeHTML(n.source||'Fuente')}</span><span class="date">${escapeHTML(n.date||'Reciente')}</span></div><h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.summary||'Señal relevante para monitoreo ejecutivo del mercado automotriz peruano.')}</p><a href="${n.link}" target="_blank" rel="noopener">Abrir fuente</a></article>`).join('');
+      document.getElementById('homeNews').innerHTML = html;
+      document.getElementById('marketNews').innerHTML = html;
+    }
+    function escapeHTML(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+    async function fetchNews(){
+      const q=encodeURIComponent('(automotor OR automotriz OR vehículos OR electrificados) Perú AAP SUNARP mercado when:21d');
+      const rss=`https://news.google.com/rss/search?q=${q}&hl=es-419&gl=PE&ceid=PE:es-419`;
+      const url=`https://api.allorigins.win/raw?url=${encodeURIComponent(rss)}`;
+      try{
+        const res=await fetch(url,{cache:'no-store'}); if(!res.ok) throw new Error('RSS bloqueado');
+        const xml=await res.text();
+        const doc=new DOMParser().parseFromString(xml,'text/xml');
+        const items=[...doc.querySelectorAll('item')].map(item=>{
+          const rawTitle=item.querySelector('title')?.textContent||'';
+          const parts=rawTitle.split(' - ');
+          const source=parts.length>1?parts.pop():'Google News';
+          const title=parts.join(' - ')||rawTitle;
+          const dateRaw=item.querySelector('pubDate')?.textContent;
+          const date=dateRaw?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Lima'}).format(new Date(dateRaw)):'Reciente';
+          return {title, source, date, link:item.querySelector('link')?.textContent||'#', summary:'Noticia capturada automáticamente para seguimiento del mercado automotriz peruano.'}
+        }).filter(n=>{
+          const hay=(n.title+' '+n.source).toLowerCase();
+          return ['perú','peru','vehículo','vehiculos','automotor','automotriz','aap','sunarp','suv','electrificado'].some(w=>hay.includes(w));
+        });
+        const preferred=items.filter(n=>seriousSources.some(s=>(n.source||'').toLowerCase().includes(s.toLowerCase())));
+        const finalNews=(preferred.length?preferred:items).slice(0,5);
+        if(!finalNews.length) throw new Error('Sin noticias filtradas');
+        renderNews(finalNews); document.getElementById('offlineNotice').style.display='none'; document.getElementById('newsStatus').textContent='actualizado'; setUpdate('Noticias actualizadas');
+      } catch(e){
+        renderNews(fallbackNews); document.getElementById('offlineNotice').style.display='block'; document.getElementById('newsStatus').textContent='respaldo'; setUpdate('Respaldo local');
+      }
+    }
+    async function fetchFX(){
+      try{const res=await fetch('https://open.er-api.com/v6/latest/USD',{cache:'no-store'}); const data=await res.json(); const pen=data?.rates?.PEN; if(pen){const val=`S/ ${Number(pen).toFixed(3)}`; document.getElementById('fxValue').textContent=val; document.getElementById('fxMarket').textContent=val; document.getElementById('fxSub').textContent='USD/PEN · actualizado en vivo'; document.getElementById('fxMarketSub').textContent=`USD/PEN actualizado automáticamente · ${peNow()}`;}}
+      catch(e){document.getElementById('fxSub').textContent='USD/PEN · no disponible';}
+    }
+    function renderBrands(filter='Todas'){
+      const list=filter==='Todas'?brands:brands.filter(b=>b.name===filter);
+      document.getElementById('brandCards').innerHTML=list.map(b=>`<article class="card brand-card"><div class="head"><div><div class="brand-name">${b.name}</div><small>${b.foco}</small></div><div class="score">${b.score}</div></div><div class="bar"><span style="width:${b.score}%"></span></div><div class="mini-grid"><div class="mini"><small>Segmento clave</small><b>${b.segmento}</b></div><div class="mini"><small>Dato / proxy</small><b>${b.metric}</b></div></div><div class="insight">${b.lectura}</div></article>`).join('');
+    }
+    function renderChips(){
+      const names=['Todas',...brands.map(b=>b.name)];
+      document.getElementById('brandChips').innerHTML=names.map((n,i)=>`<button class="chip ${i===0?'active':''}" onclick="selectBrand(this,'${n}')">${n}</button>`).join('');
+    }
+    function selectBrand(btn,name){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderBrands(name)}
+    function renderCompetitors(){
+      document.getElementById('competitorRows').innerHTML=competitors.map(c=>`<tr><td>${c.name}</td><td>${c.pressure}</td><td>${c.focus}</td><td>${c.score}</td></tr>`).join('');
+      document.getElementById('competitorInsights').innerHTML=competitors.slice(0,4).map(c=>`<article class="card"><div class="row"><b>${c.name}</b><span class="pill">${c.score}/100</span></div><div class="insight">${c.insight}</div></article>`).join('');
+    }
+    function renderActions(){document.getElementById('actions').innerHTML=actions.map(a=>`<article class="card action-card"><h3>${a.title}</h3><p>${a.desc}</p><div class="action-meta">${a.tags.map(t=>`<span class="badge">${t}</span>`).join('')}</div></article>`).join('')}
+    function refreshAll(){setUpdate('Actualizando'); fetchFX(); fetchNews();}
+    document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+btn.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}));
+    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+    renderChips(); renderBrands(); renderCompetitors(); renderActions(); refreshAll();
+  </script>
+</body>
+</html>
