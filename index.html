@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#170f2d" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Astara Radar" />
+  <meta name="apple-mobile-web-app-title" content="Astara Growth Radar" />
   <meta name="application-name" content="Astara Growth Radar" />
   <meta name="description" content="Radar ejecutivo móvil para consolidar señales públicas del mercado automotor peruano relevantes para Astara." />
   <title>Astara Growth Radar</title>
@@ -15,23 +15,62 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
   <style>
     :root{--bg:#f7f6fa;--ink:#151127;--muted:#746d82;--soft:#f1eef8;--line:#e6e1ee;--card:#fff;--brand:#1c1332;--brand2:#2c174e;--accent:#6e4bc7;--green:#0b8f5a;--amber:#b7791f;--red:#b44419;--shadow:0 16px 35px rgba(24,16,45,.09);--radius:24px}
-    *{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif}body{min-height:100vh;overflow-x:hidden}.app{width:min(470px,100%);margin:0 auto;min-height:100vh;padding:18px 16px 96px}.topbar{display:flex;align-items:center;gap:10px;padding:10px 0 12px}.appicon{width:42px;height:42px;border-radius:13px;box-shadow:0 10px 22px rgba(28,19,50,.18);flex:0 0 auto}.wordmark{height:35px;max-width:142px;object-fit:contain;object-position:left center}.divider{height:28px;width:1px;background:#c9c3d3}.apptitle{font-weight:850;font-size:16px;letter-spacing:-.03em;color:var(--brand);line-height:1.05}.sync{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(255,255,255,.86);border:1px solid var(--line);box-shadow:0 10px 24px rgba(22,16,44,.04);border-radius:18px;padding:12px 13px;margin-bottom:12px}.status{display:flex;gap:8px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:999px;background:var(--green);margin-top:5px;box-shadow:0 0 0 4px rgba(11,143,90,.12)}.sync b{font-size:13px}.sync small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px;line-height:1.35}.refresh{border:0;background:var(--brand);color:white;border-radius:999px;padding:9px 11px;font-size:11.5px;font-weight:900;white-space:nowrap}.offline{display:none;background:#fff4d6;color:#6c4400;border:1px solid #ffe1a1;padding:10px 12px;border-radius:16px;font-size:12px;margin-bottom:12px}.screen{display:none}.screen.active{display:block}.hero{position:relative;overflow:hidden;border-radius:28px;padding:23px 20px;margin:8px 0 15px;color:white;min-height:162px;background:radial-gradient(circle at 82% 42%,rgba(143,111,230,.65),transparent 28%),linear-gradient(135deg,#1b1230 0%,#261541 55%,#100c20 100%);box-shadow:var(--shadow)}.hero:before{content:"";position:absolute;right:-65px;bottom:-95px;width:240px;height:240px;border-radius:50%;border:1px solid rgba(255,255,255,.15);box-shadow:0 0 0 32px rgba(255,255,255,.035),0 0 0 64px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.018)}.hero:after{content:"";position:absolute;right:28px;top:55px;width:150px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.75),transparent);transform:rotate(-24deg);transform-origin:right center}.eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.7);font-weight:900}.hero h1{font-size:28px;line-height:1.03;margin:10px 0 10px;letter-spacing:-.045em;max-width:250px}.hero p{font-size:14px;line-height:1.36;color:rgba(255,255,255,.84);max-width:270px;margin:0}.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:20px 2px 10px}.section-title h2{font-size:20px;letter-spacing:-.035em;margin:0}.section-title small{color:var(--muted);font-weight:800;font-size:11.5px;text-align:right}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;overflow:hidden}.kpi{min-width:0}.kpi .label{font-size:12.5px;color:var(--muted);font-weight:900}.kpi .value{font-size:27px;line-height:1;font-weight:950;letter-spacing:-.055em;margin:10px 0 7px;white-space:nowrap;color:var(--brand)}.kpi .sub{font-size:11.7px;color:var(--muted);line-height:1.26}.full{grid-column:1/-1}.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:6px 9px;background:#f0edfb;color:var(--accent);font-size:10.5px;font-weight:950}.badge.green{background:#e9f8f1;color:var(--green)}.badge.amber{background:#fff3dd;color:#8a5600}.readbox h3{font-size:18px;letter-spacing:-.03em;margin:0 0 8px}.readbox p{font-size:13.6px;line-height:1.46;margin:0;color:#403a52}.stack{display:flex;flex-direction:column;gap:12px}.row{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.metric-row{padding:13px 0;border-bottom:1px solid var(--line)}.metric-row:last-child{border-bottom:0}.metric-row b{font-size:13.6px}.metric-row small{display:block;color:var(--muted);font-size:11.7px;margin-top:3px;line-height:1.32}.pill{border-radius:999px;padding:7px 9px;background:#f4f2f8;font-size:11.5px;font-weight:950;color:var(--brand);white-space:nowrap}.positive{color:var(--green)}.warning{color:var(--amber)}.danger{color:var(--red)}.tabs{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(470px,100%);height:74px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid var(--line)}.tab{border:0;background:transparent;color:#847f91;border-radius:16px;font-size:10.5px;font-weight:850;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.tab svg{width:21px;height:21px}.tab.active{color:var(--brand);background:#f2eefb}.news-card{display:flex;flex-direction:column;gap:8px}.news-top{display:flex;justify-content:space-between;gap:12px}.source{font-size:10.5px;color:var(--accent);font-weight:950;text-transform:uppercase;letter-spacing:.04em}.date{font-size:10.5px;color:var(--muted);font-weight:800}.news-card h3{font-size:15.5px;line-height:1.22;margin:0;letter-spacing:-.02em}.news-card p{font-size:12.6px;line-height:1.36;color:var(--muted);margin:0}.news-card a{color:var(--brand);font-size:12.6px;font-weight:950;text-decoration:none}.brand-card .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.brand-name{font-size:20px;font-weight:950;letter-spacing:-.05em}.score{font-size:22px;font-weight:950;color:var(--brand)}.bar{height:8px;border-radius:999px;background:#ece8f5;overflow:hidden;margin:13px 0}.bar span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--accent))}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.mini{border:1px solid var(--line);border-radius:16px;padding:10px;background:#fbfaff}.mini small{display:block;color:var(--muted);font-size:9.5px;font-weight:950;text-transform:uppercase;letter-spacing:.06em}.mini b{font-size:12.5px}.insight{border-left:4px solid var(--accent);padding:10px 12px;background:#f6f2ff;border-radius:14px;margin-top:12px;color:#413755;font-size:12.7px;line-height:1.37}.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:separate;border-spacing:0 8px;min-width:410px}.table th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:0 8px}.table td{background:white;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 8px;font-size:12.5px}.table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950}.table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0;text-align:right;font-weight:950}.action-card h3{font-size:17px;margin:0 0 7px;letter-spacing:-.03em}.action-card p{font-size:13.3px;color:#403a52;line-height:1.44;margin:0 0 12px}.action-meta{display:flex;flex-wrap:wrap;gap:8px}.details{border:1px solid var(--line);background:white;border-radius:20px;padding:0;overflow:hidden}.details summary{cursor:pointer;list-style:none;padding:16px;font-weight:950}.details summary::-webkit-details-marker{display:none}.details .body{border-top:1px solid var(--line);padding:14px 16px;color:var(--muted);font-size:12px;line-height:1.45}.footer{font-size:10.8px;text-align:center;color:#8b8598;margin:18px 0 4px}.compare-controls{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-size:11.5px;font-weight:950;color:var(--brand);white-space:nowrap}.chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}.method{font-size:11.5px;color:var(--muted);line-height:1.4}.tiny{font-size:10.5px;color:#918aa0;line-height:1.4;margin-top:8px}.legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}@media(max-width:385px){.app{padding-left:12px;padding-right:12px}.apptitle{font-size:14.5px}.wordmark{max-width:120px;height:31px}.grid{grid-template-columns:1fr}.kpi .value{font-size:27px}.hero h1{font-size:25px}.tabs{height:70px}.tab{font-size:9.5px}.tab svg{width:19px;height:19px}.mini-grid{grid-template-columns:1fr}}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif}
+    body{min-height:100vh;overflow-x:hidden}
+    .app{width:min(470px,100%);margin:0 auto;min-height:100vh;padding:18px 16px 96px}
+    .topbar{display:flex;align-items:center;gap:12px;padding:10px 0 12px}
+    .appicon{width:42px;height:42px;border-radius:13px;box-shadow:0 10px 22px rgba(28,19,50,.18);flex:0 0 auto}
+    .apptitle{display:flex;flex-direction:column;line-height:1}
+    .apptitle strong{font-size:22px;letter-spacing:-.04em;color:var(--brand)}
+    .apptitle span{font-size:18px;letter-spacing:-.04em;color:var(--brand);font-weight:850;margin-top:2px}
+    .sync{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(255,255,255,.86);border:1px solid var(--line);box-shadow:0 10px 24px rgba(22,16,44,.04);border-radius:18px;padding:12px 13px;margin-bottom:12px}
+    .status{display:flex;gap:8px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:999px;background:var(--green);margin-top:5px;box-shadow:0 0 0 4px rgba(11,143,90,.12)}
+    .sync b{font-size:13px}.sync small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px;line-height:1.35}
+    .refresh{border:0;background:var(--brand);color:white;border-radius:999px;padding:10px 13px;font-size:11.5px;font-weight:900;white-space:nowrap}
+    .screen{display:none}.screen.active{display:block}
+    .hero{position:relative;overflow:hidden;border-radius:28px;padding:23px 20px;margin:8px 0 15px;color:white;min-height:162px;background:radial-gradient(circle at 82% 42%,rgba(143,111,230,.65),transparent 28%),linear-gradient(135deg,#1b1230 0%,#261541 55%,#100c20 100%);box-shadow:var(--shadow)}
+    .hero:before{content:"";position:absolute;right:-65px;bottom:-95px;width:240px;height:240px;border-radius:50%;border:1px solid rgba(255,255,255,.15);box-shadow:0 0 0 32px rgba(255,255,255,.035),0 0 0 64px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.018)}
+    .hero:after{content:"";position:absolute;right:28px;top:55px;width:150px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.75),transparent);transform:rotate(-24deg);transform-origin:right center}
+    .eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.7);font-weight:900}.hero h1{font-size:28px;line-height:1.03;margin:10px 0 10px;letter-spacing:-.045em;max-width:250px}.hero p{font-size:14px;line-height:1.36;color:rgba(255,255,255,.84);max-width:270px;margin:0}
+    .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:20px 2px 10px}.section-title h2{font-size:20px;letter-spacing:-.035em;margin:0}.section-title small{color:var(--muted);font-weight:800;font-size:11.5px;text-align:right}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;overflow:hidden}
+    .kpi .label{font-size:12.5px;color:var(--muted);font-weight:900}.kpi .value{font-size:27px;line-height:1;font-weight:950;letter-spacing:-.055em;margin:10px 0 7px;white-space:nowrap;color:var(--brand)}.kpi .sub{font-size:11.7px;color:var(--muted);line-height:1.26}
+    .badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:6px 9px;background:#f0edfb;color:var(--accent);font-size:10.5px;font-weight:950}.badge.green{background:#e9f8f1;color:var(--green)}.badge.amber{background:#fff3dd;color:#8a5600}
+    .readbox h3{font-size:18px;letter-spacing:-.03em;margin:0 0 8px}.readbox p{font-size:13.6px;line-height:1.46;margin:0;color:#403a52}
+    .legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+    .stack{display:flex;flex-direction:column;gap:12px}.row{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.metric-row{padding:13px 0;border-bottom:1px solid var(--line)}.metric-row:last-child{border-bottom:0}.metric-row b{font-size:13.6px}.metric-row small{display:block;color:var(--muted);font-size:11.7px;margin-top:3px;line-height:1.32}
+    .pill{border-radius:999px;padding:7px 9px;background:#f4f2f8;font-size:11.5px;font-weight:950;color:var(--brand);white-space:nowrap}.positive{color:var(--green)}.warning{color:var(--amber)}.danger{color:var(--red)}
+    .news-card{display:flex;flex-direction:column;gap:8px}.news-top{display:flex;justify-content:space-between;gap:12px}.date{font-size:10.5px;color:var(--muted);font-weight:800}.news-card h3{font-size:15.5px;line-height:1.22;margin:0;letter-spacing:-.02em}.news-card p{font-size:12.6px;line-height:1.36;color:var(--muted);margin:0}.news-link{display:inline-flex;align-items:center;gap:6px;width:max-content;margin-top:2px;color:var(--brand);font-size:12.6px;font-weight:950;text-decoration:none}
+    .compare-controls{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+    .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:0 14px;height:42px;font-size:13px;font-weight:950;color:var(--brand);white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:78px}
+    .chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .chip.kia{font-weight:900;letter-spacing:.04em}.chip.chery{font-weight:800}.chip.mg{font-weight:950}.chip.mitsubishi{font-size:12px}.chip.peugeot{font-style:italic}.chip.gac{font-size:12px}
+    .method{font-size:11.5px;color:var(--muted);line-height:1.4}
+    .brand-card .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.brand-name{font-size:20px;font-weight:950;letter-spacing:-.05em}.state{font-size:11px;font-weight:900;border-radius:999px;background:#f2eefb;color:var(--brand);padding:7px 10px}.state.alta{background:#ebf8f0;color:#0d8e5d}.state.media{background:#fff3dd;color:#8a5600}.bar{height:8px;border-radius:999px;background:#ece8f5;overflow:hidden;margin:13px 0}.bar span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--accent))}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.mini{border:1px solid var(--line);border-radius:16px;padding:10px;background:#fbfaff}.mini small{display:block;color:var(--muted);font-size:9.5px;font-weight:950;text-transform:uppercase;letter-spacing:.06em}.mini b{font-size:12.5px}.insight{border-left:4px solid var(--accent);padding:10px 12px;background:#f6f2ff;border-radius:14px;margin-top:12px;color:#413755;font-size:12.7px;line-height:1.37}
+    .chart-card h3{font-size:16px;letter-spacing:-.03em;margin:0 0 10px}.chart-card p{font-size:12px;color:var(--muted);margin:0 0 10px;line-height:1.4}
+    .bars{display:flex;flex-direction:column;gap:12px;margin-top:8px}.bar-item{display:grid;grid-template-columns:105px 1fr auto;gap:10px;align-items:center}.bar-item label{font-size:12px;font-weight:850;color:var(--ink)}.bar-track{height:12px;background:#efeaf9;border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,#2f1a55,#7f5be2);border-radius:inherit}.bar-val{font-size:11.5px;font-weight:900;color:var(--brand);white-space:nowrap}
+    .comp-grid{display:grid;grid-template-columns:1fr;gap:12px}.comp-card h4{margin:0 0 6px;font-size:16px;letter-spacing:-.03em}.comp-card .meta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}.comp-card .meta span{font-size:11px;color:var(--muted);font-weight:850}.comp-card p{margin:0;color:#403a52;font-size:12.8px;line-height:1.42}
+    .action-card h3{font-size:17px;margin:0 0 7px;letter-spacing:-.03em}.action-card p{font-size:13.3px;color:#403a52;line-height:1.44;margin:0 0 12px}.action-meta{display:flex;flex-wrap:wrap;gap:8px}
+    .details{border:1px solid var(--line);background:white;border-radius:20px;padding:0;overflow:hidden}.details summary{cursor:pointer;list-style:none;padding:16px;font-weight:950}.details summary::-webkit-details-marker{display:none}.details .body{border-top:1px solid var(--line);padding:14px 16px;color:var(--muted);font-size:12px;line-height:1.45}
+    .footer{font-size:10.8px;text-align:center;color:#8b8598;margin:18px 0 4px}
+    .tabs{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(470px,100%);height:74px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+    .tab{border:0;background:transparent;color:#847f91;border-radius:16px;font-size:10.5px;font-weight:850;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.tab svg{width:21px;height:21px}.tab.active{color:var(--brand);background:#f2eefb}
+    @media(max-width:385px){.app{padding-left:12px;padding-right:12px}.apptitle strong{font-size:20px}.apptitle span{font-size:16px}.grid{grid-template-columns:1fr}.hero h1{font-size:25px}.tabs{height:70px}.tab{font-size:9.5px}.tab svg{width:19px;height:19px}.mini-grid{grid-template-columns:1fr}.bar-item{grid-template-columns:92px 1fr auto}}
   </style>
 </head>
 <body>
   <main class="app">
     <header class="topbar">
       <img src="assets/icon-192.png" class="appicon" alt="Astara icon" />
-      <img src="assets/astara-wordmark.png" class="wordmark" alt="Astara" />
-      <span class="divider"></span>
-      <div class="apptitle">Growth<br/>Radar</div>
+      <div class="apptitle"><strong>Astara</strong><span>Growth Radar</span></div>
     </header>
 
     <section class="sync">
       <div class="status"><span class="dot"></span><div><b>Radar automatizado</b><small id="lastUpdate">Cargando señales...</small></div></div>
       <button class="refresh" onclick="refreshAll()">Actualizar</button>
     </section>
-    <div class="offline" id="offlineNotice">No se pudo actualizar noticias en vivo. Mostrando respaldo local y data base AAP/MIAM.</div>
 
     <section class="screen active" id="screen-hoy">
       <div class="hero"><span class="eyebrow">Perú · CEO view</span><h1>Resumen de hoy</h1><p>Un solo lugar para leer mercado, segmentos, marcas Astara, competidores y señales externas.</p></div>
@@ -40,74 +79,67 @@
         <article class="card kpi"><div class="label">SUV</div><div class="value">33,728</div><div class="sub"><b class="positive">+49.7%</b> · 54.3% de livianos</div></article>
         <article class="card kpi"><div class="label">Origen chino</div><div class="value">51.8%</div><div class="sub">de ventas totales de livianos</div></article>
         <article class="card kpi"><div class="label">Electrificados</div><div class="value">3,627</div><div class="sub"><b class="positive">+77.3%</b> · 5.2% del sector</div></article>
-        <article class="card kpi"><div class="label">Tipo de cambio</div><div class="value" id="fxValue">--</div><div class="sub" id="fxSub">USD/PEN · actualización en vivo</div></article>
+        <article class="card kpi"><div class="label">Tipo de cambio</div><div class="value" id="fxValue">--</div><div class="sub" id="fxSub">USD/PEN · actualización automática</div></article>
         <article class="card kpi"><div class="label">Precios vehículos</div><div class="value">-7.3%</div><div class="sub">vs. 2025 · presión sobre ticket y margen</div></article>
       </div>
 
-      <div class="section-title"><h2>Lectura ejecutiva</h2><small>No genérica</small></div>
+      <div class="section-title"><h2>Lectura ejecutiva</h2><small></small></div>
       <article class="card readbox">
         <h3>La oportunidad no está en “más mercado”, sino en capturar el mix correcto.</h3>
-        <p>El crecimiento de livianos es fuerte, pero el dato realmente accionable para Astara es la concentración: SUV lidera en volumen y crecimiento, las marcas de origen chino ya dominan más de la mitad de livianos, y electrificados crecen rápido pero aún pesan poco. La batalla será portafolio + confianza + financiamiento + respaldo, no solo disponibilidad de modelos.</p>
+        <p>El crecimiento de livianos es fuerte, pero el dato accionable para Astara es la concentración: SUV lidera volumen y crecimiento, las marcas de origen chino ya dominan más de la mitad del mercado y electrificados aceleran, aunque todavía pesan poco. La batalla será portafolio + confianza + financiamiento + respaldo, no solo disponibilidad de modelos.</p>
         <div class="legend"><span class="badge">SUV</span><span class="badge">China brands</span><span class="badge">Electrificación</span><span class="badge amber">Margen/precio</span></div>
       </article>
 
-      <div class="section-title"><h2>Noticias del sector</h2><small id="newsStatus">en vivo</small></div>
+      <div class="section-title"><h2>Noticias del sector</h2><small id="newsStatus">top signals</small></div>
       <div class="stack" id="homeNews"><div class="card">Cargando noticias...</div></div>
     </section>
 
     <section class="screen" id="screen-mercado">
-      <div class="section-title"><h2>Radar de mercado</h2><small>Data AAP/MIAM + señales vivas</small></div>
+      <div class="section-title"><h2>Radar de mercado</h2><small>Q1 2026 · Perú</small></div>
       <div class="stack">
         <article class="card">
           <div class="metric-row"><div class="row"><div><b>Vehículos livianos</b><small>62,094 unidades vendidas en Q1; crecimiento de 37.3% vs. 2025.</small></div><span class="pill positive">+37.3%</span></div></div>
           <div class="metric-row"><div class="row"><div><b>SUV: campo de batalla</b><small>33,728 unidades; mayor volumen y mayor crecimiento anual. Representa 54.3% de livianos.</small></div><span class="pill positive">+49.7%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Camionetas</b><small>El crecimiento transversal muestra demanda en categorías de mayor ticket.</small></div><span class="pill positive">+46%</span></div></div>
+          <div class="metric-row"><div class="row"><div><b>Camionetas</b><small>La categoría crece 46% y confirma demanda en tickets altos y usos familiares/empresa.</small></div><span class="pill positive">+46%</span></div></div>
           <div class="metric-row"><div class="row"><div><b>Pickups y furgonetas</b><small>Lectura B2B: minería, agro, construcción y operación regional siguen empujando renovación.</small></div><span class="pill positive">+36%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Origen chino</b><small>Más que tendencia: ya domina 51.8% de ventas totales de livianos. Relevante para Chery, MG y GAC.</small></div><span class="pill">51.8%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Electrificados</b><small>3,627 unidades; HEV y MHEV lideran la transición. Oportunidad: educar por uso y costo total, no vender solo “eléctrico”.</small></div><span class="pill positive">+77.3%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Q2: probable desaceleración</b><small>Factores críticos: tipo de cambio, petróleo, contexto político y climático.</small></div><span class="pill warning">vigilar</span></div></div>
+          <div class="metric-row"><div class="row"><div><b>Origen chino</b><small>Ya representa 51.8% de livianos. Relevante para Chery, MG y GAC dentro del portafolio Astara.</small></div><span class="pill">51.8%</span></div></div>
+          <div class="metric-row"><div class="row"><div><b>Electrificados</b><small>3,627 unidades; HEV y MHEV lideran la transición. La oportunidad es vender costo total y uso, no solo “electricidad”.</small></div><span class="pill positive">+77.3%</span></div></div>
+          <div class="metric-row"><div class="row"><div><b>Q2: probable desaceleración</b><small>Variables críticas a vigilar: tipo de cambio, petróleo y contexto político/climático.</small></div><span class="pill warning">vigilar</span></div></div>
         </article>
         <article class="card readbox">
           <h3>Insight para Astara</h3>
-          <p>El mercado está creciendo, pero la señal de riesgo es la sensibilidad de precio: los precios de vehículos están 7.3% por debajo de 2025. Si el ticket baja mientras la competencia china crece, Astara necesita defender valor con respaldo, financiamiento, garantía, red y experiencia; no entrar a una guerra de precio pura.</p>
+          <p>El mercado crece, pero la señal de riesgo está en el precio. Si los vehículos están 7.3% por debajo de 2025, crecer en unidades no garantiza mejorar rentabilidad. La respuesta no debería ser una guerra de precio pura, sino defender valor con respaldo, garantía, financiamiento, red y experiencia.</p>
         </article>
         <article class="card kpi"><div class="label">USD/PEN</div><div class="value" id="fxMarket">--</div><div class="sub" id="fxMarketSub">Tipo de cambio actualizado automáticamente.</div></article>
       </div>
-
-      <div class="section-title"><h2>Noticias automotrices Perú</h2><small>Google News/RSS</small></div>
-      <div class="stack" id="marketNews"><div class="card">Cargando noticias...</div></div>
     </section>
 
     <section class="screen" id="screen-marcas">
-      <div class="section-title"><h2>Marcas Astara</h2><small>Comparativo por oportunidad</small></div>
-      <div class="card method"><b>Nota metodológica:</b> no se muestran ventas internas ni market share propietario. El índice cruza datos públicos de segmento: SUV +49.7%, origen chino 51.8%, electrificados +77.3%, pickups/furgonetas +36% y presión de precios -7.3%.</div>
+      <div class="section-title"><h2>Marcas Astara</h2><small></small></div>
+      <div class="card method"><b>Nota metodológica:</b> no se muestran ventas internas ni market share propietario. La lectura cruza datos públicos de segmento: SUV +49.7%, origen chino 51.8%, electrificados +77.3%, pickups/furgonetas +36% y presión de precios -7.3%.</div>
       <div class="compare-controls" id="brandChips"></div>
       <div class="stack" id="brandCards"></div>
     </section>
 
     <section class="screen" id="screen-competencia">
-      <div class="section-title"><h2>Competencia</h2><small>Índice numérico</small></div>
-      <div class="card method"><b>Qué mide:</b> presión competitiva estimada por encaje con los segmentos calientes del mercado peruano: SUV, origen chino, electrificación, flotas/pickups y sensibilidad de precio. No reemplaza data interna de ventas; ordena señales públicas para priorizar lectura ejecutiva.</div>
-      <div class="card table-wrap">
-        <table class="table">
-          <thead><tr><th>Jugador</th><th>Territorio</th><th>Dato que lo activa</th><th>Presión</th></tr></thead>
-          <tbody id="competitorRows"></tbody>
-        </table>
-      </div>
-      <div class="section-title"><h2>Insights competitivos</h2><small>Qué significa</small></div>
+      <div class="section-title"><h2>Competencia</h2><small>gráfico con data real</small></div>
+      <article class="card chart-card">
+        <h3>Dónde se juega la competencia</h3>
+        <p>Estas son las variables reales del mercado peruano que hoy concentran la presión competitiva.</p>
+        <div class="bars" id="competitorChart"></div>
+      </article>
       <div class="stack" id="competitorInsights"></div>
     </section>
 
     <section class="screen" id="screen-acciones">
-      <div class="section-title"><h2>Acciones</h2><small>Próximos movimientos</small></div>
+      <div class="section-title"><h2>Acciones</h2><small>próximos movimientos</small></div>
       <div class="stack" id="actions"></div>
-      <div class="section-title"><h2>Fuentes</h2><small>oculto</small></div>
       <details class="details">
         <summary>Fuentes y metodología</summary>
         <div class="body">
           <b>Base de datos sectorial:</b> AAP / MIAM, resultado mercado automotor Q1: livianos, SUV, origen chino, electrificados, precios, segmentos productivos y factores de desaceleración.<br/><br/>
-          <b>Noticias:</b> búsqueda automática vía Google News RSS con términos de mercado automotriz peruano. La app prioriza medios/fuentes como AAP, Gestión, El Comercio, Forbes Perú, NeoAuto, Automundo, Mercado Negro y comunicados oficiales cuando están disponibles.<br/><br/>
-          <b>Tipo de cambio:</b> consulta pública USD/PEN. Si la fuente externa no responde, la app mantiene el último respaldo visual y muestra aviso.
+          <b>Noticias:</b> la app intenta leer señales recientes vía Google News RSS sobre mercado automotriz peruano y prioriza medios/fuentes como AAP, Gestión, El Comercio, NeoAuto, Automundo, Semana Económica, Forbes Perú y comunicados oficiales. Si una fuente no responde por restricciones del navegador, se muestra un respaldo curado con links reales.<br/><br/>
+          <b>Tipo de cambio:</b> consulta pública USD/PEN. Si la fuente externa no responde, la app mantiene el último respaldo visual.
         </div>
       </details>
       <div class="footer">Desarrollado por Giulliana Mantilla · 2026</div>
@@ -125,27 +157,34 @@
   <script>
     const seriousSources=['AAP','Asociación Automotriz','Gestión','El Comercio','Forbes','Semana Económica','NeoAuto','Automundo','Mercado Negro','Andina','RPP','La República'];
     const fallbackNews=[
-      {source:'AAP / MIAM',date:'Q1 2026',title:'Mercado automotor arranca con fuerza: livianos crecen 37.3%',summary:'El dato consolida una señal de demanda, pero la lectura ejecutiva está en el mix: SUV, origen chino y electrificados concentran la oportunidad.',link:'#'},
-      {source:'AAP / MIAM',date:'Q1 2026',title:'SUV lidera livianos con 33,728 unidades y crece 49.7%',summary:'Es el subgrupo de mayor volumen y el de mayor crecimiento anual. Impacta directamente a Kia, Chery, MG y GAC.',link:'#'},
-      {source:'AAP / MIAM',date:'Q1 2026',title:'Vehículos de origen chino alcanzan 51.8% de livianos',summary:'La competencia china ya no es marginal. Para Astara, la oportunidad es defender valor desde respaldo y portafolio.',link:'#'},
-      {source:'AAP / MIAM',date:'Q1 2026',title:'Electrificados venden 3,627 unidades y crecen 77.3%',summary:'HEV y MHEV lideran la transición. El reto comercial es educar por uso, costo total y mantenimiento.',link:'#'},
-      {source:'AAP / MIAM',date:'Q2 outlook',title:'Se espera crecimiento con desaceleración en el segundo trimestre',summary:'Tipo de cambio, petróleo y contexto político/climático aparecen como variables críticas de seguimiento.',link:'#'}
+      {date:'Q1 2026',title:'Mercado automotor arranca con fuerza: livianos crecen 37.3%',summary:'El crecimiento confirma demanda, pero la lectura ejecutiva está en el mix: SUV, origen chino y electrificados concentran la oportunidad.',link:'https://aap.org.pe/storage/estadisticas/informes-mensuales/informe-del-sector-automotor-marzo-1.pdf'},
+      {date:'Q1 2026',title:'SUV lidera livianos con 33,728 unidades y crece 49.7%',summary:'Es el subgrupo de mayor volumen y el de mayor crecimiento anual. Impacta directamente a Kia, Chery, MG y GAC.',link:'https://aap.org.pe/storage/estadisticas/informes-mensuales/informe-del-sector-automotor-marzo-1.pdf'},
+      {date:'Q1 2026',title:'Electrificados venden 3,627 unidades y crecen 77.3%',summary:'HEV y MHEV lideran la transición. El reto comercial está en educar por uso, costo total y mantenimiento.',link:'https://aap.org.pe/prensa/electromovilidad%20AAP%20trimestre%202026%20ventas%20sunarp'},
+      {date:'Mar 2026',title:'Venta de vehículos nuevos acelera y cierra un trimestre sólido',summary:'AAP destaca un trimestre fuerte y una base positiva, aunque con variables externas que exigen monitoreo cercano.',link:'https://aap.org.pe/prensa/venta-de-vehiculos-nuevos-acelera-en-marzo-y-cierra-un-trimestre-solido'},
+      {date:'Q2 outlook',title:'Se espera crecimiento con desaceleración en el segundo trimestre',summary:'Tipo de cambio, petróleo y contexto político/climático aparecen como variables críticas de seguimiento.',link:'https://aap.org.pe/storage/estadisticas/informes-mensuales/informe-del-sector-automotor-marzo-1.pdf'}
     ];
     const brands=[
-      {name:'Kia',score:86,foco:'Volumen + SUV + electrificación',segmento:'SUV / livianos',data:'Livianos +37.3% · SUV +49.7%',lectura:'Tiene que defender consideración masiva frente a marcas chinas con mayor equipamiento. El mensaje debe combinar confianza, financiamiento y eficiencia, no solo diseño.'},
-      {name:'Chery',score:91,foco:'SUV + origen chino',segmento:'SUV',data:'SUV 33,728 · China 51.8%',lectura:'Está en el territorio más caliente del mercado: SUV y origen chino. La oportunidad es ganar por permanencia, respaldo y red, no solo por precio.'},
-      {name:'MG',score:82,foco:'China moderna + precio',segmento:'SUV / urbano',data:'China 51.8% · precios -7.3%',lectura:'La sensibilidad de precio puede ayudar, pero también presiona margen. Debe competir en valor percibido, tecnología y experiencia urbana.'},
-      {name:'Mitsubishi',score:79,foco:'Robustez + operación B2B',segmento:'Pickups / flotas',data:'Pickups/furgonetas +36%',lectura:'La oportunidad está en sectores productivos: minería, agro y construcción. El mensaje ganador es continuidad operativa, resistencia y costo de operación.'},
-      {name:'Peugeot',score:66,foco:'Diseño + valor aspiracional',segmento:'SUV / autos',data:'Autos +33.6% · SUV +49.7%',lectura:'Puede quedar atrapada entre precio chino y marcas masivas. Debe vender diferenciación, diseño y experiencia, evitando competir solo por ticket.'},
-      {name:'GAC Motor',score:84,foco:'SUV + tecnología china',segmento:'SUV',data:'SUV +49.7% · China 51.8%',lectura:'Tiene espacio si construye confianza rápido. En una categoría china saturada, el diferencial debe ser garantía, respaldo regional y claridad de portafolio.'}
+      {name:'Kia',level:'Alta',state:'alta',score:86,foco:'SUV + masividad confiable',segmento:'SUV / familiares',data:'SUV +49.7%',lectura:'Kia puede capitalizar el auge SUV desde confianza, red y financiamiento. La oportunidad está en sostener valor sin caer en una guerra de precio.'},
+      {name:'Chery',level:'Alta',state:'alta',score:91,foco:'SUV + origen chino',segmento:'SUV',data:'SUV 33,728 · China 51.8%',lectura:'Está exactamente en el territorio más caliente del mercado: SUV y origen chino. La clave es convertir precio + equipamiento en permanencia, respaldo y red.'},
+      {name:'MG',level:'Alta',state:'alta',score:87,foco:'Diseño + urbano + China',segmento:'SUV / autos',data:'China 51.8% · Autos +33.6%',lectura:'Tiene buena posición si mantiene modernidad y accesibilidad, pero necesita blindar confianza y experiencia frente a una oferta cada vez más similar.'},
+      {name:'Mitsubishi',level:'Media-alta',state:'media',score:79,foco:'Robustez + operación B2B',segmento:'Pickups / flotas',data:'Pickups/furgonetas +36%',lectura:'La oportunidad está en sectores productivos: minería, agro y construcción. El mensaje ganador es continuidad operativa, resistencia y costo de operación.'},
+      {name:'Peugeot',level:'Selectiva',state:'media',score:66,foco:'Diseño + valor aspiracional',segmento:'SUV / autos',data:'Autos +33.6% · SUV +49.7%',lectura:'Puede quedar atrapada entre precio chino y marcas masivas. Debe vender diferenciación, diseño y experiencia, evitando competir solo por ticket.'},
+      {name:'GAC Motor',level:'Alta',state:'alta',score:84,foco:'SUV + tecnología china',segmento:'SUV',data:'SUV +49.7% · China 51.8%',lectura:'Tiene espacio si construye confianza rápido. En una categoría china saturada, el diferencial debe ser garantía, respaldo regional y claridad de portafolio.'}
+    ];
+    const chartData=[
+      {label:'Electrificados',value:77.3,display:'+77.3%',note:'crecimiento Q1'},
+      {label:'Origen chino',value:51.8,display:'51.8%',note:'share de livianos'},
+      {label:'SUV',value:49.7,display:'+49.7%',note:'crecimiento Q1'},
+      {label:'Camionetas',value:46,display:'+46%',note:'crecimiento Q1'},
+      {label:'Pickups/furgonetas',value:36,display:'+36%',note:'crecimiento Q1'}
     ];
     const competitors=[
-      {name:'Toyota',territory:'Híbridos / confianza',data:'Electrificados +77.3%',score:92,insight:'Presiona la transición energética desde credibilidad. Astara debería competir con educación de TCO, disponibilidad y respaldo, no solo lanzamiento de modelos.'},
-      {name:'Jetour',territory:'SUV familiar / aventura',data:'SUV 33,728 · +49.7%',score:86,insight:'Ocupa un territorio emocional muy claro: SUV familiar con aspiración de aventura. Riesgo directo para Chery, MG y GAC si Astara no diferencia por uso.'},
-      {name:'BAIC / Magna',territory:'SUV + off-road',data:'China 51.8% · SUV +49.7%',score:78,insight:'Nuevo entrante con narrativa de relanzamiento. La ventaja para Astara es contrastar trayectoria, red y portafolio multimarca.'},
-      {name:'Geely',territory:'SUV tecnológico',data:'China 51.8%',score:81,insight:'Presiona por diseño, equipamiento y precio. Astara debe elevar comparación hacia valor total y experiencia, no ficha técnica aislada.'},
-      {name:'GWM / Haval',territory:'SUV / pickup',data:'Pickups +36% · SUV +49.7%',score:80,insight:'Relevante en cruce entre SUV, pickup y flotas. Compite con Mitsubishi y marcas chinas de Astara en operación y robustez.'},
-      {name:'Hyundai',territory:'Volumen / red',data:'Livianos +37.3%',score:83,insight:'Compite por consideración masiva. La defensa pasa por financiamiento, disponibilidad y experiencia omnicanal.'}
+      {name:'Toyota',territory:'Híbridos / confianza',metric:'Electrificados +77.3%',insight:'La presión viene de la transición energética con credibilidad. Astara debería competir con educación de TCO, disponibilidad y respaldo.'},
+      {name:'Jetour',territory:'SUV familiar / aventura',metric:'SUV +49.7%',insight:'Ocupa un territorio emocional muy claro en el boom SUV. Presiona directamente a Chery, MG y GAC si Astara no diferencia por uso y propuesta.'},
+      {name:'BAIC / Magna',territory:'SUV + off-road',metric:'China 51.8% · SUV +49.7%',insight:'Nuevo entrante con narrativa de relanzamiento. La ventaja de Astara es contrastar trayectoria, red y portafolio multimarca.'},
+      {name:'Geely',territory:'SUV tecnológico',metric:'China 51.8%',insight:'Presiona por diseño, equipamiento y precio. Astara debe elevar la comparación hacia valor total y experiencia, no ficha técnica aislada.'},
+      {name:'GWM / Haval',territory:'SUV / pickup',metric:'Pickups +36% · SUV +49.7%',insight:'Relevante en el cruce entre SUV, pickup y flotas. Compite con Mitsubishi y con marcas chinas del portafolio Astara en uso operativo.'},
+      {name:'Hyundai',territory:'Volumen / red',metric:'Livianos +37.3%',insight:'Compite por consideración masiva. La defensa pasa por financiamiento, disponibilidad y experiencia omnicanal.'}
     ];
     const actions=[
       {title:'1. Convertir SUV en la narrativa central del portafolio',desc:'SUV no es una categoría más: concentra 33,728 unidades, 54.3% de livianos y crece 49.7%. Astara debería ordenar mensajes por uso: familia, empresa, ciudad, aventura, eficiencia y tecnología.',tags:['SUV','Portafolio','Comercial']},
@@ -154,26 +193,84 @@
       {title:'4. Educar electrificación con HEV/MHEV',desc:'Electrificados crecen 77.3%, pero el peso aún es 5.2% del sector. La oportunidad está en pedagogía comercial: costo total, mantenimiento, autonomía, financiamiento y caso de uso.',tags:['Electrificados','HEV/MHEV','TCO']},
       {title:'5. Vigilar margen por caída de precios',desc:'Si los precios están 7.3% por debajo de 2025, crecer en unidades no necesariamente significa crecer en rentabilidad. La app debe alertar cuando precio, tipo de cambio y presión competitiva se crucen.',tags:['Precio','Margen','FX']}
     ];
+
     function peNow(){return new Intl.DateTimeFormat('es-PE',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Lima'}).format(new Date());}
-    function setUpdate(label='Actualizado'){document.getElementById('lastUpdate').textContent=`${label}: ${peNow()} · Hora Perú`;}
+    function setUpdate(label='Última revisión'){document.getElementById('lastUpdate').textContent=`${label}: ${peNow()} · Hora Perú`;}
     function escapeHTML(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-    function renderNews(news){const html=news.slice(0,5).map(n=>`<article class="card news-card"><div class="news-top"><span class="source">${escapeHTML(n.source||'Fuente')}</span><span class="date">${escapeHTML(n.date||'Reciente')}</span></div><h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.summary||'Señal relevante para monitoreo ejecutivo del mercado automotriz peruano.')}</p><a href="${n.link}" target="_blank" rel="noopener">Abrir fuente</a></article>`).join('');document.getElementById('homeNews').innerHTML=html;document.getElementById('marketNews').innerHTML=html;}
+    function renderNews(news){const html=news.slice(0,5).map(n=>`<article class="card news-card"><div class="news-top"><span></span><span class="date">${escapeHTML(n.date||'Reciente')}</span></div><h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.summary||'Señal relevante para monitoreo ejecutivo del mercado automotriz peruano.')}</p><a class="news-link" href="${n.link || '#'}" target="_blank" rel="noopener">Abrir fuente ↗</a></article>`).join('');document.getElementById('homeNews').innerHTML=html;}
+
     async function fetchNews(){
-      const queries=['mercado automotor peru vehículos AAP SUNARP','sector automotriz Perú vehículos livianos SUV electrificados','venta vehículos Perú AAP SUNARP automotriz'];
-      const q=encodeURIComponent(queries.join(' OR ')+' when:21d');
-      const rss=`https://news.google.com/rss/search?q=${q}&hl=es-419&gl=PE&ceid=PE:es-419`;
-      const url=`https://api.allorigins.win/raw?url=${encodeURIComponent(rss)}`;
-      try{const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw new Error('RSS bloqueado');const xml=await res.text();const doc=new DOMParser().parseFromString(xml,'text/xml');const items=[...doc.querySelectorAll('item')].map(item=>{const rawTitle=item.querySelector('title')?.textContent||'';const parts=rawTitle.split(' - ');const source=parts.length>1?parts.pop():'Google News';const title=parts.join(' - ')||rawTitle;const dateRaw=item.querySelector('pubDate')?.textContent;const date=dateRaw?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Lima'}).format(new Date(dateRaw)):'Reciente';return{title,source,date,link:item.querySelector('link')?.textContent||'#',summary:'Noticia capturada automáticamente para seguimiento del mercado automotriz peruano.'}}).filter(n=>{const hay=(n.title+' '+n.source).toLowerCase();return ['perú','peru','vehículo','vehiculos','automotor','automotriz','aap','sunarp','suv','electrificado','auto'].some(w=>hay.includes(w));});const preferred=items.filter(n=>seriousSources.some(s=>(n.source||'').toLowerCase().includes(s.toLowerCase())));const finalNews=(preferred.length?preferred:items).slice(0,5);if(!finalNews.length)throw new Error('Sin noticias filtradas');renderNews(finalNews);document.getElementById('offlineNotice').style.display='none';document.getElementById('newsStatus').textContent='actualizado';setUpdate('Noticias actualizadas');}catch(e){renderNews(fallbackNews);document.getElementById('offlineNotice').style.display='block';document.getElementById('newsStatus').textContent='respaldo';setUpdate('Respaldo local');}}
-    async function fetchFX(){try{const res=await fetch('https://open.er-api.com/v6/latest/USD',{cache:'no-store'});const data=await res.json();const pen=data?.rates?.PEN;if(pen){const val=`S/ ${Number(pen).toFixed(3)}`;document.getElementById('fxValue').textContent=val;document.getElementById('fxMarket').textContent=val;document.getElementById('fxSub').textContent='USD/PEN · actualizado en vivo';document.getElementById('fxMarketSub').textContent=`USD/PEN actualizado automáticamente · ${peNow()}`;}}catch(e){document.getElementById('fxValue').textContent='Verificar';document.getElementById('fxSub').textContent='Fuente externa no disponible';}}
-    function renderBrands(filter='Todas'){const list=filter==='Todas'?brands:brands.filter(b=>b.name===filter);document.getElementById('brandCards').innerHTML=list.map(b=>`<article class="card brand-card"><div class="head"><div><div class="brand-name">${b.name}</div><small>${b.foco}</small></div><div class="score">${b.score}</div></div><div class="bar"><span style="width:${b.score}%"></span></div><div class="mini-grid"><div class="mini"><small>Segmento clave</small><b>${b.segmento}</b></div><div class="mini"><small>Dato que sostiene</small><b>${b.data}</b></div></div><div class="insight">${b.lectura}</div></article>`).join('');}
-    function renderChips(){const names=['Todas',...brands.map(b=>b.name)];document.getElementById('brandChips').innerHTML=names.map((n,i)=>`<button class="chip ${i===0?'active':''}" onclick="selectBrand(this,'${n}')">${n}</button>`).join('');}
+      const queries=['mercado automotriz peru','AAP vehiculos peru','SUV electrificados peru'];
+      const baseQuery=encodeURIComponent(queries.join(' OR ')+' when:14d');
+      const rss=`https://news.google.com/rss/search?q=${baseQuery}&hl=es-419&gl=PE&ceid=PE:es-419`;
+      const endpoints=[
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(rss)}`,
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rss)}`
+      ];
+      try{
+        let items=[];
+        for(const endpoint of endpoints){
+          const res=await fetch(endpoint,{cache:'no-store'});
+          if(!res.ok) continue;
+          if(endpoint.includes('rss2json')){
+            const data=await res.json();
+            items=(data.items||[]).map(item=>({
+              title:item.title||'',
+              source:item.author || item.source || 'Google News',
+              date:item.pubDate ? new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Lima'}).format(new Date(item.pubDate)) : 'Reciente',
+              link:item.link || '#',
+              summary:'Señal reciente para seguimiento ejecutivo del mercado automotriz peruano.'
+            }));
+          } else {
+            const xml=await res.text();
+            const doc=new DOMParser().parseFromString(xml,'text/xml');
+            items=[...doc.querySelectorAll('item')].map(item=>{const rawTitle=item.querySelector('title')?.textContent||'';const parts=rawTitle.split(' - ');const source=parts.length>1?parts.pop():'Google News';const title=parts.join(' - ')||rawTitle;const dateRaw=item.querySelector('pubDate')?.textContent;const date=dateRaw?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Lima'}).format(new Date(dateRaw)):'Reciente';return{title,source,date,link:item.querySelector('link')?.textContent||'#',summary:'Señal reciente para seguimiento ejecutivo del mercado automotriz peruano.'}});
+          }
+          items=items.filter(n=>{const hay=(n.title+' '+(n.source||'')).toLowerCase();return ['perú','peru','vehículo','vehiculos','automotor','automotriz','aap','sunarp','suv','electrificado','auto'].some(w=>hay.includes(w));});
+          if(items.length) break;
+        }
+        const preferred=items.filter(n=>seriousSources.some(s=>(n.source||'').toLowerCase().includes(s.toLowerCase())));
+        const finalNews=(preferred.length?preferred:items).slice(0,5);
+        if(!finalNews.length) throw new Error('Sin noticias filtradas');
+        renderNews(finalNews);
+        document.getElementById('newsStatus').textContent='actualizado';
+        setUpdate('Última actualización');
+      }catch(e){
+        renderNews(fallbackNews);
+        document.getElementById('newsStatus').textContent='curado';
+        setUpdate('Última revisión');
+      }
+    }
+
+    async function fetchFX(){
+      try{const res=await fetch('https://open.er-api.com/v6/latest/USD',{cache:'no-store'});const data=await res.json();const pen=data?.rates?.PEN;if(pen){const val=`S/ ${Number(pen).toFixed(3)}`;document.getElementById('fxValue').textContent=val;document.getElementById('fxMarket').textContent=val;document.getElementById('fxSub').textContent='USD/PEN · actualizado en vivo';document.getElementById('fxMarketSub').textContent=`USD/PEN actualizado automáticamente · ${peNow()}`;return;}}catch(e){}
+      document.getElementById('fxValue').textContent='S/ 3.70';
+      document.getElementById('fxMarket').textContent='S/ 3.70';
+      document.getElementById('fxSub').textContent='USD/PEN · referencia';
+      document.getElementById('fxMarketSub').textContent='USD/PEN de referencia si la fuente externa no responde.';
+    }
+
+    function renderBrands(filter='Todas'){
+      const list=filter==='Todas'?brands:brands.filter(b=>b.name===filter);
+      document.getElementById('brandCards').innerHTML=list.map(b=>`<article class="card brand-card"><div class="head"><div><div class="brand-name">${b.name}</div><small>${b.foco}</small></div><div class="state ${b.state==='alta'?'alta':'media'}">Oportunidad ${b.level.toLowerCase()}</div></div><div class="bar"><span style="width:${b.score}%"></span></div><div class="mini-grid"><div class="mini"><small>Segmento clave</small><b>${b.segmento}</b></div><div class="mini"><small>Dato que sostiene</small><b>${b.data}</b></div></div><div class="insight">${b.lectura}</div></article>`).join('');
+    }
+    function renderChips(){
+      const chipClass={'Kia':'kia','Chery':'chery','MG':'mg','Mitsubishi':'mitsubishi','Peugeot':'peugeot','GAC Motor':'gac'};
+      const names=['Todas',...brands.map(b=>b.name)];
+      document.getElementById('brandChips').innerHTML=names.map((n,i)=>`<button class="chip ${chipClass[n]||''} ${i===0?'active':''}" onclick="selectBrand(this,'${n}')">${n}</button>`).join('');
+    }
     function selectBrand(btn,name){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderBrands(name);}
-    function renderCompetitors(){document.getElementById('competitorRows').innerHTML=competitors.map(c=>`<tr><td>${c.name}</td><td>${c.territory}</td><td>${c.data}</td><td>${c.score}/100</td></tr>`).join('');document.getElementById('competitorInsights').innerHTML=competitors.map(c=>`<article class="card"><div class="row"><b>${c.name}</b><span class="pill">${c.score}/100</span></div><div class="insight">${c.insight}</div></article>`).join('');}
+
+    function renderCompetition(){
+      document.getElementById('competitorChart').innerHTML=chartData.map(item=>`<div class="bar-item"><label>${item.label}</label><div class="bar-track"><div class="bar-fill" style="width:${Math.min(item.value,100)}%"></div></div><div class="bar-val">${item.display}</div></div>`).join('');
+      document.getElementById('competitorInsights').innerHTML=competitors.map(c=>`<article class="card comp-card"><div class="meta"><h4>${c.name}</h4><span>${c.metric}</span></div><p><b>${c.territory}.</b> ${c.insight}</p></article>`).join('');
+    }
+
     function renderActions(){document.getElementById('actions').innerHTML=actions.map(a=>`<article class="card action-card"><h3>${a.title}</h3><p>${a.desc}</p><div class="action-meta">${a.tags.map(t=>`<span class="badge">${t}</span>`).join('')}</div></article>`).join('');}
     function refreshAll(){setUpdate('Actualizando');fetchFX();fetchNews();}
     document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+btn.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}));
     if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
-    renderChips();renderBrands();renderCompetitors();renderActions();refreshAll();
+    renderChips();renderBrands();renderCompetition();renderActions();refreshAll();
   </script>
 </body>
 </html>
