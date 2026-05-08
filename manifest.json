@@ -1,25 +1,14 @@
 {
-  "name": "Supervivencia para Guitarristas by Daniel Flores Music",
-  "short_name": "Supervivencia",
-  "description": "App de práctica diaria para guitarristas con retos, acordes, licks y ruta de aprendizaje de Daniel Flores Music.",
+  "name": "Astara Growth Radar",
+  "short_name": "Astara Radar",
+  "description": "Radar ejecutivo del mercado automotriz peruano para lectura móvil.",
   "start_url": "./index.html",
-  "scope": "./",
   "display": "standalone",
-  "background_color": "#D7AE98",
-  "theme_color": "#D7AE98",
+  "background_color": "#f6f5f8",
+  "theme_color": "#170f2d",
   "orientation": "portrait",
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"assets/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"assets/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
