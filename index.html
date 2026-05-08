@@ -1,276 +1,1767 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#170f2d" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Astara Growth Radar" />
-  <meta name="application-name" content="Astara Growth Radar" />
-  <meta name="description" content="Radar ejecutivo móvil para consolidar señales públicas del mercado automotor peruano relevantes para Astara." />
-  <title>Astara Growth Radar</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
-  <style>
-    :root{--bg:#f7f6fa;--ink:#151127;--muted:#746d82;--soft:#f1eef8;--line:#e6e1ee;--card:#fff;--brand:#1c1332;--brand2:#2c174e;--accent:#6e4bc7;--green:#0b8f5a;--amber:#b7791f;--red:#b44419;--shadow:0 16px 35px rgba(24,16,45,.09);--radius:24px}
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif}
-    body{min-height:100vh;overflow-x:hidden}
-    .app{width:min(470px,100%);margin:0 auto;min-height:100vh;padding:18px 16px 96px}
-    .topbar{display:flex;align-items:center;gap:12px;padding:10px 0 12px}
-    .appicon{width:42px;height:42px;border-radius:13px;box-shadow:0 10px 22px rgba(28,19,50,.18);flex:0 0 auto}
-    .apptitle{display:flex;flex-direction:column;line-height:1}
-    .apptitle strong{font-size:22px;letter-spacing:-.04em;color:var(--brand)}
-    .apptitle span{font-size:18px;letter-spacing:-.04em;color:var(--brand);font-weight:850;margin-top:2px}
-    .sync{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(255,255,255,.86);border:1px solid var(--line);box-shadow:0 10px 24px rgba(22,16,44,.04);border-radius:18px;padding:12px 13px;margin-bottom:12px}
-    .status{display:flex;gap:8px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:999px;background:var(--green);margin-top:5px;box-shadow:0 0 0 4px rgba(11,143,90,.12)}
-    .sync b{font-size:13px}.sync small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px;line-height:1.35}
-    .refresh{border:0;background:var(--brand);color:white;border-radius:999px;padding:10px 13px;font-size:11.5px;font-weight:900;white-space:nowrap}
-    .screen{display:none}.screen.active{display:block}
-    .hero{position:relative;overflow:hidden;border-radius:28px;padding:23px 20px;margin:8px 0 15px;color:white;min-height:162px;background:radial-gradient(circle at 82% 42%,rgba(143,111,230,.65),transparent 28%),linear-gradient(135deg,#1b1230 0%,#261541 55%,#100c20 100%);box-shadow:var(--shadow)}
-    .hero:before{content:"";position:absolute;right:-65px;bottom:-95px;width:240px;height:240px;border-radius:50%;border:1px solid rgba(255,255,255,.15);box-shadow:0 0 0 32px rgba(255,255,255,.035),0 0 0 64px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.018)}
-    .hero:after{content:"";position:absolute;right:28px;top:55px;width:150px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.75),transparent);transform:rotate(-24deg);transform-origin:right center}
-    .eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.7);font-weight:900}.hero h1{font-size:28px;line-height:1.03;margin:10px 0 10px;letter-spacing:-.045em;max-width:250px}.hero p{font-size:14px;line-height:1.36;color:rgba(255,255,255,.84);max-width:270px;margin:0}
-    .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:20px 2px 10px}.section-title h2{font-size:20px;letter-spacing:-.035em;margin:0}.section-title small{color:var(--muted);font-weight:800;font-size:11.5px;text-align:right}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;overflow:hidden}
-    .kpi .label{font-size:12.5px;color:var(--muted);font-weight:900}.kpi .value{font-size:27px;line-height:1;font-weight:950;letter-spacing:-.055em;margin:10px 0 7px;white-space:nowrap;color:var(--brand)}.kpi .sub{font-size:11.7px;color:var(--muted);line-height:1.26}
-    .badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:6px 9px;background:#f0edfb;color:var(--accent);font-size:10.5px;font-weight:950}.badge.green{background:#e9f8f1;color:var(--green)}.badge.amber{background:#fff3dd;color:#8a5600}
-    .readbox h3{font-size:18px;letter-spacing:-.03em;margin:0 0 8px}.readbox p{font-size:13.6px;line-height:1.46;margin:0;color:#403a52}
-    .legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
-    .stack{display:flex;flex-direction:column;gap:12px}.row{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.metric-row{padding:13px 0;border-bottom:1px solid var(--line)}.metric-row:last-child{border-bottom:0}.metric-row b{font-size:13.6px}.metric-row small{display:block;color:var(--muted);font-size:11.7px;margin-top:3px;line-height:1.32}
-    .pill{border-radius:999px;padding:7px 9px;background:#f4f2f8;font-size:11.5px;font-weight:950;color:var(--brand);white-space:nowrap}.positive{color:var(--green)}.warning{color:var(--amber)}.danger{color:var(--red)}
-    .news-card{display:flex;flex-direction:column;gap:8px}.news-top{display:flex;justify-content:space-between;gap:12px}.date{font-size:10.5px;color:var(--muted);font-weight:800}.news-card h3{font-size:15.5px;line-height:1.22;margin:0;letter-spacing:-.02em}.news-card p{font-size:12.6px;line-height:1.36;color:var(--muted);margin:0}.news-link{display:inline-flex;align-items:center;gap:6px;width:max-content;margin-top:2px;color:var(--brand);font-size:12.6px;font-weight:950;text-decoration:none}
-    .compare-controls{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-    .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:0 14px;height:42px;font-size:13px;font-weight:950;color:var(--brand);white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-width:78px}
-    .chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}
-    .chip.kia{font-weight:900;letter-spacing:.04em}.chip.chery{font-weight:800}.chip.mg{font-weight:950}.chip.mitsubishi{font-size:12px}.chip.peugeot{font-style:italic}.chip.gac{font-size:12px}
-    .method{font-size:11.5px;color:var(--muted);line-height:1.4}
-    .brand-card .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.brand-name{font-size:20px;font-weight:950;letter-spacing:-.05em}.state{font-size:11px;font-weight:900;border-radius:999px;background:#f2eefb;color:var(--brand);padding:7px 10px}.state.alta{background:#ebf8f0;color:#0d8e5d}.state.media{background:#fff3dd;color:#8a5600}.bar{height:8px;border-radius:999px;background:#ece8f5;overflow:hidden;margin:13px 0}.bar span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--accent))}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.mini{border:1px solid var(--line);border-radius:16px;padding:10px;background:#fbfaff}.mini small{display:block;color:var(--muted);font-size:9.5px;font-weight:950;text-transform:uppercase;letter-spacing:.06em}.mini b{font-size:12.5px}.insight{border-left:4px solid var(--accent);padding:10px 12px;background:#f6f2ff;border-radius:14px;margin-top:12px;color:#413755;font-size:12.7px;line-height:1.37}
-    .chart-card h3{font-size:16px;letter-spacing:-.03em;margin:0 0 10px}.chart-card p{font-size:12px;color:var(--muted);margin:0 0 10px;line-height:1.4}
-    .bars{display:flex;flex-direction:column;gap:12px;margin-top:8px}.bar-item{display:grid;grid-template-columns:105px 1fr auto;gap:10px;align-items:center}.bar-item label{font-size:12px;font-weight:850;color:var(--ink)}.bar-track{height:12px;background:#efeaf9;border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,#2f1a55,#7f5be2);border-radius:inherit}.bar-val{font-size:11.5px;font-weight:900;color:var(--brand);white-space:nowrap}
-    .comp-grid{display:grid;grid-template-columns:1fr;gap:12px}.comp-card h4{margin:0 0 6px;font-size:16px;letter-spacing:-.03em}.comp-card .meta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}.comp-card .meta span{font-size:11px;color:var(--muted);font-weight:850}.comp-card p{margin:0;color:#403a52;font-size:12.8px;line-height:1.42}
-    .action-card h3{font-size:17px;margin:0 0 7px;letter-spacing:-.03em}.action-card p{font-size:13.3px;color:#403a52;line-height:1.44;margin:0 0 12px}.action-meta{display:flex;flex-wrap:wrap;gap:8px}
-    .details{border:1px solid var(--line);background:white;border-radius:20px;padding:0;overflow:hidden}.details summary{cursor:pointer;list-style:none;padding:16px;font-weight:950}.details summary::-webkit-details-marker{display:none}.details .body{border-top:1px solid var(--line);padding:14px 16px;color:var(--muted);font-size:12px;line-height:1.45}
-    .footer{font-size:10.8px;text-align:center;color:#8b8598;margin:18px 0 4px}
-    .tabs{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(470px,100%);height:74px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
-    .tab{border:0;background:transparent;color:#847f91;border-radius:16px;font-size:10.5px;font-weight:850;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.tab svg{width:21px;height:21px}.tab.active{color:var(--brand);background:#f2eefb}
-    @media(max-width:385px){.app{padding-left:12px;padding-right:12px}.apptitle strong{font-size:20px}.apptitle span{font-size:16px}.grid{grid-template-columns:1fr}.hero h1{font-size:25px}.tabs{height:70px}.tab{font-size:9.5px}.tab svg{width:19px;height:19px}.mini-grid{grid-template-columns:1fr}.bar-item{grid-template-columns:92px 1fr auto}}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="theme-color" content="#D7AE98"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Supervivencia"/>
+<meta name="description" content="Supervivencia para Guitarristas by Daniel Flores Music: retos cortos, ruta diaria y práctica interactiva para dejar de tocar al azar."/>
+<title>Supervivencia para Guitarristas by Daniel Flores Music</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+
+<!-- GA4: reemplaza G-XXXXXXXXXX con tu ID real -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script> -->
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#D7AE98;
+  --s1:#FFF8F1;
+  --s2:#F1DED2;
+  --s3:#E7CCBB;
+  --border:#D7B7A5;
+  --border2:#CFAE9A;
+  --text:#171717;
+  --muted:#8A8172;
+  --muted2:#6F6A60;
+  --gold:#D99A2B;
+  --gold2:#A96F12;
+  --fire:#D9480F;
+  --green:#2F9E44;
+  --blue:#3563D8;
+  --pat:#F96854;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;}
+button{font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;border:none;background:none;color:inherit;}
+input{font-family:'Plus Jakarta Sans',sans-serif;outline:none;}
+
+#app{
+  display:flex;flex-direction:column;height:100vh;height:100dvh;
+  max-width:430px;margin:0 auto;position:relative;overflow:hidden;
+}
+
+/* ── SCREENS ── */
+.screen{
+  position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);
+  transition:transform 0.32s cubic-bezier(.4,0,.2,1),opacity 0.32s;overflow:hidden;
+}
+.screen.hidden{transform:translateX(108%);opacity:0;pointer-events:none;}
+.screen.prev{transform:translateX(-108%);opacity:0;pointer-events:none;}
+
+/* ── SCROLL ── */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:112px;overscroll-behavior:contain;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ── TOPBAR ── */
+.topbar{
+  flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+  padding:13px 20px;background:rgba(215,174,152,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);z-index:10;
+}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:3px;color:var(--gold);}
+.ico{width:36px;height:36px;border-radius:10px;background:var(--s2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:15px;transition:transform .15s;}
+.ico:active{transform:scale(.9);}
+
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(215,174,152,0.96);backdrop-filter:blur(24px);
+  border-top:1px solid var(--border);
+  display:flex;padding:6px 0 max(8px,env(safe-area-inset-bottom));z-index:50;
+}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:5px 2px;font-size:9px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;color:var(--muted);transition:color .2s;position:relative;}
+.nb.on{color:var(--gold);}
+.nb.on::before{content:'';position:absolute;top:-1px;left:30%;right:30%;
+  height:2px;background:var(--gold);border-radius:0 0 2px 2px;}
+.ni{font-size:20px;line-height:1;}
+
+/* ── CARDS ── */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:18px;}
+.card2{background:var(--s2);border:1px solid var(--border2);border-radius:13px;padding:15px;}
+
+/* ── BUTTONS ── */
+.btn{width:100%;padding:15px;border-radius:13px;font-size:15px;font-weight:700;
+  transition:transform .15s,opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn:active{transform:scale(.97);}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-ghost{background:transparent;border:1.5px solid var(--border2);color:var(--text);}
+.btn-ghost:active{background:var(--s2);}
+.btn-pat{background:linear-gradient(135deg,#f96854,#e04030);color:#fff;box-shadow:0 4px 20px rgba(249,104,84,.28);}
+
+/* ── INPUT ── */
+.field{
+  background:var(--s2);border:1.5px solid var(--border2);border-radius:13px;
+  padding:14px 16px;font-size:15px;color:var(--text);width:100%;
+  transition:border-color .2s;
+}
+.field:focus{border-color:var(--gold);}
+.field::placeholder{color:var(--muted);}
+.field-label{font-size:12px;font-weight:600;color:var(--muted2);margin-bottom:6px;display:block;letter-spacing:.3px;}
+
+/* ── PROGRESS ── */
+.pbar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.pfill{height:100%;border-radius:2px;transition:width .6s ease;}
+
+/* ── DOTS ── */
+.sdots{display:flex;gap:5px;justify-content:center;padding:10px 0;}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:all .3s;}
+.sdot.active{background:var(--gold);width:16px;border-radius:3px;}
+.sdot.done{background:var(--green);}
+
+/* ── CHORD ── */
+.cgrid{border-radius:10px;overflow:hidden;border:1px solid var(--border2);}
+.crow{display:flex;border-bottom:1px solid var(--border);}
+.crow:last-child{border-bottom:none;}
+.ccell{flex:1;height:36px;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;}
+.ccell:last-child{border-right:none;}
+.cfing{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#000;
+  font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+
+/* ── FRETBOARD ── */
+.fboard{background:var(--s2);border-radius:12px;padding:12px;overflow-x:auto;}
+.fstr{display:flex;align-items:center;height:30px;}
+.fopen{width:26px;text-align:center;font-size:9px;color:var(--muted2);font-weight:600;flex-shrink:0;}
+.ffret{width:44px;height:30px;border-left:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ffret.nut{border-left:3px solid var(--muted2);}
+.fnote{width:23px;height:23px;border-radius:50%;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;}
+.fnote.root{background:var(--fire);color:#fff;}
+.fnote.scl{background:var(--gold);color:#000;}
+
+/* ── METRO ── */
+.mbeat{width:12px;height:12px;border-radius:50%;background:var(--border2);transition:all .05s;}
+.mbeat.h1{background:var(--fire);box-shadow:0 0 8px rgba(232,85,32,.7);}
+.mbeat.hit{background:var(--gold);box-shadow:0 0 8px rgba(240,192,64,.5);}
+
+/* ── LICK TAB ── */
+.ltab{background:var(--s2);border-radius:10px;padding:14px 12px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;overflow-x:auto;
+  white-space:nowrap;color:var(--blue);line-height:1.7;}
+.lrow{display:flex;align-items:center;}
+.lsl{width:14px;color:var(--muted);font-size:10px;flex-shrink:0;margin-right:4px;}
+
+/* ── PLAY BTN ── */
+.play-btn{display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px;border-radius:12px;background:var(--s2);border:1px solid var(--border2);
+  font-size:14px;font-weight:600;width:100%;transition:all .15s;}
+.play-btn:active{background:var(--s3);}
+.play-btn.on{border-color:var(--green);color:var(--green);}
+
+/* ── TIMER RING ── */
+.tring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+.tring svg{transform:rotate(-90deg);}
+.tlabel{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:2px;}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(--s2);border-radius:12px;padding:4px;margin-bottom:16px;}
+.tab{flex:1;padding:8px 4px;border-radius:8px;font-size:12px;font-weight:600;
+  color:var(--muted2);text-align:center;transition:all .2s;}
+.tab.on{background:var(--s1);color:var(--text);}
+
+/* ── LESSON ROW ── */
+.lrow-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:var(--s1);border:1px solid var(--border);border-radius:14px;
+  margin-bottom:8px;width:100%;text-align:left;transition:border-color .2s;}
+.lrow-btn:active{border-color:var(--border2);}
+
+/* ── OPTION BTN ── */
+.opt{width:100%;padding:14px 16px;background:var(--s1);border:1.5px solid var(--border);
+  border-radius:14px;text-align:left;display:flex;align-items:center;gap:12px;
+  transition:all .2s;margin-bottom:8px;}
+.opt.sel,.opt:active{border-color:var(--gold);background:rgba(240,192,64,.05);}
+
+/* ── ANIMS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}65%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes xpf{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-48px)}}
+@keyframes pulse2{0%,100%{opacity:.8}50%{opacity:.2}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(240,192,64,0)}50%{box-shadow:0 0 20px 4px rgba(240,192,64,.2)}}
+
+.fu{animation:fadeUp .4s ease both;}
+.fu2{animation:fadeUp .4s .1s ease both;}
+.fu3{animation:fadeUp .4s .2s ease both;}
+.fu4{animation:fadeUp .4s .3s ease both;}
+.fu5{animation:fadeUp .4s .4s ease both;}
+.pop{animation:pop .35s ease both;}
+
+.xppop{position:fixed;font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);
+  pointer-events:none;z-index:9999;animation:xpf 1.1s ease forwards;}
+
+/* ── HOME SPECIFIC ── */
+.home-hero{
+  background:linear-gradient(160deg,#0f0f18 0%,#0a0a10 100%);
+  border:1px solid var(--border2);border-radius:20px;padding:22px;
+  position:relative;overflow:hidden;
+}
+.home-hero::after{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(240,192,64,.1),transparent 70%);
+  pointer-events:none;
+}
+.streak-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(232,85,32,.12);border:1px solid rgba(232,85,32,.25);
+  border-radius:100px;padding:5px 12px;
+}
+.belt-ring{
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1px;
+  flex-shrink:0;border:2px solid currentColor;
+}
+.daily-card{
+  border:1px solid var(--border2);border-radius:18px;padding:20px;
+  background:linear-gradient(145deg,var(--s2),var(--s1));
+  position:relative;overflow:hidden;
+}
+.daily-card::before{
+  content:'HOY';position:absolute;top:16px;right:16px;
+  font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;
+  color:var(--gold);opacity:.5;
+}
+.quick-action{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:var(--s1);border:1px solid var(--border);border-radius:14px;
+  width:100%;text-align:left;transition:all .2s;
+}
+.quick-action:active{border-color:var(--border2);background:var(--s2);}
+
+/* ── DANIEL QUOTE ── */
+.daniel-q{
+  border-left:3px solid var(--gold);padding-left:14px;
+  font-size:14px;color:var(--muted2);line-height:1.7;font-style:italic;
+}
+
+/* ── COMMUNITY BANNER ── */
+.com-banner{
+  background:linear-gradient(135deg,rgba(249,104,84,.1),rgba(220,60,40,.06));
+  border:1px solid rgba(249,104,84,.22);border-radius:18px;padding:20px;
+}
+
+
+/* ── PRACTICE VISUALS ── */
+.practice-visual{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:14px;margin:12px 0 14px;overflow:hidden;}
+.practice-visual.dark{background:#2f3030;border-color:#333;color:#fff;}
+.mini-chord{background:#2f3030;border-radius:16px;padding:13px;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);}
+.mini-chord-title{font-size:11px;font-weight:900;color:#E4BD60;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.mini-diag{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,24px);position:relative;border-top:4px solid rgba(255,248,241,.9);margin:0 auto;max-width:260px;}
+.mini-diag .v{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,248,241,.82);transform:translateX(-1px);}
+.mini-diag .h{position:absolute;left:0;right:0;height:2px;background:rgba(255,248,241,.72);transform:translateY(-1px);}
+.mini-diag .dot{position:absolute;width:24px;height:24px;border-radius:50%;background:#D99A2B;box-shadow:0 2px 8px rgba(0,0,0,.24);transform:translate(-50%,-50%);}
+.mini-scale{background:#2f3030;border-radius:16px;padding:14px;color:#fff;}
+.mini-scale-grid{display:grid;grid-template-columns:28px repeat(4,1fr);gap:0;max-width:300px;margin:8px auto 0;}
+.mini-scale-cell{height:24px;border-left:1px solid rgba(255,248,241,.28);border-bottom:1px solid rgba(255,248,241,.18);display:flex;align-items:center;justify-content:center;}
+.mini-scale-label{font-size:9px;color:rgba(255,248,241,.65);display:flex;align-items:center;justify-content:center;}
+.mini-note{width:18px;height:18px;border-radius:50%;background:#D99A2B;color:#111;font-size:8px;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.mini-note.root{background:#D9480F;color:white;}
+.audio-nudge{position:fixed;left:16px;right:16px;bottom:78px;background:#171717;color:#fff;border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:10px;z-index:999;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.25);}
+.audio-nudge.show{display:flex;}
+.audio-nudge button{margin-left:auto;background:var(--gold);color:#111;border-radius:12px;padding:9px 12px;font-weight:900;font-size:12px;}
+
+/* ── REGISTER ── */
+.reg-step{display:flex;flex-direction:column;gap:16px;}
+/* ── BRAND / DIAGNOSTIC ── */
+.brand-app{font-family:'Bebas Neue',sans-serif;letter-spacing:2.6px;color:var(--gold);line-height:.92;}
+.brand-sub{font-size:10px;color:var(--muted2);letter-spacing:1.1px;text-transform:uppercase;font-weight:700;}
+.diag-card{background:linear-gradient(155deg,var(--s2),var(--s1));border:1px solid var(--border2);border-radius:20px;padding:20px;}
+.diag-kicker{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.diag-title{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1;letter-spacing:.5px;margin-bottom:10px;}
+.diag-sub{font-size:14px;color:var(--muted2);line-height:1.65;margin-bottom:18px;}
+.diag-option{width:100%;padding:15px 16px;background:var(--s1);border:1.5px solid var(--border);border-radius:15px;text-align:left;display:flex;gap:12px;align-items:flex-start;margin-bottom:9px;transition:all .18s;}
+.diag-option:active{transform:scale(.98);border-color:var(--gold);background:rgba(240,192,64,.06);}
+.diag-emoji{font-size:23px;width:28px;flex-shrink:0;text-align:center;}
+.diag-option-title{font-size:14px;font-weight:750;margin-bottom:3px;}
+.diag-option-desc{font-size:12px;color:var(--muted2);line-height:1.45;}
+.mini-pill{display:inline-flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--border2);border-radius:999px;padding:6px 10px;font-size:11px;color:var(--muted2);font-weight:700;}
+.route-card{background:linear-gradient(145deg,rgba(240,192,64,.12),rgba(232,85,32,.05));border:1px solid rgba(240,192,64,.22);border-radius:18px;padding:18px;}
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tool-tile{background:var(--s1);border:1px solid var(--border);border-radius:15px;padding:14px;text-align:left;min-height:92px;}
+
+
+
+/* ── HOME V5: feels like an app, not a landing ── */
+.app-home-shell{padding:14px 16px 112px;}
+.app-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.app-greeting{font-size:13px;color:var(--muted2);font-weight:700;letter-spacing:.2px;}
+.app-name{font-size:20px;font-weight:850;color:var(--text);line-height:1.1;margin-top:2px;}
+.app-avatar{width:38px;height:38px;border-radius:14px;background:var(--s2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:850;color:var(--gold);}
+.app-icon-img{width:40px;height:40px;border-radius:12px;object-fit:cover;display:block;box-shadow:0 8px 18px rgba(56,40,18,.14);background:#D7AE98;}
+.app-icon-img-lg{width:58px;height:58px;border-radius:17px;object-fit:cover;display:block;box-shadow:0 10px 28px rgba(56,40,18,.16);background:#D7AE98;}
+.app-status-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+.app-stat{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:10px 11px;min-height:62px;}
+.app-stat-value{font-size:17px;font-weight:900;line-height:1.1;}
+.app-stat-label{font-size:10px;color:var(--muted2);font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-top:5px;}
+.app-main-card{background:linear-gradient(160deg,#FFFFFF 0%,#FAF4E8 58%,#F1E6D4 100%);border:1px solid rgba(240,192,64,.24);border-radius:24px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:0 14px 38px rgba(56,40,18,.10);}
+.app-main-card::after{content:'';position:absolute;right:-38px;top:-44px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(240,192,64,.16),transparent 70%);pointer-events:none;}
+.app-card-kicker{font-size:10px;font-weight:900;color:var(--gold);letter-spacing:1.6px;text-transform:uppercase;margin-bottom:12px;}
+.app-practice-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative;z-index:1;}
+.app-practice-icon{width:58px;height:58px;border-radius:20px;background:rgba(240,192,64,.11);border:1px solid rgba(240,192,64,.24);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.app-practice-title{font-size:22px;font-weight:900;letter-spacing:-.4px;line-height:1.08;margin-bottom:5px;}
+.app-practice-desc{font-size:12px;color:var(--muted2);line-height:1.45;}
+.app-action-btn{width:100%;padding:15px 16px;border-radius:16px;background:var(--gold);color:#000;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1;box-shadow:0 8px 22px rgba(240,192,64,.16);}
+.app-action-btn.done{background:var(--s2);border:1px solid var(--border2);color:var(--muted2);box-shadow:none;}
+.app-section-title{display:flex;align-items:center;justify-content:space-between;margin:15px 2px 9px;}
+.app-section-title span:first-child{font-size:11px;font-weight:900;color:var(--muted2);letter-spacing:1.3px;text-transform:uppercase;}
+.app-section-title button{font-size:11px;color:var(--gold);font-weight:850;}
+.app-route-compact{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px;}
+.app-route-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.app-route-progress{height:7px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:10px;}
+.app-route-progress>div{height:100%;background:linear-gradient(90deg,var(--gold),var(--fire));border-radius:999px;}
+.app-tool-dock{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.app-tool{background:var(--s1);border:1px solid var(--border);border-radius:17px;min-height:76px;padding:10px 6px;text-align:center;}
+.app-tool div:first-child{font-size:23px;margin-bottom:6px;}
+.app-tool div:last-child{font-size:10px;color:var(--muted2);font-weight:850;letter-spacing:.2px;}
+.app-mini-feed{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px;}
+.app-feed-btn{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:11px;text-align:left;width:100%;}
+.app-feed-ico{width:34px;height:34px;border-radius:12px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.app-feed-title{font-size:13px;font-weight:850;margin-bottom:2px;}
+.app-feed-sub{font-size:11px;color:var(--muted2);line-height:1.35;}
+.app-patreon-strip{background:linear-gradient(135deg,rgba(249,104,84,.12),rgba(249,104,84,.04));border:1px solid rgba(249,104,84,.22);border-radius:18px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:4px;}
+.app-patreon-strip button{margin-left:auto;background:rgba(249,104,84,.12);border:1px solid rgba(249,104,84,.32);color:var(--pat);border-radius:12px;padding:10px 12px;font-size:12px;font-weight:900;white-space:nowrap;}
+
+</style>
 </head>
 <body>
-  <main class="app">
-    <header class="topbar">
-      <img src="assets/icon-192.png" class="appicon" alt="Astara icon" />
-      <div class="apptitle"><strong>Astara</strong><span>Growth Radar</span></div>
-    </header>
+<div id="app">
 
-    <section class="sync">
-      <div class="status"><span class="dot"></span><div><b>Radar automatizado</b><small id="lastUpdate">Cargando señales...</small></div></div>
-      <button class="refresh" onclick="refreshAll()">Actualizar</button>
-    </section>
+<!-- ═══════════ WELCOME ═══════════ -->
+<div class="screen" id="s-welcome">
+<div class="scroll" style="padding-bottom:0;">
+  <div style="min-height:100dvh;display:flex;flex-direction:column;">
 
-    <section class="screen active" id="screen-hoy">
-      <div class="hero"><span class="eyebrow">Perú · CEO view</span><h1>Resumen de hoy</h1><p>Un solo lugar para leer mercado, segmentos, marcas Astara, competidores y señales externas.</p></div>
-      <div class="grid">
-        <article class="card kpi"><div class="label">Livianos nuevos</div><div class="value">62,094</div><div class="sub"><b class="positive">+37.3%</b> vs. 2025 · Q1</div></article>
-        <article class="card kpi"><div class="label">SUV</div><div class="value">33,728</div><div class="sub"><b class="positive">+49.7%</b> · 54.3% de livianos</div></article>
-        <article class="card kpi"><div class="label">Origen chino</div><div class="value">51.8%</div><div class="sub">de ventas totales de livianos</div></article>
-        <article class="card kpi"><div class="label">Electrificados</div><div class="value">3,627</div><div class="sub"><b class="positive">+77.3%</b> · 5.2% del sector</div></article>
-        <article class="card kpi"><div class="label">Tipo de cambio</div><div class="value" id="fxValue">--</div><div class="sub" id="fxSub">USD/PEN · actualización automática</div></article>
-        <article class="card kpi"><div class="label">Precios vehículos</div><div class="value">-7.3%</div><div class="sub">vs. 2025 · presión sobre ticket y margen</div></article>
+    <div style="padding:22px 24px 0;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="brand-app" style="font-size:20px;">SUPERVIVENCIA</div>
+        <div class="brand-sub">para Guitarristas · by Daniel Flores Music</div>
+      </div>
+      <img class="app-icon-img" src="icons/icon-192.png?v=8" alt="Supervivencia"/>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:32px 24px 24px;">
+      <div class="fu" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;">
+        <span class="mini-pill">5 min al día</span>
+        <span class="mini-pill">Retos cortos</span>
+        <span class="mini-pill">Ruta por nivel</span>
       </div>
 
-      <div class="section-title"><h2>Lectura ejecutiva</h2><small></small></div>
-      <article class="card readbox">
-        <h3>La oportunidad no está en “más mercado”, sino en capturar el mix correcto.</h3>
-        <p>El crecimiento de livianos es fuerte, pero el dato accionable para Astara es la concentración: SUV lidera volumen y crecimiento, las marcas de origen chino ya dominan más de la mitad del mercado y electrificados aceleran, aunque todavía pesan poco. La batalla será portafolio + confianza + financiamiento + respaldo, no solo disponibilidad de modelos.</p>
-        <div class="legend"><span class="badge">SUV</span><span class="badge">China brands</span><span class="badge">Electrificación</span><span class="badge amber">Margen/precio</span></div>
-      </article>
-
-      <div class="section-title"><h2>Noticias del sector</h2><small id="newsStatus">top signals</small></div>
-      <div class="stack" id="homeNews"><div class="card">Cargando noticias...</div></div>
-    </section>
-
-    <section class="screen" id="screen-mercado">
-      <div class="section-title"><h2>Radar de mercado</h2><small>Q1 2026 · Perú</small></div>
-      <div class="stack">
-        <article class="card">
-          <div class="metric-row"><div class="row"><div><b>Vehículos livianos</b><small>62,094 unidades vendidas en Q1; crecimiento de 37.3% vs. 2025.</small></div><span class="pill positive">+37.3%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>SUV: campo de batalla</b><small>33,728 unidades; mayor volumen y mayor crecimiento anual. Representa 54.3% de livianos.</small></div><span class="pill positive">+49.7%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Camionetas</b><small>La categoría crece 46% y confirma demanda en tickets altos y usos familiares/empresa.</small></div><span class="pill positive">+46%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Pickups y furgonetas</b><small>Lectura B2B: minería, agro, construcción y operación regional siguen empujando renovación.</small></div><span class="pill positive">+36%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Origen chino</b><small>Ya representa 51.8% de livianos. Relevante para Chery, MG y GAC dentro del portafolio Astara.</small></div><span class="pill">51.8%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Electrificados</b><small>3,627 unidades; HEV y MHEV lideran la transición. La oportunidad es vender costo total y uso, no solo “electricidad”.</small></div><span class="pill positive">+77.3%</span></div></div>
-          <div class="metric-row"><div class="row"><div><b>Q2: probable desaceleración</b><small>Variables críticas a vigilar: tipo de cambio, petróleo y contexto político/climático.</small></div><span class="pill warning">vigilar</span></div></div>
-        </article>
-        <article class="card readbox">
-          <h3>Insight para Astara</h3>
-          <p>El mercado crece, pero la señal de riesgo está en el precio. Si los vehículos están 7.3% por debajo de 2025, crecer en unidades no garantiza mejorar rentabilidad. La respuesta no debería ser una guerra de precio pura, sino defender valor con respaldo, garantía, financiamiento, red y experiencia.</p>
-        </article>
-        <article class="card kpi"><div class="label">USD/PEN</div><div class="value" id="fxMarket">--</div><div class="sub" id="fxMarketSub">Tipo de cambio actualizado automáticamente.</div></article>
-      </div>
-    </section>
-
-    <section class="screen" id="screen-marcas">
-      <div class="section-title"><h2>Marcas Astara</h2><small></small></div>
-      <div class="card method"><b>Nota metodológica:</b> no se muestran ventas internas ni market share propietario. La lectura cruza datos públicos de segmento: SUV +49.7%, origen chino 51.8%, electrificados +77.3%, pickups/furgonetas +36% y presión de precios -7.3%.</div>
-      <div class="compare-controls" id="brandChips"></div>
-      <div class="stack" id="brandCards"></div>
-    </section>
-
-    <section class="screen" id="screen-competencia">
-      <div class="section-title"><h2>Competencia</h2><small>gráfico con data real</small></div>
-      <article class="card chart-card">
-        <h3>Dónde se juega la competencia</h3>
-        <p>Estas son las variables reales del mercado peruano que hoy concentran la presión competitiva.</p>
-        <div class="bars" id="competitorChart"></div>
-      </article>
-      <div class="stack" id="competitorInsights"></div>
-    </section>
-
-    <section class="screen" id="screen-acciones">
-      <div class="section-title"><h2>Acciones</h2><small>próximos movimientos</small></div>
-      <div class="stack" id="actions"></div>
-      <details class="details">
-        <summary>Fuentes y metodología</summary>
-        <div class="body">
-          <b>Base de datos sectorial:</b> AAP / MIAM, resultado mercado automotor Q1: livianos, SUV, origen chino, electrificados, precios, segmentos productivos y factores de desaceleración.<br/><br/>
-          <b>Noticias:</b> la app intenta leer señales recientes vía Google News RSS sobre mercado automotriz peruano y prioriza medios/fuentes como AAP, Gestión, El Comercio, NeoAuto, Automundo, Semana Económica, Forbes Perú y comunicados oficiales. Si una fuente no responde por restricciones del navegador, se muestra un respaldo curado con links reales.<br/><br/>
-          <b>Tipo de cambio:</b> consulta pública USD/PEN. Si la fuente externa no responde, la app mantiene el último respaldo visual.
+      <div class="fu2" style="margin-bottom:24px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(54px,14vw,74px);line-height:.9;letter-spacing:.4px;margin-bottom:18px;">
+          DEJA DE<br>
+          <span style="color:var(--gold);">PRACTICAR</span><br>
+          AL AZAR
         </div>
-      </details>
-      <div class="footer">Desarrollado por Giulliana Mantilla · 2026</div>
-    </section>
-  </main>
+        <p style="font-size:15px;color:var(--muted2);line-height:1.72;max-width:330px;">
+          Arma tu ruta, practica con ejercicios interactivos y sube de cinturón con el método de Daniel Flores.
+        </p>
+      </div>
 
-  <nav class="tabs">
-    <button class="tab active" data-tab="hoy"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>Hoy</button>
-    <button class="tab" data-tab="mercado"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19V5m0 14h16"/><path d="M8 16V9m4 7V6m4 10v-4"/></svg>Mercado</button>
-    <button class="tab" data-tab="marcas"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 13l2-5h14l2 5"/><path d="M5 13h14v6H5z"/><circle cx="7.5" cy="17" r="1"/><circle cx="16.5" cy="17" r="1"/></svg>Marcas</button>
-    <button class="tab" data-tab="competencia"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Competencia</button>
-    <button class="tab" data-tab="acciones"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Acciones</button>
-  </nav>
+      <div class="fu3 route-card" style="margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="font-size:30px;">🧭</div>
+          <div>
+            <div style="font-size:14px;font-weight:800;margin-bottom:3px;">Elige por dónde empezar</div>
+            <div style="font-size:12px;color:var(--muted2);line-height:1.5;">Acordes, escalas, licks y herramientas para practicar sin vueltas.</div>
+          </div>
+        </div>
+      </div>
 
-  <script>
-    const seriousSources=['AAP','Asociación Automotriz','Gestión','El Comercio','Forbes','Semana Económica','NeoAuto','Automundo','Mercado Negro','Andina','RPP','La República'];
-    const fallbackNews=[
-      {date:'Q1 2026',title:'Mercado automotor arranca con fuerza: livianos crecen 37.3%',summary:'El crecimiento confirma demanda, pero la lectura ejecutiva está en el mix: SUV, origen chino y electrificados concentran la oportunidad.',link:'https://aap.org.pe/storage/estadisticas/informes-mensuales/informe-del-sector-automotor-marzo-1.pdf'},
-      {date:'Q1 2026',title:'SUV lidera livianos con 33,728 unidades y crece 49.7%',summary:'Es el subgrupo de mayor volumen y el de mayor crecimiento anual. Impacta directamente a Kia, Chery, MG y GAC.',link:'https://aap.org.pe/storage/estadisticas/informes-mensuales/informe-del-sector-automotor-marzo-1.pdf'},
-      {date:'Q1 2026',title:'Electrificados venden 3,627 unidades y crecen 77.3%',summary:'HEV y MHEV lideran la transición. El reto comercial está en educar por uso, costo total y mantenimiento.',link:'https://aap.org.pe/prensa/electromovilidad%20AAP%20trimestre%202026%20ventas%20sunarp'},
-      {date:'Mar 2026',title:'Venta de vehículos nuevos acelera y cierra un trimestre sólido',summary:'AAP destaca un trimestre fuerte y una base positiva, aunque con variables externas que exigen monitoreo cercano.',link:'https://aap.org.pe/prensa/venta-de-vehiculos-nuevos-acelera-en-marzo-y-cierra-un-trimestre-solido'},
-      {date:'Q2 outlook',title:'Se espera crecimiento con desaceleración en el segundo trimestre',summary:'Tipo de cambio, petróleo y contexto político/climático aparecen como variables críticas de seguimiento.',link:'https://aap.org.pe/storage/estadisticas/informes-mensuales/informe-del-sector-automotor-marzo-1.pdf'}
-    ];
-    const brands=[
-      {name:'Kia',level:'Alta',state:'alta',score:86,foco:'SUV + masividad confiable',segmento:'SUV / familiares',data:'SUV +49.7%',lectura:'Kia puede capitalizar el auge SUV desde confianza, red y financiamiento. La oportunidad está en sostener valor sin caer en una guerra de precio.'},
-      {name:'Chery',level:'Alta',state:'alta',score:91,foco:'SUV + origen chino',segmento:'SUV',data:'SUV 33,728 · China 51.8%',lectura:'Está exactamente en el territorio más caliente del mercado: SUV y origen chino. La clave es convertir precio + equipamiento en permanencia, respaldo y red.'},
-      {name:'MG',level:'Alta',state:'alta',score:87,foco:'Diseño + urbano + China',segmento:'SUV / autos',data:'China 51.8% · Autos +33.6%',lectura:'Tiene buena posición si mantiene modernidad y accesibilidad, pero necesita blindar confianza y experiencia frente a una oferta cada vez más similar.'},
-      {name:'Mitsubishi',level:'Media-alta',state:'media',score:79,foco:'Robustez + operación B2B',segmento:'Pickups / flotas',data:'Pickups/furgonetas +36%',lectura:'La oportunidad está en sectores productivos: minería, agro y construcción. El mensaje ganador es continuidad operativa, resistencia y costo de operación.'},
-      {name:'Peugeot',level:'Selectiva',state:'media',score:66,foco:'Diseño + valor aspiracional',segmento:'SUV / autos',data:'Autos +33.6% · SUV +49.7%',lectura:'Puede quedar atrapada entre precio chino y marcas masivas. Debe vender diferenciación, diseño y experiencia, evitando competir solo por ticket.'},
-      {name:'GAC Motor',level:'Alta',state:'alta',score:84,foco:'SUV + tecnología china',segmento:'SUV',data:'SUV +49.7% · China 51.8%',lectura:'Tiene espacio si construye confianza rápido. En una categoría china saturada, el diferencial debe ser garantía, respaldo regional y claridad de portafolio.'}
-    ];
-    const chartData=[
-      {label:'Electrificados',value:77.3,display:'+77.3%',note:'crecimiento Q1'},
-      {label:'Origen chino',value:51.8,display:'51.8%',note:'share de livianos'},
-      {label:'SUV',value:49.7,display:'+49.7%',note:'crecimiento Q1'},
-      {label:'Camionetas',value:46,display:'+46%',note:'crecimiento Q1'},
-      {label:'Pickups/furgonetas',value:36,display:'+36%',note:'crecimiento Q1'}
-    ];
-    const competitors=[
-      {name:'Toyota',territory:'Híbridos / confianza',metric:'Electrificados +77.3%',insight:'La presión viene de la transición energética con credibilidad. Astara debería competir con educación de TCO, disponibilidad y respaldo.'},
-      {name:'Jetour',territory:'SUV familiar / aventura',metric:'SUV +49.7%',insight:'Ocupa un territorio emocional muy claro en el boom SUV. Presiona directamente a Chery, MG y GAC si Astara no diferencia por uso y propuesta.'},
-      {name:'BAIC / Magna',territory:'SUV + off-road',metric:'China 51.8% · SUV +49.7%',insight:'Nuevo entrante con narrativa de relanzamiento. La ventaja de Astara es contrastar trayectoria, red y portafolio multimarca.'},
-      {name:'Geely',territory:'SUV tecnológico',metric:'China 51.8%',insight:'Presiona por diseño, equipamiento y precio. Astara debe elevar la comparación hacia valor total y experiencia, no ficha técnica aislada.'},
-      {name:'GWM / Haval',territory:'SUV / pickup',metric:'Pickups +36% · SUV +49.7%',insight:'Relevante en el cruce entre SUV, pickup y flotas. Compite con Mitsubishi y con marcas chinas del portafolio Astara en uso operativo.'},
-      {name:'Hyundai',territory:'Volumen / red',metric:'Livianos +37.3%',insight:'Compite por consideración masiva. La defensa pasa por financiamiento, disponibilidad y experiencia omnicanal.'}
-    ];
-    const actions=[
-      {title:'1. Convertir SUV en la narrativa central del portafolio',desc:'SUV no es una categoría más: concentra 33,728 unidades, 54.3% de livianos y crece 49.7%. Astara debería ordenar mensajes por uso: familia, empresa, ciudad, aventura, eficiencia y tecnología.',tags:['SUV','Portafolio','Comercial']},
-      {title:'2. Defender valor frente a la presión china',desc:'Con 51.8% de livianos de origen chino, la conversación ya no puede ser “marca china sí/no”. La oportunidad es separar marcas por trayectoria, respaldo, garantía, red y experiencia.',tags:['China brands','Confianza','Red']},
-      {title:'3. Crear un radar B2B por sector productivo',desc:'Pickups y furgonetas crecen 36%, y camiones/tractocamiones 35.9% impulsados por minería y construcción. La lectura para flotas debe ser continuidad operativa, no solo precio por unidad.',tags:['Flotas B2B','Minería','Construcción']},
-      {title:'4. Educar electrificación con HEV/MHEV',desc:'Electrificados crecen 77.3%, pero el peso aún es 5.2% del sector. La oportunidad está en pedagogía comercial: costo total, mantenimiento, autonomía, financiamiento y caso de uso.',tags:['Electrificados','HEV/MHEV','TCO']},
-      {title:'5. Vigilar margen por caída de precios',desc:'Si los precios están 7.3% por debajo de 2025, crecer en unidades no necesariamente significa crecer en rentabilidad. La app debe alertar cuando precio, tipo de cambio y presión competitiva se crucen.',tags:['Precio','Margen','FX']}
-    ];
+      <div class="fu4" style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn btn-gold" onclick="track('cta_welcome_start_route');goTo('s-register');">
+          Armar mi ruta →
+        </button>
+        <button class="btn btn-ghost" onclick="skipReg()">
+          Entrar directo a practicar
+        </button>
+      </div>
 
-    function peNow(){return new Intl.DateTimeFormat('es-PE',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Lima'}).format(new Date());}
-    function setUpdate(label='Última revisión'){document.getElementById('lastUpdate').textContent=`${label}: ${peNow()} · Hora Perú`;}
-    function escapeHTML(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-    function renderNews(news){const html=news.slice(0,5).map(n=>`<article class="card news-card"><div class="news-top"><span></span><span class="date">${escapeHTML(n.date||'Reciente')}</span></div><h3>${escapeHTML(n.title)}</h3><p>${escapeHTML(n.summary||'Señal relevante para monitoreo ejecutivo del mercado automotriz peruano.')}</p><a class="news-link" href="${n.link || '#'}" target="_blank" rel="noopener">Abrir fuente ↗</a></article>`).join('');document.getElementById('homeNews').innerHTML=html;}
+      <div style="text-align:center;margin-top:18px;font-size:11px;color:var(--muted);line-height:1.8;">
+        Supervivencia para Guitarristas<br>
+        La práctica diaria del método Daniel Flores
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
-    async function fetchNews(){
-      const queries=['mercado automotriz peru','AAP vehiculos peru','SUV electrificados peru'];
-      const baseQuery=encodeURIComponent(queries.join(' OR ')+' when:14d');
-      const rss=`https://news.google.com/rss/search?q=${baseQuery}&hl=es-419&gl=PE&ceid=PE:es-419`;
-      const endpoints=[
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(rss)}`,
-        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rss)}`
-      ];
-      try{
-        let items=[];
-        for(const endpoint of endpoints){
-          const res=await fetch(endpoint,{cache:'no-store'});
-          if(!res.ok) continue;
-          if(endpoint.includes('rss2json')){
-            const data=await res.json();
-            items=(data.items||[]).map(item=>({
-              title:item.title||'',
-              source:item.author || item.source || 'Google News',
-              date:item.pubDate ? new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Lima'}).format(new Date(item.pubDate)) : 'Reciente',
-              link:item.link || '#',
-              summary:'Señal reciente para seguimiento ejecutivo del mercado automotriz peruano.'
-            }));
-          } else {
-            const xml=await res.text();
-            const doc=new DOMParser().parseFromString(xml,'text/xml');
-            items=[...doc.querySelectorAll('item')].map(item=>{const rawTitle=item.querySelector('title')?.textContent||'';const parts=rawTitle.split(' - ');const source=parts.length>1?parts.pop():'Google News';const title=parts.join(' - ')||rawTitle;const dateRaw=item.querySelector('pubDate')?.textContent;const date=dateRaw?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Lima'}).format(new Date(dateRaw)):'Reciente';return{title,source,date,link:item.querySelector('link')?.textContent||'#',summary:'Señal reciente para seguimiento ejecutivo del mercado automotriz peruano.'}});
-          }
-          items=items.filter(n=>{const hay=(n.title+' '+(n.source||'')).toLowerCase();return ['perú','peru','vehículo','vehiculos','automotor','automotriz','aap','sunarp','suv','electrificado','auto'].some(w=>hay.includes(w));});
-          if(items.length) break;
-        }
-        const preferred=items.filter(n=>seriousSources.some(s=>(n.source||'').toLowerCase().includes(s.toLowerCase())));
-        const finalNews=(preferred.length?preferred:items).slice(0,5);
-        if(!finalNews.length) throw new Error('Sin noticias filtradas');
-        renderNews(finalNews);
-        document.getElementById('newsStatus').textContent='actualizado';
-        setUpdate('Última actualización');
-      }catch(e){
-        renderNews(fallbackNews);
-        document.getElementById('newsStatus').textContent='curado';
-        setUpdate('Última revisión');
-      }
+<!-- ═══════════ REGISTER ═══════════ -->
+<div class="screen hidden" id="s-register">
+<div class="topbar">
+  <button class="ico" onclick="goBack()">←</button>
+  <div>
+    <div class="brand-app" style="font-size:18px;text-align:center;">TU RUTA</div>
+    <div class="brand-sub" style="text-align:center;font-size:8px;">punto de partida</div>
+  </div>
+  <button class="ico" onclick="skipReg()" style="font-size:11px;">SKIP</button>
+</div>
+<div class="scroll" style="padding:22px 20px;" id="diag-body"></div>
+</div>
+
+<!-- ═══════════ HOME ═══════════ -->
+<div class="screen hidden" id="s-home">
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:9px;">
+    <img class="app-icon-img" src="icons/icon-192.png?v=8" alt="Supervivencia"/>
+    <div>
+      <div class="brand-app" style="font-size:18px;">SUPERVIVENCIA</div>
+      <div class="brand-sub" style="font-size:8px;">para Guitarristas · DFM</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <div class="streak-pill">
+      <span style="font-size:15px;">🔥</span>
+      <span style="font-size:13px;font-weight:700;" id="h-streak">0</span>
+      <span style="font-size:11px;color:var(--muted2);">días</span>
+    </div>
+    <button class="ico" onclick="goTo('s-about')">👤</button>
+  </div>
+</div>
+<div class="scroll" style="padding:18px 18px 112px;" id="home-body"></div>
+<div class="bnav">
+  <button class="nb on" onclick="navTo('home')"><div class="ni">🏠</div>Inicio</button>
+  <button class="nb" onclick="navTo('learn')"><div class="ni">📖</div>Ruta</button>
+  <button class="nb" onclick="navTo('practice')"><div class="ni">🎸</div>Practicar</button>
+  <button class="nb" onclick="navTo('community')"><div class="ni">🌟</div>Comunidad</button>
+</div>
+</div>
+
+<!-- ═══════════ LEARN ═══════════ -->
+<div class="screen hidden" id="s-learn">
+<div class="topbar">
+  <div class="brand-app" style="font-size:18px;">RUTA</div>
+  <div style="font-size:11px;color:var(--muted2);">Contenido gratuito</div>
+</div>
+<div class="scroll" style="padding:20px;" id="learn-body"></div>
+<div class="bnav">
+  <button class="nb" onclick="navTo('home')"><div class="ni">🏠</div>Inicio</button>
+  <button class="nb on" onclick="navTo('learn')"><div class="ni">📖</div>Ruta</button>
+  <button class="nb" onclick="navTo('practice')"><div class="ni">🎸</div>Practicar</button>
+  <button class="nb" onclick="navTo('community')"><div class="ni">🌟</div>Comunidad</button>
+</div>
+</div>
+
+<!-- ═══════════ PRACTICE ═══════════ -->
+<div class="screen hidden" id="s-practice">
+<div class="topbar">
+  <div class="brand-app" style="font-size:18px;">PRÁCTICA</div>
+  <div style="width:36px;"></div>
+</div>
+<div class="scroll" style="padding:20px;" id="practice-body"></div>
+<div class="bnav">
+  <button class="nb" onclick="navTo('home')"><div class="ni">🏠</div>Inicio</button>
+  <button class="nb" onclick="navTo('learn')"><div class="ni">📖</div>Ruta</button>
+  <button class="nb on" onclick="navTo('practice')"><div class="ni">🎸</div>Practicar</button>
+  <button class="nb" onclick="navTo('community')"><div class="ni">🌟</div>Comunidad</button>
+</div>
+</div>
+
+<!-- ═══════════ COMMUNITY ═══════════ -->
+<div class="screen hidden" id="s-community">
+<div class="topbar">
+  <div class="brand-app" style="font-size:18px;color:var(--pat);">COMUNIDAD</div>
+  <div style="font-size:11px;color:var(--muted2);">Patreon DFM</div>
+</div>
+<div class="scroll" style="padding:20px;" id="community-body"></div>
+<div class="bnav">
+  <button class="nb" onclick="navTo('home')"><div class="ni">🏠</div>Inicio</button>
+  <button class="nb" onclick="navTo('learn')"><div class="ni">📖</div>Ruta</button>
+  <button class="nb" onclick="navTo('practice')"><div class="ni">🎸</div>Practicar</button>
+  <button class="nb on" onclick="navTo('community')"><div class="ni">🌟</div>Comunidad</button>
+</div>
+</div>
+
+<!-- ═══════════ LESSON ═══════════ -->
+<div class="screen hidden" id="s-lesson">
+<div class="topbar">
+  <button class="ico" onclick="closeLesson()">←</button>
+  <div style="font-size:14px;font-weight:600;flex:1;text-align:center;margin:0 8px;" id="les-title">Lección</div>
+  <div style="font-size:12px;color:var(--muted2);min-width:32px;text-align:right;" id="les-lbl">1/4</div>
+</div>
+<div class="sdots" id="les-dots"></div>
+<div class="scroll" style="padding:0 20px;" id="les-body"></div>
+</div>
+
+<!-- ═══════════ PROGRESS ═══════════ -->
+<div class="screen hidden" id="s-progress">
+<div class="topbar">
+  <button class="ico" onclick="goBack()">←</button>
+  <div class="logo">Mi Progreso</div>
+  <div style="width:36px;"></div>
+</div>
+<div class="scroll" style="padding:20px;" id="prog-body"></div>
+</div>
+
+<!-- ═══════════ ABOUT DANIEL ═══════════ -->
+<div class="screen hidden" id="s-about">
+<div class="topbar">
+  <button class="ico" onclick="goBack()">←</button>
+  <div class="logo">Daniel Flores</div>
+  <div style="width:36px;"></div>
+</div>
+<div class="scroll" style="padding:20px;" id="about-body"></div>
+</div>
+
+</div><!-- #app -->
+<div id="audio-nudge" class="audio-nudge">🔊 Toca para activar el audio <button onclick="primeAudio()">Activar</button></div>
+
+<script>
+/* ═══════ GA4 ═══════ */
+function track(ev,p={}){
+  if(window.gtag) window.gtag('event',ev,p);
+  else console.log('[GA4]',ev,p);
+}
+
+/* ═══════ CONFIG ═══════ */
+// ▸ Reemplaza con el URL real de Patreon de Daniel
+const PATREON = 'https://www.patreon.com/danielfloresmusic';
+// Opcional: pega aquí el Web App URL de Google Apps Script para enviar rutas a Google Sheets.
+const SHEETS_ENDPOINT = ''; // ejemplo: 'https://script.google.com/macros/s/XXXX/exec';
+
+/* ═══════ STATE ═══════ */
+const ST = JSON.parse(localStorage.getItem('dfm4')||'null') || {
+  name:'Guitarrista', email:'', phone:'', level:'',
+  pain:'', goal:'', time:'', focus:'', routeTitle:'Ruta inicial',
+  xp:0, streak:0, lastDay:null,
+  belt:'white', done:[], dailyDone:false, dailyDate:null,
+  registered:false, diagnosticDone:false, leadSaved:false,
+};
+function save(){ localStorage.setItem('dfm4',JSON.stringify(ST)); }
+
+const BELT_META = {
+  white: {name:'Blanco', color:'#d8d8e8', tc:'#060608', label:'Fundamentos', xp:0},
+  yellow:{name:'Amarillo',color:'#f0c040',tc:'#060608', label:'Técnica',      xp:60},
+  blue:  {name:'Azul',   color:'#4878f0', tc:'#fff',    label:'Improvisación',xp:200},
+  black: {name:'Negro',  color:'#e8e8f8', tc:'#060608', label:'Maestría',     xp:500},
+};
+
+function calcBelt(){
+  if(ST.xp>=500) return 'black';
+  if(ST.xp>=200) return 'blue';
+  if(ST.xp>=60)  return 'yellow';
+  return 'white';
+}
+
+function addXP(n, ref){
+  ST.xp += n; ST.belt = calcBelt(); save();
+  if(ref){
+    const r = ref.getBoundingClientRect();
+    const p = document.createElement('div');
+    p.className='xppop'; p.textContent='+'+n+' XP';
+    p.style.cssText=`left:${r.left+r.width/2-20}px;top:${r.top-8}px;`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1200);
+  }
+}
+function markPracticeComplete(){
+  const today = new Date().toDateString();
+  if(ST.lastDay !== today){ ST.streak++; ST.lastDay = today; }
+  save();
+}
+
+/* ═══════ TU RUTA + LEADS ═══════ */
+let diagIndex = 0;
+const diagAnswers = {pain:'', focus:'', level:'', time:''};
+const DIAG_STEPS = [
+  {key:'pain', kicker:'Paso 1 de 4', title:'¿Qué quieres destrabar primero?', sub:'Esto define el punto de partida de tu ruta.', options:[
+    {v:'same_thing', e:'🔁', t:'Siempre toco lo mismo', d:'Siento que repito los mismos acordes o frases.'},
+    {v:'fretboard', e:'🧭', t:'No entiendo bien el mástil', d:'Quiero ubicarme mejor y conectar posiciones.'},
+    {v:'improvise', e:'🎵', t:'Me cuesta improvisar', d:'Quiero tocar frases con más intención.'},
+    {v:'no_structure', e:'🎯', t:'No sé qué practicar', d:'Necesito una guía clara para avanzar.'},
+  ]},
+  {key:'focus', kicker:'Paso 2 de 4', title:'¿Qué quieres mejorar primero?', sub:'La app priorizará ejercicios según este foco.', options:[
+    {v:'chords', e:'🎸', t:'Acordes', d:'Cambios limpios, posiciones y progresiones.'},
+    {v:'scales', e:'🎼', t:'Escalas', d:'Pentatónica, modos y mapas simples.'},
+    {v:'licks', e:'⚡', t:'Licks', d:'Frases cortas para empezar a sonar musical.'},
+    {v:'harmony', e:'🧠', t:'Armonía aplicada', d:'Entender por qué funciona lo que tocas.'},
+  ]},
+  {key:'level', kicker:'Paso 3 de 4', title:'¿Cómo te defines hoy?', sub:'No buscamos juzgarte, buscamos ubicarte.', options:[
+    {v:'beg', e:'🌱', t:'Estoy empezando', d:'Necesito base y orden desde cero.'},
+    {v:'basic', e:'🎶', t:'Ya toco algunas canciones', d:'Pero quiero practicar con más intención.'},
+    {v:'int', e:'🔥', t:'Toco hace tiempo, pero sin estructura', d:'Sé cosas, pero no sé cómo conectarlas.'},
+    {v:'adv', e:'🖤', t:'Quiero llevarlo a un nivel más serio', d:'Busco lenguaje, armonía y recursos avanzados.'},
+  ]},
+  {key:'time', kicker:'Paso 4 de 4', title:'¿Cuánto puedes practicar al día?', sub:'La mejor rutina es la que sí puedes sostener.', options:[
+    {v:'5', e:'⏱️', t:'5 minutos', d:'Reto express para no perder continuidad.'},
+    {v:'10', e:'⏱️', t:'10 minutos', d:'La mejor opción para crear hábito.'},
+    {v:'20', e:'⏱️', t:'20 minutos', d:'Una sesión más completa.'},
+    {v:'variable', e:'🎲', t:'Depende del día', d:'La app te dará opciones cortas y largas.'},
+  ]},
+];
+
+function routeFromAnswers(){
+  if(diagAnswers.focus==='chords') return 'Ruta de acordes esenciales';
+  if(diagAnswers.focus==='scales') return 'Ruta pentatónica y mástil';
+  if(diagAnswers.focus==='licks') return 'Ruta Róbate este lick';
+  if(diagAnswers.focus==='harmony') return 'Ruta de armonía aplicada';
+  if(diagAnswers.pain==='improvise') return 'Ruta de improvisación básica';
+  return 'Ruta de supervivencia inicial';
+}
+
+function renderDiagnostic(){
+  const body=document.getElementById('diag-body'); if(!body) return;
+  const step=DIAG_STEPS[diagIndex];
+  if(!step){ renderDiagResult(); return; }
+  const pct=Math.round((diagIndex/DIAG_STEPS.length)*100);
+  body.innerHTML=`
+    <div class="fu" style="margin-bottom:18px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <div class="pbar" style="flex:1;height:5px;"><div class="pfill" style="width:${pct}%;background:var(--gold);"></div></div>
+        <div style="font-size:11px;color:var(--muted2);font-weight:700;">${diagIndex+1}/${DIAG_STEPS.length}</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-kicker">${step.kicker}</div>
+        <div class="diag-title">${step.title}</div>
+        <div class="diag-sub">${step.sub}</div>
+        ${step.options.map(o=>`
+          <button class="diag-option" onclick="answerDiag('${step.key}','${o.v}')">
+            <span class="diag-emoji">${o.e}</span>
+            <span>
+              <span class="diag-option-title">${o.t}</span><br>
+              <span class="diag-option-desc">${o.d}</span>
+            </span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="skipReg()" style="margin-top:10px;font-size:13px;">Entrar sin armar ruta</button>
+  `;
+}
+
+function answerDiag(key,value){
+  diagAnswers[key]=value;
+  track('diagnostic_answer',{step:key,value});
+  diagIndex++;
+  renderDiagnostic();
+}
+
+function renderDiagResult(){
+  ST.pain=diagAnswers.pain; ST.focus=diagAnswers.focus; ST.level=diagAnswers.level; ST.time=diagAnswers.time;
+  ST.routeTitle=routeFromAnswers(); ST.diagnosticDone=true; save();
+  const timeLabel = ST.time==='variable'?'rutina flexible':`${ST.time} min al día`;
+  track('finish_diagnostic',{pain:ST.pain,focus:ST.focus,level:ST.level,time:ST.time,route:ST.routeTitle});
+  sendLeadToSheets('diagnostic_completed');
+  document.getElementById('diag-body').innerHTML=`
+    <div class="fu" style="padding-top:6px;">
+      <div class="diag-card" style="margin-bottom:16px;">
+        <div class="diag-kicker">Tu ruta está lista</div>
+        <div style="font-size:54px;margin-bottom:12px;">🎸</div>
+        <div class="diag-title">${ST.routeTitle}</div>
+        <div class="diag-sub">Empieza con una práctica corta. La app guardará tu avance en este dispositivo y guardará esta ruta para entender mejor qué necesita su comunidad.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <span class="mini-pill">${timeLabel}</span>
+          <span class="mini-pill">Cinturón Blanco</span>
+          <span class="mini-pill">Demo gratuita</span>
+        </div>
+        <button class="btn btn-gold" onclick="goTo('s-home')">Empezar mi primer reto →</button>
+      </div>
+      <div class="card2">
+        <div style="font-size:13px;font-weight:800;margin-bottom:8px;">Guardar progreso opcional</div>
+        <div style="font-size:12px;color:var(--muted2);line-height:1.55;margin-bottom:12px;">Puedes dejar tu nombre y correo para que la experiencia quede mejor personalizada. WhatsApp lo pediría después, no acá.</div>
+        <div style="display:grid;gap:10px;">
+          <input id="lead-name" class="field" type="text" placeholder="Tu nombre" maxlength="40"/>
+          <input id="lead-email" class="field" type="email" placeholder="tu@correo.com"/>
+          <button class="btn btn-ghost" onclick="saveLeadProfile()" style="padding:12px;font-size:13px;">Guardar mi progreso</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function saveLeadProfile(){
+  const n=document.getElementById('lead-name')?.value.trim()||'';
+  const e=document.getElementById('lead-email')?.value.trim()||'';
+  if(n) ST.name=n; if(e) ST.email=e;
+  ST.registered=true; ST.leadSaved=true; save();
+  track('save_lead_profile',{has_email:!!e,route:ST.routeTitle});
+  sendLeadToSheets('profile_saved');
+  goTo('s-home');
+}
+
+function sendLeadToSheets(stage){
+  const payload={stage, ts:new Date().toISOString(), name:ST.name, email:ST.email, phone:ST.phone, level:ST.level, pain:ST.pain, focus:ST.focus, time:ST.time, route:ST.routeTitle, xp:ST.xp, streak:ST.streak};
+  const pending=JSON.parse(localStorage.getItem('dfm_leads_pending')||'[]');
+  pending.push(payload); localStorage.setItem('dfm_leads_pending',JSON.stringify(pending.slice(-30)));
+  if(!SHEETS_ENDPOINT) return;
+  try{ fetch(SHEETS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }
+  catch(e){ console.warn('No se pudo enviar a Sheets',e); }
+}
+
+function skipReg(){
+  ST.diagnosticDone=false; ST.registered=false; if(!ST.routeTitle) ST.routeTitle='Ruta de supervivencia inicial'; save();
+  track('skip_diagnostic');
+  goTo('s-home');
+}
+
+/* ═══════ AUDIO ENGINE ═══════ */
+let AC = null;
+let audioUnlocked = false;
+function getAC(){
+  if(!AC){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) return null;
+    AC = new Ctx();
+  }
+  return AC;
+}
+async function primeAudio(){
+  const ac = getAC();
+  if(!ac) return false;
+  try{
+    if(ac.state === 'suspended') await ac.resume();
+    const o = ac.createOscillator();
+    const g = ac.createGain();
+    o.connect(g); g.connect(ac.destination);
+    o.frequency.value = 440;
+    g.gain.setValueAtTime(0.0001, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01, ac.currentTime + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.05);
+    o.start(ac.currentTime);
+    o.stop(ac.currentTime + 0.06);
+    audioUnlocked = true;
+    hideAudioNudge();
+    track('audio_unlocked');
+    return true;
+  }catch(e){
+    console.warn('Audio unlock pendiente', e);
+    showAudioNudge();
+    return false;
+  }
+}
+function unlockAudio(){ primeAudio(); }
+function showAudioNudge(){
+  const n=document.getElementById('audio-nudge');
+  if(n && !audioUnlocked) n.classList.add('show');
+}
+function hideAudioNudge(){
+  const n=document.getElementById('audio-nudge');
+  if(n) n.classList.remove('show');
+}
+['pointerdown','touchstart','click'].forEach(evt=>{
+  document.addEventListener(evt, unlockAudio, {once:false, passive:false});
+});
+
+function synthNote(freq,t,dur=1.2,vol=0.22){
+  if(!freq||freq<40) return;
+  const ac=getAC(); if(!ac) return;
+  [[1,1],[2,.45],[3,.22],[4,.1],[6,.05]].forEach(([p,a],i)=>{
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.connect(g); g.connect(ac.destination);
+    o.type = i===0?'sawtooth':'sine';
+    o.frequency.value = freq*p;
+    o.detune.value = (Math.random()-.5)*5;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(vol*a,t+.008);
+    g.gain.setTargetAtTime(vol*a*.28,t+.05,.14);
+    g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.start(t); o.stop(t+dur+.05);
+  });
+}
+
+// String open frequencies: E2 A2 D3 G3 B3 e4
+const OPEN=[82.41,110,146.83,196,246.94,329.63];
+function fretFreq(si,fret){ return OPEN[si]*Math.pow(2,fret/12); }
+
+function strumChord(map,delay=.034){
+  const ac=getAC(); if(!ac) return; const now=ac.currentTime+.05;
+  map.forEach((fret,i)=>{ if(fret!==null) synthNote(fretFreq(i,fret),now+i*delay,1.4,.2); });
+}
+
+function playMelody(notes,tempo=.32){
+  const ac=getAC(); if(!ac) return; let t=ac.currentTime+.1;
+  notes.forEach(n=>{ synthNote(fretFreq(n.s,n.f),t,(n.d||1)*tempo*.88,.28); t+=(n.d||1)*tempo; });
+}
+
+function playClick(t,accent){
+  const ac=getAC(); if(!ac) return; const o=ac.createOscillator(),g=ac.createGain();
+  o.connect(g); g.connect(ac.destination);
+  o.type='square'; o.frequency.value=accent?1100:800;
+  g.gain.setValueAtTime(.32,t); g.gain.exponentialRampToValueAtTime(.001,t+.04);
+  o.start(t); o.stop(t+.05);
+}
+
+/* ═══════ CONTENT ═══════ */
+const CHORDS = {
+  Am:{map:[null,0,2,2,1,0], label:'La menor',   tip:'Índice: cuerda B traste 1. Medio y anular: cuerdas D y G traste 2.'},
+  Em:{map:[0,2,2,0,0,0],    label:'Mi menor',   tip:'Solo 2 dedos. El acorde más rápido de aprender. Oscuro y potente.'},
+  G: {map:[3,2,0,0,0,3],    label:'Sol mayor',  tip:'Meñique en cuerda e traste 3. Abarca todo el mástil — suena lleno.'},
+  D: {map:[null,null,0,2,3,2],label:'Re mayor', tip:'Solo las 4 cuerdas agudas. No toques la A ni la E grave.'},
+  C: {map:[null,3,2,0,1,0], label:'Do mayor',   tip:'El anular en cuerda A, traste 3, es la clave de este acorde.'},
+  A: {map:[null,0,2,2,2,0], label:'La mayor',   tip:'Los 3 dedos en el traste 2, juntos. Busca que cada nota suene.'},
+};
+
+const LICKS=[
+  {id:'lick1',name:'Lick Blues Clásico',belt:'white',
+   desc:'3 notas. La base del blues. De B.B. King a Slash, todos lo usan.',
+   melody:[{s:5,f:8,d:1},{s:5,f:5,d:1},{s:4,f:8,d:2}],
+   tab:{e:'|--8--5-----------|',B:'|-----------8-----|',G:'|-----------------|',D:'|-----------------|',A:'|-----------------|',E:'|-----------------|'},
+   tip:'Toca lento, con feeling. La expresión importa más que la velocidad.'},
+  {id:'lick2',name:'Lick Pentatónico Ascendente',belt:'yellow',
+   desc:'Sube la escala con hammer-ons. Suena rápido aunque lo toques lento.',
+   melody:[{s:0,f:5,d:.5},{s:0,f:8,d:.5},{s:1,f:5,d:.5},{s:1,f:7,d:.5},{s:2,f:5,d:.5},{s:2,f:7,d:1.5}],
+   tab:{e:'|-----------------|',B:'|-----------------|',G:'|--5--7-----------|',D:'|--------5--7-----|',A:'|-----------5--7--|',E:'|--5--8-----------|'},
+   tip:'Usa hammer-ons entre las notas de cada cuerda. Así suena más fluido.'},
+];
+
+const LESSONS=[
+  {id:'l_am',  cat:'chords', belt:'white', title:'El Acorde Am',        icon:'🎸', xp:20,
+   steps:[
+    {type:'text',  title:'La menor — Am',      icon:'🎸', body:'Tres dedos bien puestos y ya suenas. Am es el corazón del rock, el blues y el flamenco. Empezamos acá.'},
+    {type:'chord', chord:'Am',                  title:'Posición del acorde Am'},
+    {type:'exercise', title:'20 golpes limpios',desc:'Cada cuerda debe sonar clara. Si una falla, ajusta el dedo antes de seguir.',time:60,xp:10},
+    {type:'complete', title:'Am conquistado',   xp:20},
+   ]},
+  {id:'l_em',  cat:'chords', belt:'white', title:'Em y el cambio Am→Em', icon:'🤘', xp:25,
+   steps:[
+    {type:'text',  title:'Mi menor — Em',       icon:'🤘', body:'Dos dedos. El acorde más fácil. Combinado con Am ya puedes tocar cientos de canciones.'},
+    {type:'chord', chord:'Em',                  title:'Posición del acorde Em'},
+    {type:'chord-change', chordA:'Am',chordB:'Em', title:'Cambio Am → Em',
+     tip:'10 cambios sin pausas. La fluidez importa más que la velocidad.'},
+    {type:'complete', title:'Primer cambio dominado', xp:25},
+   ]},
+  {id:'l_penta',cat:'scales',belt:'yellow',title:'Pentatónica Am — Pos. 1',icon:'🔥',xp:35,
+   steps:[
+    {type:'text',  title:'La escala que lo cambia todo', icon:'🔥',
+     body:'5 notas. El lenguaje del blues y el rock. Con esta posición puedes improvisar hoy mismo. Es el primer paso para salir de la pentatónica de siempre.'},
+    {type:'scale', title:'Pentatónica Am — Posición 1',
+     tip:'Empieza en la 6ª cuerda, traste 5. Sube y baja limpio. 60 BPM, una nota por tiempo.'},
+    {type:'exercise',title:'Sube y baja 5 veces completas',desc:'60 BPM. Que cada nota suene clara. La velocidad viene sola después.',time:120,xp:20},
+    {type:'complete',title:'Primera escala lista',xp:35},
+   ]},
+  {id:'l_lick1',cat:'licks',belt:'white',title:'Lick Blues Clásico',icon:'⚡',xp:30,
+   steps:[
+    {type:'text',  title:'Roba este lick', icon:'⚡',
+     body:'Un lick es una frase musical lista para usar. Este viene directo del blues. 3 notas, mucho impacto. Aprenderlo es tu primer paso para improvisar.'},
+    {type:'lick',  lick:null}, // se asigna en runtime
+    {type:'exercise',title:'Tócalo 10 veces seguidas',desc:'Lento y limpio primero. Sin errores es mejor que rápido con ruido.',time:90,xp:15},
+    {type:'complete',title:'¡Primer lick robado!',xp:30},
+   ]},
+  {id:'l_improv',cat:'improv',belt:'yellow',title:'Improvisa 60 segundos',icon:'🎵',xp:50,
+   steps:[
+    {type:'text',  title:'Tu primera improvisación real', icon:'🎵',
+     body:'Ya tienes la pentatónica. Ahora úsala sobre música real. Toca cualquier nota de la escala. No hay notas malas dentro de la escala.'},
+    {type:'scale', title:'Tu mapa: Pentatónica Am',
+     tip:'Usa solo estas notas. Empieza en la raíz (naranja). El feeling importa más que la velocidad.'},
+    {type:'improv',title:'60 segundos de improvisación',desc:'Solo Am pentatónica. Toca, no analices.',time:60,xp:30},
+    {type:'complete',title:'¡Ya improvisaste!',xp:50},
+   ]},
+];
+// Asignar lick al paso de l_lick1
+LESSONS.find(l=>l.id==='l_lick1').steps[1].lick = LICKS[0];
+
+const DAILY=[
+  {id:'d0',title:'Cambio Am → Em',desc:'30 cambios, limpios y sin mirar los dedos.',icon:'🔄',time:60,xp:20,visual:'chord-change',chords:['Am','Em']},
+  {id:'d1',title:'Pentatónica Am',desc:'Sube y baja a 60 BPM. Una nota por tiempo.',icon:'🎯',time:120,xp:25,visual:'scale'},
+  {id:'d2',title:'Lick blues clásico',desc:'10 repeticiones, lento y con intención.',icon:'⚡',time:90,xp:25,visual:'lick',lick:0},
+  {id:'d3',title:'Improvisación guiada',desc:'60 segundos usando solo Am pentatónica.',icon:'🎵',time:60,xp:30,visual:'scale'},
+];
+
+// Frases de Daniel — cortas, amigables, en su voz real. Sin drama ni presión.
+const DAN_QUOTES=[
+  'Hoy es un buen día para practicar. 5 minutos son suficientes para avanzar.',
+  'Si puedes tocar los acordes básicos y una posición de la pentatónica, ya tienes todo lo que necesitas para empezar.',
+  'Al final de cada práctica deberías saber exactamente qué trabajar mañana. Eso es tener estructura.',
+  'Backing tracks, licks, arpegios — todo conectado. Eso es lo que hace la diferencia.',
+  'La improvisación no es un don. Es un vocabulario que se construye nota a nota.',
+  'Cada semana hay material nuevo en la comunidad. Hoy empieza por acá.',
+];
+
+/* ═══════ ROUTER ═══════ */
+let CUR='s-welcome', HIST=[];
+function goTo(id){
+  if(id===CUR) return;
+  HIST.push(CUR);
+  document.getElementById(CUR).classList.add('prev');
+  const to=document.getElementById(id);
+  to.classList.remove('hidden','prev');
+  CUR=id; onEnter(id);
+}
+function goBack(){
+  if(!HIST.length) return;
+  const prev=HIST.pop();
+  document.getElementById(CUR).classList.add('hidden');
+  document.getElementById(prev).classList.remove('hidden','prev');
+  CUR=prev;
+}
+const NAV={'home':'s-home','learn':'s-learn','practice':'s-practice','community':'s-community'};
+function navTo(tab){
+  const id=NAV[tab];
+  Object.values(NAV).forEach(s=>{
+    const el=document.getElementById(s);
+    s===id ? el.classList.remove('hidden','prev') : el.classList.add('hidden');
+  });
+  CUR=id; onEnter(id);
+  document.querySelectorAll('.nb').forEach(b=>{
+    b.classList.toggle('on', b.getAttribute('onclick')===`navTo('${tab}')`);
+  });
+}
+function onEnter(id){
+  if(id==='s-register')  renderDiagnostic();
+  if(id==='s-home')      renderHome();
+  if(id==='s-learn')     renderLearn();
+  if(id==='s-practice')  renderPractice();
+  if(id==='s-community') renderCommunity();
+  if(id==='s-progress')  renderProgress();
+  if(id==='s-about')     renderAbout();
+}
+
+/* ═══════ HOME ═══════ */
+function renderHome(){
+  track('page_view',{page:'home'});
+  const today=new Date().toDateString();
+  if(ST.dailyDate!==today) ST.dailyDone=false;
+  const belt=BELT_META[ST.belt];
+  const daily=DAILY[new Date().getDate()%DAILY.length];
+  const nextLesson=LESSONS.find(l=>!ST.done.includes(l.id));
+  const practicedToday = ST.lastDay === today;
+  document.getElementById('h-streak').textContent=ST.streak;
+  const route = ST.routeTitle || 'Ruta de supervivencia inicial';
+  const timeTxt = ST.time ? (ST.time==='variable'?'Flexible':`${ST.time} min`) : '5 min';
+  const firstName = (ST.name || 'Guitarrista').split(' ')[0];
+  const initial = (firstName || 'G').slice(0,1).toUpperCase();
+  const routeProgress = Math.min(100, Math.round((ST.done.length / Math.max(LESSONS.length,1)) * 100));
+
+  document.getElementById('home-body').innerHTML=`
+    <div class="app-home-shell">
+
+      <div class="app-top-row fu">
+        <div>
+          <div class="app-greeting">Inicio</div>
+          <div class="app-name">${firstName}</div>
+        </div>
+        <button class="app-avatar" onclick="goTo('s-about')">${initial}</button>
+      </div>
+
+      <div class="app-status-grid fu">
+        <button class="app-stat" onclick="goTo('s-progress')" style="text-align:left;">
+          <div class="app-stat-value" style="color:${belt.color};">${belt.name}</div>
+          <div class="app-stat-label">Cinturón</div>
+        </button>
+        <div class="app-stat">
+          <div class="app-stat-value">🔥 ${ST.streak}</div>
+          <div class="app-stat-label">Racha</div>
+        </div>
+        <div class="app-stat">
+          <div class="app-stat-value">${ST.xp}</div>
+          <div class="app-stat-label">XP</div>
+        </div>
+      </div>
+
+      <div class="app-main-card fu2">
+        <div class="app-card-kicker">${practicedToday?'Práctica de hoy registrada':'Tu práctica de hoy'}</div>
+        <div class="app-practice-row">
+          <div class="app-practice-icon">${daily.icon}</div>
+          <div style="flex:1;">
+            <div class="app-practice-title">${daily.title}</div>
+            <div class="app-practice-desc">${daily.desc}</div>
+          </div>
+        </div>
+        ${buildPracticeVisual(daily)}
+        <button onclick="openChallenge('${daily.id}')" class="app-action-btn ${ST.dailyDone?'done':''}">
+          ${ST.dailyDone?'Repetir práctica':'Empezar ahora'} <span style="opacity:.65;">· ${daily.time}s</span>
+        </button>
+      </div>
+
+      <div class="app-section-title fu3">
+        <span>Tu ruta</span>
+        <button onclick="navTo('learn')">Ver todo</button>
+      </div>
+
+      <div class="app-route-compact fu3">
+        <div class="app-route-head">
+          <div style="width:42px;height:42px;border-radius:15px;background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.22);display:flex;align-items:center;justify-content:center;font-size:22px;">🧭</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:14px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${route}</div>
+            <div style="font-size:11px;color:var(--muted2);margin-top:3px;">${timeTxt} al día · ${ST.done.length}/${LESSONS.length} lecciones</div>
+          </div>
+          <div style="font-size:12px;font-weight:900;color:var(--gold);">${routeProgress}%</div>
+        </div>
+        <button onclick="${nextLesson?`openLesson('${nextLesson.id}')`:`navTo('community')`}" class="app-feed-btn" style="padding:12px;background:var(--s2);border-color:var(--border2);">
+          <div class="app-feed-ico">${nextLesson?nextLesson.icon:'🌟'}</div>
+          <div style="flex:1;">
+            <div class="app-feed-title">${nextLesson?nextLesson.title:'Ruta completa en Patreon'}</div>
+            <div class="app-feed-sub">${nextLesson?`Siguiente paso · +${nextLesson.xp} XP`:'Libros, clases y comunidad'}</div>
+          </div>
+          <div style="color:var(--gold);font-size:18px;">›</div>
+        </button>
+        <div class="app-route-progress"><div style="width:${routeProgress}%"></div></div>
+      </div>
+
+      <div class="app-section-title fu4">
+        <span>Herramientas</span>
+        <button onclick="randomExercise()">Aleatorio</button>
+      </div>
+
+      <div class="app-tool-dock fu4">
+        <button class="app-tool" onclick="navTo('practice');setTimeout(()=>switchTab('chords'),50)"><div>🎸</div><div>Acordes</div></button>
+        <button class="app-tool" onclick="navTo('practice');setTimeout(()=>switchTab('scale'),50)"><div>🎼</div><div>Mástil</div></button>
+        <button class="app-tool" onclick="navTo('practice');setTimeout(()=>switchTab('licks'),50)"><div>⚡</div><div>Licks</div></button>
+        <button class="app-tool" onclick="navTo('practice');setTimeout(()=>switchTab('metro'),50)"><div>🥁</div><div>Metro</div></button>
+      </div>
+
+      <div class="app-mini-feed fu5">
+        <button class="app-feed-btn" onclick="randomExercise()">
+          <div class="app-feed-ico">🎲</div>
+          <div style="flex:1;">
+            <div class="app-feed-title">Dame un ejercicio</div>
+            <div class="app-feed-sub">Para practicar ahora sin pensarlo tanto</div>
+          </div>
+          <div style="color:var(--gold);font-size:18px;">›</div>
+        </button>
+      </div>
+
+      <div class="app-patreon-strip fu5">
+        <div style="font-size:22px;">🌟</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:900;">Sigue la ruta completa</div>
+          <div style="font-size:11px;color:var(--muted2);line-height:1.35;">Patreon de Daniel Flores</div>
+        </div>
+        <button onclick="navTo('community')">Ver</button>
+      </div>
+
+    </div>
+  `;
+}
+
+
+function buildPracticeVisual(item){
+  if(!item || !item.visual) return '';
+  if(item.visual==='chord') return `<div class="practice-visual">${buildMiniChord(item.chord||'Am')}</div>`;
+  if(item.visual==='chord-change'){
+    const a=(item.chords&&item.chords[0])||'Am', b=(item.chords&&item.chords[1])||'Em';
+    return `<div class="practice-visual"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">${buildMiniChord(a)}${buildMiniChord(b)}</div></div>`;
+  }
+  if(item.visual==='scale') return `<div class="practice-visual">${buildMiniScale()}</div>`;
+  if(item.visual==='lick') return `<div class="practice-visual">${buildMiniLick(item.lick||0)}</div>`;
+  return '';
+}
+function buildMiniChord(name){
+  const ch=CHORDS[name]||CHORDS.Am;
+  const dots=[];
+  ch.map.forEach((f,i)=>{
+    if(f && f>0){
+      dots.push(`<span class="dot" style="left:${i*20}%;top:${(f-.5)*25}%;"></span>`);
     }
+  });
+  const v=[0,1,2,3,4,5].map(i=>`<span class="v" style="left:${i*20}%;"></span>`).join('');
+  const h=[1,2,3,4].map(i=>`<span class="h" style="top:${i*25}%;"></span>`).join('');
+  return `<div class="mini-chord"><div class="mini-chord-title">${name}</div><div class="mini-diag">${v}${h}${dots.join('')}</div></div>`;
+}
+function buildMiniScale(){
+  const rows=[
+    ['E','5R','', '', '8'],
+    ['A','5','', '7',''],
+    ['D','5','', '7',''],
+    ['G','5','', '7',''],
+    ['B','5','', '', '8'],
+    ['e','5R','', '', '8'],
+  ];
+  return `<div class="mini-scale"><div class="mini-chord-title">Pentatónica Am · posición 1</div><div class="mini-scale-grid">${
+    rows.map(r=>`<div class="mini-scale-label">${r[0]}</div>${r.slice(1).map(n=>`<div class="mini-scale-cell">${n?`<span class="mini-note ${n.includes('R')?'root':''}">${n.replace('R','')}</span>`:''}</div>`).join('')}`).join('')
+  }</div></div>`;
+}
+function buildMiniLick(idx){
+  const lick=LICKS[idx]||LICKS[0];
+  return `<div class="mini-scale"><div class="mini-chord-title">${lick.name}</div><div class="ltab" style="background:transparent;padding:4px 0 0;margin:0;">${
+    Object.entries(lick.tab).slice(0,3).map(([s,l])=>`<div class="lrow"><span class="lsl">${s}</span><span>${l}</span></div>`).join('')
+  }</div></div>`;
+}
 
-    async function fetchFX(){
-      try{const res=await fetch('https://open.er-api.com/v6/latest/USD',{cache:'no-store'});const data=await res.json();const pen=data?.rates?.PEN;if(pen){const val=`S/ ${Number(pen).toFixed(3)}`;document.getElementById('fxValue').textContent=val;document.getElementById('fxMarket').textContent=val;document.getElementById('fxSub').textContent='USD/PEN · actualizado en vivo';document.getElementById('fxMarketSub').textContent=`USD/PEN actualizado automáticamente · ${peNow()}`;return;}}catch(e){}
-      document.getElementById('fxValue').textContent='S/ 3.70';
-      document.getElementById('fxMarket').textContent='S/ 3.70';
-      document.getElementById('fxSub').textContent='USD/PEN · referencia';
-      document.getElementById('fxMarketSub').textContent='USD/PEN de referencia si la fuente externa no responde.';
-    }
+/* Ejercicio aleatorio — banco de todos los ejercicios disponibles */
+const RANDOM_POOL = [
+  {title:'Am durante 2 minutos', desc:'Toca Am limpio, sin pausar. 20 golpes seguidos.', icon:'🎸', time:120, xp:10, visual:'chord', chord:'Am'},
+  {title:'Em → Am, 20 veces', desc:'Cambio fluido, sin mirar los dedos.', icon:'🔄', time:60, xp:15, visual:'chord-change', chords:['Em','Am']},
+  {title:'Pentatónica Am — sube y baja', desc:'60 BPM, lento y limpio. 5 veces completas.', icon:'🎼', time:120, xp:15, visual:'scale'},
+  {title:'Lick blues × 5', desc:'Traste 8–5 en la primera cuerda. Con feeling.', icon:'⚡', time:60, xp:15, visual:'lick', lick:0},
+  {title:'Improvisa 30 segundos', desc:'Solo Am pentatónica. Sin pensar mucho.', icon:'🎵', time:30, xp:20, visual:'scale'},
+  {title:'G durante 1 minuto', desc:'Forma el acorde G y tócalo limpio 15 veces.', icon:'🎸', time:60, xp:10, visual:'chord', chord:'G'},
+  {title:'Am → D → G', desc:'Progresión de 3 acordes. 10 repeticiones.', icon:'🔄', time:90, xp:20, visual:'chord-change', chords:['Am','D']},
+  {title:'Metrónomo a 80 BPM', desc:'Toca cualquier acorde a tiempo durante 1 minuto.', icon:'🥁', time:60, xp:10, visual:'chord', chord:'Am'},
+];
 
-    function renderBrands(filter='Todas'){
-      const list=filter==='Todas'?brands:brands.filter(b=>b.name===filter);
-      document.getElementById('brandCards').innerHTML=list.map(b=>`<article class="card brand-card"><div class="head"><div><div class="brand-name">${b.name}</div><small>${b.foco}</small></div><div class="state ${b.state==='alta'?'alta':'media'}">Oportunidad ${b.level.toLowerCase()}</div></div><div class="bar"><span style="width:${b.score}%"></span></div><div class="mini-grid"><div class="mini"><small>Segmento clave</small><b>${b.segmento}</b></div><div class="mini"><small>Dato que sostiene</small><b>${b.data}</b></div></div><div class="insight">${b.lectura}</div></article>`).join('');
-    }
-    function renderChips(){
-      const chipClass={'Kia':'kia','Chery':'chery','MG':'mg','Mitsubishi':'mitsubishi','Peugeot':'peugeot','GAC Motor':'gac'};
-      const names=['Todas',...brands.map(b=>b.name)];
-      document.getElementById('brandChips').innerHTML=names.map((n,i)=>`<button class="chip ${chipClass[n]||''} ${i===0?'active':''}" onclick="selectBrand(this,'${n}')">${n}</button>`).join('');
-    }
-    function selectBrand(btn,name){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderBrands(name);}
+function randomExercise(){
+  const ex = RANDOM_POOL[Math.floor(Math.random()*RANDOM_POOL.length)];
+  track('random_exercise',{title:ex.title});
+  openLesson({
+    id:'rand_'+Date.now(), cat:'random', belt:'white',
+    title:ex.title, icon:ex.icon, xp:ex.xp,
+    steps:[
+      {type:'text',  title:ex.title, icon:ex.icon, body:ex.desc},
+      {type:'exercise', title:'¡A practicar!', desc:ex.desc, time:ex.time, xp:ex.xp, visual:ex.visual, chord:ex.chord, chords:ex.chords, lick:ex.lick},
+      {type:'complete', title:'¡Bien hecho!', xp:ex.xp},
+    ]
+  });
+}
 
-    function renderCompetition(){
-      document.getElementById('competitorChart').innerHTML=chartData.map(item=>`<div class="bar-item"><label>${item.label}</label><div class="bar-track"><div class="bar-fill" style="width:${Math.min(item.value,100)}%"></div></div><div class="bar-val">${item.display}</div></div>`).join('');
-      document.getElementById('competitorInsights').innerHTML=competitors.map(c=>`<article class="card comp-card"><div class="meta"><h4>${c.name}</h4><span>${c.metric}</span></div><p><b>${c.territory}.</b> ${c.insight}</p></article>`).join('');
-    }
+/* ═══════ LEARN ═══════ */
+function renderLearn(){
+  track('page_view',{page:'learn'});
+  const cats=[
+    {id:'chords', label:'Acordes',    icon:'🎵',desc:'Am, Em, G, D, C — los más usados'},
+    {id:'scales', label:'Escalas',    icon:'🎼',desc:'Pentatónica menor: el lenguaje del rock'},
+    {id:'licks',  label:'Licks',      icon:'⚡',desc:'Frases listas para improvisar'},
+    {id:'improv', label:'Improvisación',icon:'🎵',desc:'Usa lo que sabes, crea música'},
+  ];
+  const el=document.getElementById('learn-body');
+  el.innerHTML=`
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;margin-bottom:4px;">TU RUTA DE SUPERVIVENCIA</div>
+    <div style="font-size:14px;color:var(--muted2);margin-bottom:22px;">Microlecciones gratuitas para practicar, no solo leer.</div>
 
-    function renderActions(){document.getElementById('actions').innerHTML=actions.map(a=>`<article class="card action-card"><h3>${a.title}</h3><p>${a.desc}</p><div class="action-meta">${a.tags.map(t=>`<span class="badge">${t}</span>`).join('')}</div></article>`).join('');}
-    function refreshAll(){setUpdate('Actualizando');fetchFX();fetchNews();}
-    document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+btn.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}));
-    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
-    renderChips();renderBrands();renderCompetition();renderActions();refreshAll();
-  </script>
+    ${cats.map(cat=>{
+      const catLessons=LESSONS.filter(l=>l.cat===cat.id);
+      if(!catLessons.length) return '';
+      return `
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="font-size:16px;">${cat.icon}</span>
+            <div>
+              <div style="font-size:15px;font-weight:700;">${cat.label}</div>
+              <div style="font-size:12px;color:var(--muted2);">${cat.desc}</div>
+            </div>
+          </div>
+          ${catLessons.map(l=>{
+            const done=ST.done.includes(l.id);
+            const belt=BELT_META[l.belt];
+            return `
+              <button class="lrow-btn" onclick="openLesson('${l.id}')">
+                <div style="font-size:24px;">${l.icon}</div>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:600;${done?'text-decoration:line-through;color:var(--muted2);':''}">${l.title}</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:3px;">
+                    <span style="font-size:10px;background:${belt.color}20;color:${belt.color};padding:2px 8px;border-radius:100px;font-weight:700;">${belt.name}</span>
+                    <span style="font-size:11px;color:var(--muted2);">+${l.xp} XP</span>
+                  </div>
+                </div>
+                <div style="font-size:16px;">${done?'✅':'›'}</div>
+              </button>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }).join('')}
+
+    <!-- Libros completos -->
+    <div style="background:linear-gradient(145deg,#2f3030,#171717);border:1px solid rgba(217,154,43,.28);border-radius:20px;padding:20px;margin-bottom:12px;color:#fff;">
+      <div style="font-size:10px;font-weight:900;color:#D99A2B;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:10px;">📚 Libros de Daniel en Patreon</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;margin-bottom:8px;">La ruta completa vive en los libros</div>
+      <div style="font-size:13px;color:rgba(255,248,241,.76);line-height:1.7;margin-bottom:14px;">
+        Esta app te da una muestra interactiva para practicar. En Patreon puedes acceder a los materiales completos de Daniel y seguir el método con más profundidad.
+      </div>
+
+      <div style="display:grid;gap:10px;margin-bottom:14px;">
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:13px;">
+          <div style="font-size:14px;font-weight:900;margin-bottom:4px;">Manual de Supervivencia Para Guitarristas</div>
+          <div style="font-size:12px;color:rgba(255,248,241,.68);line-height:1.55;">Método por cinturones para ordenar acordes, escalas, arpegios, modos e improvisación desde fundamentos hasta recursos avanzados.</div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:13px;">
+          <div style="font-size:14px;font-weight:900;margin-bottom:4px;">Taller de Armonía Para Guitarristas</div>
+          <div style="font-size:12px;color:rgba(255,248,241,.68);line-height:1.55;">Inversiones, tensiones, voicings, Drop 2, Drop 3 y armonía aplicada al instrumento.</div>
+        </div>
+      </div>
+
+      <button class="btn btn-pat" style="font-size:13px;padding:12px;" onclick="track('view_book_preview',{book:'books'});openPatreon('learn_books')">
+        Ver libros completos en Patreon →
+      </button>
+    </div>
+  `;
+}
+
+/* ═══════ PRACTICE ═══════ */
+let practiceTab='chords', metroRunning=false, metroInt=null, metroBPM=60, metroBeat=0;
+
+function renderPractice(){
+  track('page_view',{page:'practice'});
+  document.getElementById('practice-body').innerHTML=`
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;margin-bottom:14px;">PRÁCTICA</div>
+    <div class="tabs" id="ptabs">
+      <div class="tab on"  onclick="switchTab('chords')">Acordes</div>
+      <div class="tab"     onclick="switchTab('scale')">Escala</div>
+      <div class="tab"     onclick="switchTab('licks')">Licks</div>
+      <div class="tab"     onclick="switchTab('metro')">Metro</div>
+    </div>
+    <div id="ptab-body"></div>
+  `;
+  renderPTab();
+}
+function switchTab(tab){
+  stopMetro(); practiceTab=tab;
+  document.querySelectorAll('#ptabs .tab').forEach((t,i)=>t.classList.toggle('on',['chords','scale','licks','metro'][i]===tab));
+  renderPTab();
+}
+function renderPTab(){
+  const el=document.getElementById('ptab-body');
+  if(practiceTab==='chords') renderChordsTab(el);
+  else if(practiceTab==='scale') renderScaleTab(el);
+  else if(practiceTab==='licks') renderLicksTab(el);
+  else if(practiceTab==='metro') renderMetroTab(el);
+}
+
+/* Chords */
+let curChord='Am';
+function renderChordsTab(el){
+  el.innerHTML=`
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;" id="chord-btns">
+      ${Object.keys(CHORDS).map(n=>`
+        <button id="cb-${n}" onclick="selChord('${n}')"
+          style="padding:7px 14px;border-radius:100px;font-size:13px;font-weight:600;
+          background:${n===curChord?'var(--gold)':'var(--s2)'};
+          color:${n===curChord?'#000':'var(--text)'};
+          border:1px solid ${n===curChord?'var(--gold)':'var(--border2)'};
+          transition:all .2s;">${n}</button>
+      `).join('')}
+    </div>
+    <div id="chord-area"></div>
+  `;
+  renderChordDisplay(curChord);
+}
+function selChord(n){
+  curChord=n;
+  document.querySelectorAll('#chord-btns button').forEach(b=>{
+    const bn=b.id.replace('cb-',''), s=bn===n;
+    b.style.background=s?'var(--gold)':'var(--s2)';
+    b.style.color=s?'#000':'var(--text)';
+    b.style.borderColor=s?'var(--gold)':'var(--border2)';
+  });
+  renderChordDisplay(n); strumChord(CHORDS[n].map);
+}
+function renderChordDisplay(n){
+  const ch=CHORDS[n];
+  document.getElementById('chord-area').innerHTML=`
+    <div class="card" style="margin-bottom:12px;">
+      <div style="text-align:center;margin-bottom:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:2px;">${n}</div>
+        <div style="font-size:13px;color:var(--muted2);">${ch.label}</div>
+      </div>
+      ${buildChordDiag(n,ch)}
+      <div style="font-size:12px;color:var(--muted2);background:var(--s2);border-radius:9px;padding:10px;margin:12px 0 14px;">💡 ${ch.tip}</div>
+      <button class="play-btn" onclick="strumChord(${JSON.stringify(ch.map)});this.classList.add('on');setTimeout(()=>this.classList.remove('on'),900);">
+        ▶ Tocar ${n}
+      </button>
+    </div>
+  `;
+}
+function buildChordDiag(name,ch){
+  const strings=['e','B','G','D','A','E'];
+  const D2M=[5,4,3,2,1,0];
+  const fingerPos={};
+  ch.map.forEach((f,si)=>{ if(f!==null&&f>0) fingerPos[si]=f; });
+  let fn=1; const fingerNums={};
+  Object.keys(fingerPos).sort((a,b)=>+b-+a).forEach(si=>{ fingerNums[si]=fn++; });
+  const used=ch.map.filter(f=>f!==null&&f>0);
+  const startFret=used.length?Math.max(1,Math.min(...used)):1;
+
+  let top='<div style="display:flex;margin-bottom:4px;">';
+  for(let d=0;d<6;d++){
+    const mi=D2M[d], v=ch.map[mi];
+    if(v===null) top+=`<div style="flex:1;text-align:center;font-size:12px;color:var(--fire);">✕</div>`;
+    else if(v===0) top+=`<div style="flex:1;text-align:center;font-size:12px;color:var(--green);">○</div>`;
+    else top+=`<div style="flex:1;"></div>`;
+  }
+  top+='</div>';
+
+  let grid='<div class="cgrid">';
+  for(let f=startFret;f<=startFret+3;f++){
+    grid+=`<div class="crow" style="${f===startFret?'border-top:3px solid var(--muted2);':''}">`;
+    for(let d=0;d<6;d++){
+      const mi=D2M[d], has=fingerPos[mi]===f;
+      grid+=`<div class="ccell">${has?`<div class="cfing">${fingerNums[mi]}</div>`:''}</div>`;
+    }
+    grid+='</div>';
+  }
+  grid+='</div>';
+
+  let sl='<div style="display:flex;margin-top:4px;">';
+  strings.forEach(s=>sl+=`<div style="flex:1;text-align:center;font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;">${s}</div>`);
+  sl+='</div>';
+  return top+grid+sl;
+}
+
+/* Scale */
+function renderScaleTab(el){
+  el.innerHTML=`
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Pentatónica Am — Posición 1</div>
+      <div style="font-size:12px;color:var(--muted2);margin-bottom:14px;">🔴 Raíz (A) · 🟡 Notas de la escala</div>
+      ${buildFretboard()}
+      <div style="margin-top:12px;">
+        <button class="play-btn" onclick="playPenta(this)">▶ Escuchar la escala</button>
+      </div>
+    </div>
+    <div class="card2">
+      <div style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Patrón de dedos</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);line-height:2;">
+6ª → traste 5 (raíz) — 8<br>5ª → traste 5 — 7<br>4ª → traste 5 — 7<br>3ª → traste 5 — 7<br>2ª → traste 5 — 8<br>1ª → traste 5 (raíz) — 8
+      </div>
+    </div>
+  `;
+}
+function buildFretboard(){
+  const strings=['e','B','G','D','A','E'];
+  const scaleMap={5:[5,8],4:[5,8],3:[5,7],2:[5,7],1:[5,7],0:[5,8]};
+  const roots={5:5,4:null,3:null,2:null,1:null,0:5};
+  const FRETS=[5,6,7,8];
+  let html='<div class="fboard"><div style="min-width:220px;">';
+  [5,4,3,2,1,0].forEach((si,di)=>{
+    html+=`<div class="fstr"><div class="fopen">${strings[di]}</div><div style="flex:1;display:flex;">`;
+    FRETS.forEach((f,fi)=>{
+      const has=scaleMap[si].includes(f), isR=has&&roots[si]===f;
+      html+=`<div class="ffret${fi===0?' nut':''}">`;
+      if(has) html+=`<div class="fnote ${isR?'root':'scl'}">${isR?'A':''}</div>`;
+      html+='</div>';
+    });
+    html+='</div></div>';
+  });
+  html+='<div style="display:flex;padding-left:26px;">';
+  FRETS.forEach(f=>html+=`<div style="width:44px;text-align:center;font-size:9px;color:var(--muted);font-family:\'JetBrains Mono\',monospace;">${f}</div>`);
+  html+='</div></div></div>';
+  return html;
+}
+function playPenta(btn){
+  const notes=[{s:0,f:5},{s:0,f:8},{s:1,f:5},{s:1,f:7},{s:2,f:5},{s:2,f:7},{s:3,f:5},{s:3,f:7},{s:4,f:5},{s:4,f:8},{s:5,f:5},{s:5,f:8}];
+  playMelody(notes.map(n=>({...n,d:1})),.24);
+  if(btn){btn.classList.add('on');setTimeout(()=>btn.classList.remove('on'),4000);}
+}
+
+/* Licks */
+function renderLicksTab(el){
+  el.innerHTML=LICKS.map((lick,li)=>`
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">⚡ ${lick.name}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:12px;">${lick.desc}</div>
+      <div class="ltab" style="margin-bottom:10px;">
+        ${Object.entries(lick.tab).map(([s,line])=>`<div class="lrow"><span class="lsl">${s}</span><span>${line}</span></div>`).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--muted2);background:var(--s2);border-radius:8px;padding:10px;margin-bottom:12px;">💡 ${lick.tip}</div>
+      <button class="play-btn" id="lp-${li}" onclick="playLick(${li},this)">▶ Escuchar el lick</button>
+    </div>
+  `).join('');
+}
+function playLick(li,btn){
+  const lick=LICKS[li];
+  playMelody(lick.melody.map(n=>({s:n.s,f:n.f,d:n.d||1})),.4);
+  if(btn){btn.classList.add('on');setTimeout(()=>btn.classList.remove('on'),2800);}
+}
+
+/* Metro */
+function renderMetroTab(el){
+  el.innerHTML=`
+    <div class="card" style="text-align:center;padding:28px 20px;margin-bottom:12px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:80px;letter-spacing:2px;line-height:1;margin-bottom:4px;" id="bpm-n">${metroBPM}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:24px;">BPM</div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-bottom:28px;" id="beats-row">
+        ${[0,1,2,3].map(i=>`<div class="mbeat" id="mb-${i}"></div>`).join('')}
+      </div>
+      <input type="range" min="40" max="220" value="${metroBPM}" id="bpm-sl"
+        oninput="updBPM(parseInt(this.value))"
+        style="width:100%;accent-color:var(--gold);margin-bottom:20px;">
+      <div style="display:flex;gap:10px;justify-content:center;align-items:center;">
+        <button onclick="updBPM(metroBPM-5)" style="width:44px;height:44px;border-radius:12px;background:var(--s2);border:1px solid var(--border2);font-size:18px;font-weight:700;">−</button>
+        <button id="metro-btn" onclick="toggleMetro()" style="padding:12px 36px;background:var(--gold);color:#000;border-radius:13px;font-size:16px;font-weight:700;min-width:130px;">▶ Iniciar</button>
+        <button onclick="updBPM(metroBPM+5)" style="width:44px;height:44px;border-radius:12px;background:var(--s2);border:1px solid var(--border2);font-size:18px;font-weight:700;">+</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      ${[60,80,100,120,140,160].map(b=>`
+        <button onclick="updBPM(${b})" style="padding:10px;background:var(--s1);border:1px solid var(--border2);border-radius:11px;font-size:13px;font-weight:600;">${b}</button>
+      `).join('')}
+    </div>
+  `;
+}
+function updBPM(val){
+  metroBPM=Math.max(40,Math.min(220,val));
+  const d=document.getElementById('bpm-n'), s=document.getElementById('bpm-sl');
+  if(d) d.textContent=metroBPM; if(s) s.value=metroBPM;
+  if(metroRunning){stopMetro();startMetro();}
+}
+function toggleMetro(){if(metroRunning) stopMetro(); else startMetro();}
+async function startMetro(){
+  await primeAudio();
+  const btn=document.getElementById('metro-btn');
+  if(btn){btn.textContent='⏹ Parar';btn.style.background='var(--fire)';btn.style.color='#fff';}
+  metroRunning=true; metroBeat=0;
+  const go=()=>{
+    playClick(getAC().currentTime,metroBeat===0);
+    document.querySelectorAll('.mbeat').forEach((b,i)=>{
+      b.classList.remove('h1','hit');
+      if(i===metroBeat) b.classList.add(metroBeat===0?'h1':'hit');
+    });
+    metroBeat=(metroBeat+1)%4;
+  };
+  go(); metroInt=setInterval(go,60000/metroBPM);
+}
+function stopMetro(){
+  if(metroInt){clearInterval(metroInt);metroInt=null;}
+  metroRunning=false;
+  const btn=document.getElementById('metro-btn');
+  if(btn){btn.textContent='▶ Iniciar';btn.style.background='var(--gold)';btn.style.color='#000';}
+  document.querySelectorAll('.mbeat').forEach(b=>b.classList.remove('h1','hit'));
+}
+
+/* ═══════ COMMUNITY ═══════ */
+function renderCommunity(){
+  track('view_patreon_benefits');
+  document.getElementById('community-body').innerHTML=`
+    <div style="background:linear-gradient(160deg,#2f3030,#171717);border:1px solid rgba(217,154,43,.28);border-radius:22px;padding:22px;margin-bottom:16px;color:#fff;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div style="width:54px;height:54px;border-radius:18px;background:rgba(217,154,43,.14);border:1px solid rgba(217,154,43,.28);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🎸</div>
+        <div>
+          <div style="font-size:18px;font-weight:900;color:#D99A2B;">Daniel Flores Music</div>
+          <div style="font-size:12px;color:rgba(255,248,241,.68);">Guitarrista · Educador · Autor</div>
+        </div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:.98;margin-bottom:10px;">
+        LA APP ES EL INICIO.<br><span style="color:#D99A2B;">PATREON ES LA RUTA COMPLETA.</span>
+      </div>
+      <p style="font-size:13px;color:rgba(255,248,241,.75);line-height:1.72;">
+        Aquí practicas con una muestra interactiva. En Patreon accedes al método completo: libros, clases, videos, análisis, comunidad y material para avanzar con estructura.
+      </p>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Qué desbloqueas en Patreon</div>
+    <div style="display:grid;gap:10px;margin-bottom:14px;">
+      ${[
+        {icon:'📚',title:'Libros completos',desc:'Manual de Supervivencia, Taller de Armonía y materiales descargables.'},
+        {icon:'🎥',title:'Clases y videos exclusivos',desc:'Explicaciones más profundas para conectar teoría con práctica real.'},
+        {icon:'⚡',title:'Licks, arpegios y análisis',desc:'Recursos aplicados para improvisar, acompañar y entender canciones.'},
+        {icon:'💬',title:'Comunidad y acompañamiento',desc:'Espacio para resolver dudas, seguir rutas y practicar con más dirección.'},
+      ].map(x=>`
+        <div class="card" style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:40px;height:40px;border-radius:14px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">${x.icon}</div>
+          <div>
+            <div style="font-size:14px;font-weight:900;margin-bottom:3px;">${x.title}</div>
+            <div style="font-size:12px;color:var(--muted2);line-height:1.55;">${x.desc}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="com-banner" style="margin-bottom:12px;">
+      <div style="font-size:15px;font-weight:900;margin-bottom:5px;">Continúa con Daniel</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:16px;line-height:1.65;">
+        Si esta práctica te sirvió, el siguiente paso es entrar a Patreon y seguir el contenido completo.
+      </div>
+      <button class="btn btn-pat" onclick="openPatreon('community_main')">Ir al Patreon de Daniel →</button>
+    </div>
+  `;
+}
+
+/* ═══════ ABOUT DANIEL ═══════ */
+function renderAbout(){
+  document.getElementById('about-body').innerHTML=`
+    <div style="text-align:center;padding:28px 0 22px;">
+      <div style="width:88px;height:88px;border-radius:24px;background:var(--s2);border:1px solid var(--border2);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <img src="icons/icon-192.png?v=8" alt="DFM" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;color:var(--gold);">DANIEL FLORES MUSIC</div>
+      <div style="font-size:13px;color:var(--muted2);margin-top:2px;font-weight:700;">Guitarrista · Educador · Autor</div>
+    </div>
+
+    <div class="card fu" style="margin-bottom:12px;">
+      <div style="font-size:13px;color:var(--muted2);line-height:1.8;margin-bottom:12px;">
+        🎓 Egresado de guitarra eléctrica en la <strong style="color:var(--text);">International Music College Freiburg</strong> (Berklee International Network) en Alemania.
+      </div>
+      <div style="font-size:13px;color:var(--muted2);line-height:1.8;margin-bottom:12px;">
+        🎓 Docente y coordinador de guitarra y armonía en la <strong style="color:var(--text);">Universidad Peruana de Ciencias Aplicadas (UPC)</strong> entre 2011 y 2021.
+      </div>
+      <div style="font-size:13px;color:var(--muted2);line-height:1.8;">
+        📚 Autor del <strong style="color:var(--text);">Manual de Supervivencia Para Guitarristas</strong> y el <strong style="color:var(--text);">Taller de Armonía Para Guitarristas</strong>.
+      </div>
+    </div>
+
+    <div class="card fu2" style="margin-bottom:12px;background:rgba(217,154,43,.08);border-color:rgba(217,154,43,.22);">
+      <div style="font-size:11px;font-weight:800;color:var(--gold);margin-bottom:10px;letter-spacing:.5px;">ENFOQUE</div>
+      <div class="daniel-q" style="font-size:14px;">
+        "No necesitas más ejercicios al azar. Necesitas orientación, estructura y una comunidad que te ayude a avanzar en la dirección correcta."
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;">— Daniel Flores · Patreon DFM</div>
+    </div>
+
+    <div class="card fu3" style="margin-bottom:12px;">
+      <div style="font-size:12px;font-weight:800;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Canales</div>
+      ${[
+        {icon:'⭐',label:'Patreon',sub:'Libros, clases y comunidad',action:`openPatreon('about')`},
+        {icon:'▶',label:'YouTube',sub:'Clases y lecciones gratuitas',action:`window.open('https://www.youtube.com/danielfloresmusic','_blank')`},
+        {icon:'📸',label:'Instagram',sub:'@danielfloresmusic',action:`window.open('https://www.instagram.com/danielfloresmusic','_blank')`},
+      ].map(s=>`
+        <button onclick="${s.action}" style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;width:100%;text-align:left;margin-bottom:8px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;">${s.icon}</div>
+          <div style="flex:1;"><div style="font-size:14px;font-weight:700;">${s.label}</div><div style="font-size:11px;color:var(--muted2);">${s.sub}</div></div>
+          <div style="color:var(--muted2);">›</div>
+        </button>
+      `).join('')}
+    </div>
+
+    <button class="btn btn-pat fu4" onclick="openPatreon('about_cta')">Ir al Patreon de Daniel →</button>
+
+    <div class="card" style="margin-top:12px;">
+      <div style="font-size:12px;font-weight:800;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Ajustes de la app</div>
+      <button onclick="if(confirm('¿Resetear todo el progreso?')){localStorage.removeItem('dfm4');location.reload();}"
+        style="width:100%;padding:12px;background:transparent;border:1px solid rgba(217,72,15,.3);border-radius:12px;color:var(--fire);font-size:13px;font-weight:700;">
+        Resetear progreso
+      </button>
+    </div>
+  `;
+}
+
+/* ═══════ PROGRESS ═══════ */
+function renderProgress(){
+  const belt=BELT_META[ST.belt];
+  document.getElementById('prog-body').innerHTML=`
+    <div style="text-align:center;padding:20px 0 16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--gold);line-height:1;">${ST.xp}</div>
+      <div style="font-size:13px;color:var(--muted2);">XP total · Cinturón ${belt.name}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;">
+      <div class="card" style="text-align:center;padding:14px;"><div style="font-size:22px;margin-bottom:4px;">🔥</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;">${ST.streak}</div><div style="font-size:10px;color:var(--muted2);">Racha</div></div>
+      <div class="card" style="text-align:center;padding:14px;"><div style="font-size:22px;margin-bottom:4px;">📖</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;">${ST.done.length}</div><div style="font-size:10px;color:var(--muted2);">Lecciones</div></div>
+      <div class="card" style="text-align:center;padding:14px;"><div style="font-size:22px;margin-bottom:4px;">🥋</div><div style="font-family:'Bebas Que',sans-serif;font-size:28px;color:${belt.color};">${belt.name[0]}</div><div style="font-size:10px;color:var(--muted2);">Cinturón</div></div>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Ruta de cinturones</div>
+    <div class="card" style="margin-bottom:14px;">
+      ${Object.entries(BELT_META).map(([id,b])=>{
+        const reached=ST.xp>=b.xp, isCur=id===ST.belt;
+        return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+          <div style="width:34px;height:34px;border-radius:50%;background:${reached?b.color:'var(--border)'};opacity:${reached?1:.3};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;border:${isCur?'2px solid white':'none'};">${reached?'✓':''}</div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:600;color:${isCur?b.color:'var(--text)'};">Cinturón ${b.name}${isCur?' ← actual':''}</div>
+            <div style="font-size:11px;color:var(--muted2);">${b.label} · ${b.xp} XP</div>
+          </div>
+          ${reached?'<span style="color:var(--green);font-size:12px;">✓</span>':''}
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Insignias</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+      ${[
+        {icon:'🌱',label:'Primer XP',c:ST.xp>=20},
+        {icon:'🔥',label:'3 días',c:ST.streak>=3},
+        {icon:'🎸',label:'2 lecciones',c:ST.done.length>=2},
+        {icon:'⭐',label:'100 XP',c:ST.xp>=100},
+        {icon:'⚡',label:'Primer lick',c:ST.done.includes('l_lick1')},
+        {icon:'🎵',label:'Improvisó',c:ST.done.includes('l_improv')},
+      ].map(b=>`
+        <div style="background:${b.c?'var(--s2)':'var(--s1)'};border:1px solid ${b.c?'var(--border2)':'var(--border)'};border-radius:12px;padding:12px;text-align:center;opacity:${b.c?1:.3};">
+          <div style="font-size:24px;margin-bottom:4px;">${b.icon}</div>
+          <div style="font-size:10px;font-weight:600;color:var(--muted2);">${b.label}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* ═══════ LESSON ENGINE ═══════ */
+let curLesson=null, lesStep=0, lesTimerInt=null, lesTimeLeft=0, lesTimerOn=false, improvInt=null;
+
+function openLesson(idOrObj){
+  curLesson=typeof idOrObj==='string'?LESSONS.find(l=>l.id===idOrObj):idOrObj;
+  if(!curLesson) return;
+  lesStep=0; stopAll();
+  track('start_lesson',{lesson_id:curLesson.id});
+  goTo('s-lesson'); renderLesStep();
+}
+function closeLesson(){ stopAll(); goBack(); }
+function stopAll(){
+  stopMetro();
+  if(lesTimerInt){clearInterval(lesTimerInt);lesTimerInt=null;lesTimerOn=false;}
+  if(improvInt){clearInterval(improvInt);improvInt=null;}
+}
+
+function renderLesStep(){
+  const steps=curLesson.steps, step=steps[lesStep];
+  document.getElementById('les-title').textContent=curLesson.title;
+  document.getElementById('les-lbl').textContent=`${lesStep+1}/${steps.length}`;
+  document.getElementById('les-dots').innerHTML=steps.map((_,i)=>
+    `<div class="sdot${i===lesStep?' active':i<lesStep?' done':''}"></div>`
+  ).join('');
+  const body=document.getElementById('les-body');
+
+  if(step.type==='text'){
+    body.innerHTML=`<div style="padding-top:24px;text-align:center;margin-bottom:24px;">
+      <div style="font-size:60px;margin-bottom:14px;">${step.icon}</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;margin-bottom:12px;">${step.title}</div>
+      <p style="font-size:15px;color:var(--muted2);line-height:1.75;max-width:300px;margin:0 auto;">${step.body}</p>
+    </div>
+    <div style="padding-bottom:20px;"><button class="btn btn-gold" onclick="nextStep()">Empezar →</button></div>`;
+  }
+  else if(step.type==='chord'){
+    const ch=CHORDS[step.chord];
+    body.innerHTML=`<div style="padding-top:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:4px;">${step.title}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:16px;">${ch.tip}</div>
+      <div class="card" style="margin-bottom:12px;">
+        ${buildChordDiag(step.chord,ch)}
+        <div style="margin-top:14px;"><button class="play-btn" onclick="strumChord(${JSON.stringify(ch.map)});this.classList.add('on');setTimeout(()=>this.classList.remove('on'),900);">▶ Tocar ${step.chord}</button></div>
+      </div>
+      <button class="btn btn-gold" onclick="nextStep()">Ya lo tengo →</button>
+    </div>`;
+  }
+  else if(step.type==='chord-change'){
+    const chA=CHORDS[step.chordA], chB=CHORDS[step.chordB];
+    body.innerHTML=`<div style="padding-top:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:4px;">${step.title}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:16px;">${step.tip}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div class="card">${buildChordDiag(step.chordA,chA)}<button class="play-btn" style="margin-top:10px;" onclick="strumChord(${JSON.stringify(chA.map)})">▶ ${step.chordA}</button></div>
+        <div class="card">${buildChordDiag(step.chordB,chB)}<button class="play-btn" style="margin-top:10px;" onclick="strumChord(${JSON.stringify(chB.map)})">▶ ${step.chordB}</button></div>
+      </div>
+      <div class="card2" style="margin-bottom:12px;font-size:13px;color:var(--muted2);">💡 ${step.tip}</div>
+      <button class="btn btn-gold" onclick="nextStep()">Practiqué el cambio →</button>
+    </div>`;
+  }
+  else if(step.type==='scale'){
+    body.innerHTML=`<div style="padding-top:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:4px;">${step.title}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:14px;">${step.tip}</div>
+      ${buildFretboard()}
+      <div style="margin:12px 0;"><button class="play-btn" onclick="playPenta(this)">▶ Escuchar la escala</button></div>
+      <div class="card2" style="margin-bottom:12px;font-size:13px;color:var(--muted2);">💡 ${step.tip}</div>
+      <button class="btn btn-gold" onclick="nextStep()">Continuar →</button>
+    </div>`;
+  }
+  else if(step.type==='lick'){
+    const lick=step.lick;
+    body.innerHTML=`<div style="padding-top:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:4px;">${lick.name}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:14px;">${lick.desc}</div>
+      <div class="ltab" style="margin-bottom:10px;">${Object.entries(lick.tab).map(([s,l])=>`<div class="lrow"><span class="lsl">${s}</span><span>${l}</span></div>`).join('')}</div>
+      <div style="margin-bottom:12px;"><button class="play-btn" onclick="playLickDirect(this)">▶ Escuchar el lick</button></div>
+      <div class="card2" style="margin-bottom:12px;font-size:13px;color:var(--muted2);">💡 ${lick.tip}</div>
+      <button class="btn btn-gold" onclick="nextStep()">Lo tengo →</button>
+    </div>`;
+  }
+  else if(step.type==='exercise'){
+    body.innerHTML=`<div style="padding-top:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:4px;">${step.title}</div>
+      <div style="font-size:14px;color:var(--muted2);margin-bottom:12px;">${step.desc}</div>
+      ${buildPracticeVisual(step)}
+      <div style="text-align:center;margin-bottom:24px;">
+        <div class="tring">
+          <svg width="116" height="116" viewBox="0 0 116 116"><circle cx="58" cy="58" r="50" fill="none" stroke="var(--border2)" stroke-width="6"/><circle id="tr" cx="58" cy="58" r="50" fill="none" stroke="var(--gold)" stroke-width="6" stroke-dasharray="314.2" stroke-dashoffset="314.2" stroke-linecap="round"/></svg>
+          <div class="tlabel" id="td">${fmt(step.time||60)}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:20px;">
+        <button id="tsb" onclick="startLesTimer(${step.time||60})" style="flex:1;padding:14px;background:var(--gold);color:#000;border-radius:13px;font-size:15px;font-weight:700;">▶ Iniciar</button>
+        <button onclick="markExDone(${step.xp||0})" style="flex:1;padding:14px;background:var(--s2);border:1px solid var(--border2);border-radius:13px;font-size:14px;font-weight:600;">✓ Listo</button>
+      </div>
+    </div>`;
+    lesTimeLeft=step.time||60; lesTimerOn=false;
+  }
+  else if(step.type==='improv'){
+    body.innerHTML=`<div style="padding-top:16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:4px;">${step.title}</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:16px;">${step.desc}</div>
+      ${buildFretboard()}
+      <div style="text-align:center;margin:20px 0;">
+        <div class="tring">
+          <svg width="130" height="130" viewBox="0 0 130 130"><circle cx="65" cy="65" r="56" fill="none" stroke="var(--border2)" stroke-width="6"/><circle id="ir" cx="65" cy="65" r="56" fill="none" stroke="var(--blue)" stroke-width="6" stroke-dasharray="351.9" stroke-dashoffset="351.9" stroke-linecap="round"/></svg>
+          <div class="tlabel" id="id2" style="font-size:36px;">1:00</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:20px;">
+        <button id="ib" onclick="startImprov(${step.time||60})" style="flex:1;padding:14px;background:var(--blue);color:#fff;border-radius:13px;font-size:15px;font-weight:700;">▶ Improvisar</button>
+        <button onclick="nextStep()" style="flex:1;padding:14px;background:var(--s2);border:1px solid var(--border2);border-radius:13px;font-size:14px;font-weight:600;">Continuar →</button>
+      </div>
+    </div>`;
+  }
+  else if(step.type==='complete'){
+    stopAll();
+    if(!ST.done.includes(curLesson.id)){ ST.done.push(curLesson.id); addXP(step.xp||20,null); markPracticeComplete(); if(String(curLesson.id).startsWith('ch_')){ST.dailyDone=true;ST.dailyDate=new Date().toDateString();save();} sendLeadToSheets('practice_completed'); }
+    track('complete_lesson',{lesson_id:curLesson.id,xp:step.xp});
+    body.innerHTML=`<div style="padding-top:48px;text-align:center;">
+      <div class="pop" style="font-size:72px;margin-bottom:16px;">🎉</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;margin-bottom:8px;">${step.title}</div>
+      <div style="font-size:15px;color:var(--muted2);margin-bottom:32px;">+${step.xp} XP · Total: ${ST.xp} XP</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-bottom:36px;">
+        <div class="card" style="padding:14px 22px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);">+${step.xp}</div><div style="font-size:10px;color:var(--muted2);">XP</div></div>
+        <div class="card" style="padding:14px 22px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green);">🔥${ST.streak}</div><div style="font-size:10px;color:var(--muted2);">racha</div></div>
+      </div>
+      <button class="btn btn-gold" style="margin-bottom:10px;" onclick="stopAll();goBack();renderHome();">Volver al inicio</button>
+      <button class="btn btn-ghost" onclick="navTo('community')">Ver comunidad Patreon</button>
+    </div>`;
+  }
+}
+
+function nextStep(){ stopAll(); if(lesStep<curLesson.steps.length-1){lesStep++;renderLesStep();} }
+function markExDone(xp){ stopAll(); track('complete_exercise_step',{lesson_id:curLesson?.id||'unknown'}); setTimeout(nextStep,200); }
+
+function startLesTimer(total){
+  const btn=document.getElementById('tsb'), disp=document.getElementById('td'), ring=document.getElementById('tr');
+  const C=314.2;
+  if(lesTimerOn){clearInterval(lesTimerInt);lesTimerInt=null;lesTimerOn=false;if(btn){btn.textContent='▶ Iniciar';btn.style.background='var(--gold)';btn.style.color='#000';}return;}
+  lesTimerOn=true;
+  if(btn){btn.textContent='⏸ Pausar';btn.style.background='var(--s3)';btn.style.color='var(--muted2)';}
+  lesTimerInt=setInterval(()=>{
+    lesTimeLeft--;
+    if(disp) disp.textContent=fmt(lesTimeLeft);
+    if(ring) ring.style.strokeDashoffset=C*(1-(total-lesTimeLeft)/total);
+    if(lesTimeLeft<=0){clearInterval(lesTimerInt);lesTimerInt=null;lesTimerOn=false;if(btn){btn.textContent='✓ Completado';btn.style.background='var(--green)';btn.style.color='#000';}track('timer_completed',{lesson_id:curLesson?.id||'unknown'});}
+  },1000);
+}
+
+function startImprov(total){
+  const btn=document.getElementById('ib'), disp=document.getElementById('id2'), ring=document.getElementById('ir');
+  const C=351.9;
+  if(improvInt){clearInterval(improvInt);improvInt=null;if(btn)btn.textContent='▶ Improvisar';return;}
+  let t=total;
+  if(btn)btn.textContent='⏸ Pausar';
+  improvInt=setInterval(()=>{
+    t--;
+    if(disp) disp.textContent=fmt(t);
+    if(ring) ring.style.strokeDashoffset=C*(1-(total-t)/total);
+    if(t<=0){clearInterval(improvInt);improvInt=null;if(btn){btn.textContent='✓ ¡Lo hiciste!';btn.style.background='var(--green)';btn.style.color='#000';}track('improv_timer_completed',{lesson_id:curLesson?.id||'unknown'});}
+  },1000);
+}
+
+function playLickDirect(btn){
+  const lick=LICKS[0];
+  playMelody(lick.melody.map(n=>({s:n.s,f:n.f,d:n.d||1})),.42);
+  if(btn){btn.classList.add('on');setTimeout(()=>btn.classList.remove('on'),2800);}
+}
+
+/* ═══════ CHALLENGE ═══════ */
+function openChallenge(id){
+  const ch=DAILY.find(d=>d.id===id); if(!ch) return;
+  track('start_challenge',{challenge_id:id});
+  openLesson({id:'ch_'+id,cat:'daily',belt:'white',title:ch.title,icon:ch.icon,xp:ch.xp,steps:[
+    {type:'text',title:ch.title,icon:ch.icon,body:ch.desc},
+    {type:'exercise',title:'¡A practicar!',desc:ch.desc,time:ch.time,xp:ch.xp,visual:ch.visual,chord:ch.chord,chords:ch.chords,lick:ch.lick},
+    {type:'complete',title:'¡Reto completado!',xp:ch.xp},
+  ]});
+}
+
+/* ═══════ PATREON ═══════ */
+function openPatreon(src){
+  track('click_patreon_cta',{source:src});
+  window.open(PATREON,'_blank','noopener');
+}
+
+/* ═══════ UTILS ═══════ */
+function fmt(s){ return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+
+/* ═══════ INIT ═══════ */
+window.addEventListener('DOMContentLoaded',()=>{
+  track('app_open',{returning:!!localStorage.getItem('dfm4')});
+  if(ST.diagnosticDone||ST.registered||ST.xp>0) goTo('s-home');
+  // else: welcome screen
+});
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
 </body>
 </html>
